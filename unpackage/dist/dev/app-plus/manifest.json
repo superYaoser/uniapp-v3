@@ -59,6 +59,10 @@
           "<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
           "<uses-feature android:name=\"android.hardware.camera\"/>",
           "<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>"
+        ],
+        "abiFilters": [
+          "armeabi-v7a",
+          "x86"
         ]
       },
       "apple": {},
@@ -75,6 +79,7 @@
       "style": "dark",
       "background": "#F8F8F8"
     },
+    "arguments": "{\"name\":\"\",\"path\":\"pages/index/index\",\"query\":\"\"}",
     "uniStatistics": {
       "enable": false
     },
