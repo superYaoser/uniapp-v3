@@ -1,6 +1,6 @@
 <template>
-	<view id="Home">
-		这是主页
+	<view id="Message">
+		这是信息页
 	</view>
 </template>
 
