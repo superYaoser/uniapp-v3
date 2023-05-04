@@ -8,7 +8,7 @@
       <Message v-show="currentR==='Message'"></Message>
       <Mine v-show="currentR==='Mine'"></Mine>
     </view>
-		<TabBar></TabBar>
+		<TabBar v-show="tabBarVisibility"></TabBar>
 	</view>
 </template>
 
@@ -26,12 +26,21 @@
 			TabBar,Home,Dynamic,Publish,Message,Mine,TopBar
 		},
     setup(){
+      //当前路由
       let currentR = ref('Home')
+      //页脚导航的可见性
+      let tabBarVisibility = ref(true)
+
+      //监听路由变化
       uni.$on('currentRouterUpdate',function(data){
         currentR.value = data.router;
       })
+      //监听页脚的可见性变化
+      uni.$on('tabBarVisibilityUpdate',function(b){
+        tabBarVisibility.value = b.tabBarVisibility;
+      })
       return{
-        currentR
+        currentR,tabBarVisibility
       }
     },
 		data() {
