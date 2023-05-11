@@ -14,7 +14,10 @@
 <!--      头部结束-->
 
     </view>
-    这是发布页
+    <view class="publish__body">
+      这是发布页
+    </view>
+
   </view>
 </template>
 
@@ -28,6 +31,7 @@ export default {
     let currentR = ref('')
     //tabbar的可见性
     const useUniEmitTabBarVisibilityUpdate = (b) => {
+
       uni.$emit('tabBarVisibilityUpdate', {tabBarVisibility: b})
       //通知返回的界面
       uni.$emit('currentRouterUpdate', {router: currentR.value})
@@ -87,6 +91,9 @@ export default {
         justify-content: center;
       }
     }
+  }
+  &__body{
+    margin-top: 40px;
   }
 }
 </style>
