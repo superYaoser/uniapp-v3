@@ -10,7 +10,7 @@ function loginUseUser(data) {
 //•	GET /api/user/:id 获取用户详情
 function getUserInfoById(id){
 	return R({
-		url: 'user/'+'id',
+		url: 'user/'+id,
 	});
 }
 
@@ -26,5 +26,7 @@ function getUserInfoPageJson(data){
 	});
 }
 export {
-	loginUseUser
+	loginUseUser,
+	getUserInfoById,
+	getUserInfoPageJson
 }

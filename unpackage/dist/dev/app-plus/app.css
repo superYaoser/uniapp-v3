@@ -32,6 +32,25 @@
 body{
     font-size: 16px;
 }
+.displayF{
+    display: flex;
+}
+.displayJCSB{
+    display: flex;
+    justify-content: space-between;
+}
+.mT10px{
+    margin-top: 10px;
+}
+.border1S-surround{
+    border: 1px solid #e8e8e8;
+}
+.w100{
+    width: 100%;
+}
+.h100{
+    height: 100%;
+}
 /* 发布页需要的素材1 */
 @font-face {
   font-family: "iconfont"; /* Project id 4064600 */

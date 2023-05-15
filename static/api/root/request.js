@@ -1,4 +1,4 @@
-const baseUrl = 'http://114.115.220.47:3000/api/'
+import {baseUrl} from './set'
 const request = (req = '') => {
     console.log(req)
     return new Promise((resolve, reject) => {
