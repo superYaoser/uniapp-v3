@@ -14,7 +14,10 @@
 
 <style lang='scss'>
 	/*每个页面公共css */
-/* 需要放到文件最上面 */
-@import '@/uni_modules/uni-scss/variables.scss';
-@import '@/static/style/main.css';
+	/* 需要放到文件最上面 */
+	@import '@/uni_modules/uni-scss/variables.scss';
+	@import '@/static/style/main.css';
+
+	/* 发布页需要的素材1 */
+	@import url("@/static/iconfont/publish/iconfont.css");
 </style>

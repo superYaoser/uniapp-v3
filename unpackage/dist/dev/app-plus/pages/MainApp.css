@@ -589,6 +589,19 @@
 .publish__body[data-v-acfd9c67] {
   margin-top: 40px;
 }
+.editTools[data-v-acfd9c67] {
+  display: flex;
+}
+.editTools .item uni-text[data-v-acfd9c67] {
+  color: #333333;
+}
+.editTools .item uni-text[data-v-acfd9c67]:active {
+  color: #0199fe;
+}
+.myEditor[data-v-acfd9c67] {
+  background-color: #f9f9f9;
+  font-size: 1rem;
+}
 
 
 .status_bar[data-v-35eb0c73] {

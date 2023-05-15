@@ -1,4 +1,6 @@
 import App from './App'
+//引入vuex
+import store from './store'
 // #ifndef VUE3
 import Vue from 'vue'
 Vue.config.productionTip = false
@@ -35,6 +37,7 @@ try {
 const app = new Vue({
   ...App
 })
+app.use(store)
 app.$mount()
 // #endif
 
@@ -42,6 +45,7 @@ app.$mount()
 import { createSSRApp } from 'vue'
 export function createApp() {
   const app = createSSRApp(App)
+  app.use(store)
   return {
     app
   }

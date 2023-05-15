@@ -28,27 +28,37 @@
 	import {
 		loginUseUser
 	} from "@/static/api/users";
+  import {useStore} from 'vuex';
 
 	export default {
 		created() {
-			console.log('App Launch')
-			// token标志来判断
-			let token = uni.getStorageSync('token');
-			console.log(token);
-			if (!token) {
-				console.log('没有token'),
-					//跳到登录页面.relaunch可以打开任何界面
-					uni.reLaunch({
-						url: '/pages/loginRegister/loginRegister'
-					})
-			} else {
-				console.log('有token')
-				//跳到首页,.relaunch可以打开任何界面
-				uni.reLaunch({
-					url: '/pages/MainApp'
-				})
-			}
-
+      const store = useStore()
+      // 登录成功后跳转到主页，然后将token保存到本地
+      loginUseUser({
+        email: '1@qq.com',
+        password: '1'
+      }).then(res => {
+        console.log(res)
+        if (res.code == 200) {
+          try {
+            uni.setStorageSync('token', res.token);
+// 如果登录成功，则获取当前用户
+            const currentUser = res.data;
+// 利用 Vuex 的 dispatch 方法将用户信息存储到全局状态中
+            store.dispatch('addUser', currentUser);
+            console.log(store.getters.getUser)
+          } catch (e) {
+            console.log(e)
+          }
+          uni.reLaunch({
+            url: '/pages/MainApp'
+          })
+        } else {
+          uni.reLaunch({
+            url: '/pages/loginRegister/loginRegister'
+          })
+        }
+      })
 		},
 
 		data() {
@@ -97,7 +107,7 @@
 				}).then(res => {
 					console.log(res)
 					if (res.code == 200) {
-						try { 
+						try {
 							uni.setStorageSync('token', res.token);
 						} catch (e) {
 							console.log(e)
