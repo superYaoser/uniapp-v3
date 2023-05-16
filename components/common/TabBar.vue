@@ -29,11 +29,18 @@
 </template>
 
 <script>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 
 export default {
   name: "TabBar",
   setup() {
+    //页面渲染完毕
+    onMounted(()=>{
+
+      //先默认让头区域是首页的颜色
+      uni.$emit('topBarBackgroundColor', {bg: '#016fce'})
+
+    })
     let currentR = ref('Home')
     let staticIconsColor = '#999797';
     let activityIconsColor = '#13dbf9';
@@ -51,23 +58,33 @@ export default {
     //首页
     const goHome = (router) => {
       useUniEmitCurrentRouterUpdate(router)
+      //让头改变颜色
+      uni.$emit('topBarBackgroundColor', {bg: '#016fce'})
     }
     //动态
     const goDynamic = (router) => {
       useUniEmitCurrentRouterUpdate(router)
+      //让头改变颜色
+      uni.$emit('topBarBackgroundColor', {bg: '#ffffff'})
     }
     //发布
     const goPublish = (router) => {
       useUniEmitCurrentRouterUpdate(router)
       uni.$emit('tabBarVisibilityUpdate', {tabBarVisibility: false})
+      //让头改变颜色
+      uni.$emit('topBarBackgroundColor', {bg: '#ffffff'})
     }
     //消息
     const goMessage = (router) => {
       useUniEmitCurrentRouterUpdate(router)
+      //让头改变颜色
+      uni.$emit('topBarBackgroundColor', {bg: '#ffffff'})
     }
     //我的
     const goMine = (router) => {
       useUniEmitCurrentRouterUpdate(router)
+      //让头改变颜色
+      uni.$emit('topBarBackgroundColor', {bg: '#ffffff'})
     }
 
     return {

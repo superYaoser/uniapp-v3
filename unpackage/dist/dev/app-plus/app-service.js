@@ -2571,6 +2571,9 @@ if (uni.restoreGlobal) {
   const _sfc_main$9 = {
     name: "TabBar",
     setup() {
+      vue.onMounted(() => {
+        uni.$emit("topBarBackgroundColor", { bg: "#016fce" });
+      });
       let currentR = vue.ref("Home");
       let staticIconsColor = "#999797";
       let activityIconsColor = "#13dbf9";
@@ -2584,19 +2587,24 @@ if (uni.restoreGlobal) {
       };
       const goHome = (router) => {
         useUniEmitCurrentRouterUpdate(router);
+        uni.$emit("topBarBackgroundColor", { bg: "#016fce" });
       };
       const goDynamic = (router) => {
         useUniEmitCurrentRouterUpdate(router);
+        uni.$emit("topBarBackgroundColor", { bg: "#ffffff" });
       };
       const goPublish = (router) => {
         useUniEmitCurrentRouterUpdate(router);
         uni.$emit("tabBarVisibilityUpdate", { tabBarVisibility: false });
+        uni.$emit("topBarBackgroundColor", { bg: "#ffffff" });
       };
       const goMessage = (router) => {
         useUniEmitCurrentRouterUpdate(router);
+        uni.$emit("topBarBackgroundColor", { bg: "#ffffff" });
       };
       const goMine = (router) => {
         useUniEmitCurrentRouterUpdate(router);
+        uni.$emit("topBarBackgroundColor", { bg: "#ffffff" });
       };
       return {
         currentR,
@@ -2664,6 +2672,14 @@ if (uni.restoreGlobal) {
   const TabBar = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$8], ["__scopeId", "data-v-270561e4"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/common/TabBar.vue"]]);
   const _sfc_main$8 = {
     components: {},
+    setup() {
+      let headerBG = vue.ref("#016fce");
+      vue.onMounted(() => {
+      });
+      return {
+        headerBG
+      };
+    },
     data() {
       return {
         title: "Hello"
@@ -2674,9 +2690,33 @@ if (uni.restoreGlobal) {
     methods: {}
   };
   function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view", { id: "Home" }, " 这是主页 ");
+    return vue.openBlock(), vue.createElementBlock("view", {
+      id: "Home",
+      class: "w100 h100"
+    }, [
+      vue.createElementVNode("view", { class: "home w100 h100" }, [
+        vue.createElementVNode("view", { class: "home__container w100 h100" }, [
+          vue.createCommentVNode("        头部"),
+          vue.createElementVNode(
+            "view",
+            {
+              class: "container__header",
+              style: vue.normalizeStyle("background:" + $setup.headerBG)
+            },
+            [
+              vue.createCommentVNode("          搜索"),
+              vue.createElementVNode("view", { class: "header__search" }, " 搜索区域 ")
+            ],
+            4
+            /* STYLE */
+          ),
+          vue.createCommentVNode("        身体"),
+          vue.createElementVNode("view", { class: "container__body" })
+        ])
+      ])
+    ]);
   }
-  const Home = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$7], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/home/Home.vue"]]);
+  const Home = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$7], ["__scopeId", "data-v-a0df4f3d"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/home/Home.vue"]]);
   const _sfc_main$7 = {
     components: {},
     data() {
@@ -6070,13 +6110,31 @@ if (uni.restoreGlobal) {
   }
   const Mine = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/mine/Mine.vue"]]);
   const _sfc_main$2 = {
-    name: "TopBar"
+    name: "TopBar",
+    setup() {
+      let bgColor = vue.ref("#ffffff");
+      uni.$on("topBarBackgroundColor", function(bg) {
+        bgColor.value = bg.bg;
+      });
+      return {
+        bgColor
+      };
+    }
   };
   function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", null, [
-      vue.createElementVNode("view", { class: "status_bar" }, [
-        vue.createCommentVNode(" 这里是状态栏 ")
-      ]),
+      vue.createElementVNode(
+        "view",
+        {
+          class: "status_bar",
+          style: vue.normalizeStyle("background:" + $setup.bgColor)
+        },
+        [
+          vue.createCommentVNode(" 这里是状态栏 ")
+        ],
+        4
+        /* STYLE */
+      ),
       vue.createCommentVNode("    <view> 状态栏下的文字 </view>")
     ]);
   }

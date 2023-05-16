@@ -555,6 +555,11 @@
   font-size: 12px;
 }
 
+.home__container .container__header[data-v-a0df4f3d] {
+  width: 100%;
+  height: 50px;
+}
+
 /**
  * 这里是uni-app内置的常用样式变量
  *
