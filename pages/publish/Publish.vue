@@ -1,5 +1,6 @@
 <template>
   <view id="Publish">
+    <TopBar></TopBar>
     <view class="publish">
       <view class="publish__header">
         <view class="publish__header__icon--back">
@@ -74,9 +75,12 @@ import {onMounted, ref} from "vue";
 import {baseUrl} from '@/static/api/root/set'
 import {getCategoryList} from '@/static/api/category'
 import {pushNewArticle} from '@/static/api/article'
+import TopBar from "@/components/MainApp/TopBar";
 
 export default {
-  components: {},
+  components: {
+    TopBar
+  },
   setup() {
     //组件挂载完成后执行的函数
     onMounted(() => {

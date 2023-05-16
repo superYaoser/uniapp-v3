@@ -17,7 +17,9 @@
 
 <!--        身体-->
         <view class="container__body">
-asd
+          <view class="w100 h100">
+            <ArticlesList></ArticlesList>
+          </view>
         </view>
 
       </view>
@@ -28,9 +30,11 @@ asd
 <script>
 import {onMounted, ref} from "vue";
 import TopBar from "@/components/MainApp/TopBar";
+import ArticlesList from "@/components/home/articlesList/ArticlesList";
   export default {
 		components: {
-      TopBar
+      TopBar,
+      ArticlesList
 		},
     setup(){
       //页面渲染完毕
@@ -81,7 +85,7 @@ import TopBar from "@/components/MainApp/TopBar";
       background: #FFFFFF;
       width: 100%;
       height: calc(100% - 10% - 7% - var(--status-bar-height));
-      margin-top: calc(10% + var(--status-bar-height));
+      margin-top: calc(16% + var(--status-bar-height));
       position: static;
     }
   }

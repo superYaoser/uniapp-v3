@@ -561,6 +561,11 @@
   width: 100%;
 }
 
+
+.articleList__container__body[data-v-fc82db5d]{
+  background: #f5f5f5;
+}
+
 .home__container .container__header[data-v-a0df4f3d] {
   position: fixed;
   left: 0;
@@ -583,7 +588,7 @@
   background: #FFFFFF;
   width: 100%;
   height: calc(100% - 10% - 7% - var(--status-bar-height));
-  margin-top: calc(10% + var(--status-bar-height));
+  margin-top: calc(16% + var(--status-bar-height));
   position: static;
 }
 
