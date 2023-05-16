@@ -29,123 +29,126 @@
 		loginUseUser
 	} from "@/static/api/users";
   import {useStore} from 'vuex';
+  import {onMounted} from "vue";
 
 	export default {
-		created() {
-      const store = useStore()
-      // 登录成功后跳转到主页，然后将token保存到本地
-      loginUseUser({
-        email: '1@qq.com',
-        password: '1'
-      }).then(res => {
-        console.log(res)
-        if (res.code == 200) {
-          try {
-            uni.setStorageSync('token', res.token);
+    setup(){
+      onMounted(()=>{
+        const store = useStore()
+        // 登录成功后跳转到主页，然后将token保存到本地
+        loginUseUser({
+          email: '1@qq.com',
+          password: '1'
+        }).then(res => {
+          console.log(res)
+          if (res.code == 200) {
+            try {
+              uni.setStorageSync('token', res.token);
 // 如果登录成功，则获取当前用户
-            const currentUser = res.data;
+              const currentUser = res.data;
 // 利用 Vuex 的 dispatch 方法将用户信息存储到全局状态中
-            store.dispatch('addUser', currentUser);
-            console.log(store.getters.getUser)
-          } catch (e) {
-            console.log(e)
+              store.dispatch('addUser', currentUser);
+              console.log(store.getters.getUser)
+            } catch (e) {
+              console.log(e)
+            }
+            uni.reLaunch({
+              url: '/pages/MainApp'
+            })
+          } else {
+            uni.reLaunch({
+              url: '/pages/loginRegister/loginRegister'
+            })
           }
-          uni.reLaunch({
-            url: '/pages/MainApp'
-          })
-        } else {
-          uni.reLaunch({
-            url: '/pages/loginRegister/loginRegister'
-          })
-        }
+        })
       })
-		},
+    },
 
-		data() {
-			return {
-				iphoneValue: '', //手机号码
-				passwordValue: '', //密码
-				testValue: '', //验证码
-				showPassword: true, //是否显示密码
-				showClearIcon: false, //是否显示清除按钮
-				type: 2, //登录的状态 - - - 1是验证码登录、2是密码登录
-				token: '',
-				timer: 0, //验证码时间
-				showTimer: true, //是否显示验证码时间
-			}
-		},
-
-		methods: {
-			// 显示隐藏密码
-			changePassword: function() {
-				this.showPassword = !this.showPassword;
-			},
-			// 判断是否显示清除按钮
-			clearInput: function(event) {
-				this.iphoneValue = event.detail.value;
-				if (event.detail.value.length > 0) {
-					this.showClearIcon = true;
-				} else {
-					this.showClearIcon = false;
-				}
-			},
-			// 清除内容/隐藏按钮
-			clearIcon: function() {
-				this.iphoneValue = '';
-				this.showClearIcon = false;
-			},
-			// 切换登录的方式
-			setLoginType(type) {
-				this.type = type
-			},
-			// 密码登录
-			Login() {
-				// 登录成功后跳转到主页，然后将token保存到本地
-				loginUseUser({
-					email: '1@qq.com',
-					password: '1'
-				}).then(res => {
-					console.log(res)
-					if (res.code == 200) {
-						try {
-							uni.setStorageSync('token', res.token);
-						} catch (e) {
-							console.log(e)
-						}
-						uni.redirectTo({
-							url: '/pages/MainApp'
-						});
-					} else {
-
-					}
-				})
-			},
-			// 获取验证码
-			getTest() {
-
-			},
-			// 设置验证码时间动态减少
-			timeDown(num) {
-				let that = this;
-				// 当时间为0时,恢复为按钮,清除定时器
-				if (num == 0) {
-					that.showTimer = true;
-					return clearTimeout();
-				} else {
-					that.showTimer = false;
-					setTimeout(function() {
-						that.timer = num - 1
-						that.timeDown(num - 1)
-					}, 1000) //定时每秒减一
-				}
-			},
-			// 下面是可以封装起来引入的部分
-			// 判断是否是正确的手机号码
-			isMobile(str) {
-				// let reg = /^1\d{10}$/;
-				// return reg.test(str)
-			},
-		}
+		// data() {
+		// 	return {
+		// 		iphoneValue: '', //手机号码
+		// 		passwordValue: '', //密码
+		// 		testValue: '', //验证码
+		// 		showPassword: true, //是否显示密码
+		// 		showClearIcon: false, //是否显示清除按钮
+		// 		type: 2, //登录的状态 - - - 1是验证码登录、2是密码登录
+		// 		token: '',
+		// 		timer: 0, //验证码时间
+		// 		showTimer: true, //是否显示验证码时间
+		// 	}
+		// },
+    //
+		// methods: {
+		// 	// 显示隐藏密码
+		// 	changePassword: function() {
+		// 		this.showPassword = !this.showPassword;
+		// 	},
+		// 	// 判断是否显示清除按钮
+		// 	clearInput: function(event) {
+		// 		this.iphoneValue = event.detail.value;
+		// 		if (event.detail.value.length > 0) {
+		// 			this.showClearIcon = true;
+		// 		} else {
+		// 			this.showClearIcon = false;
+		// 		}
+		// 	},
+		// 	// 清除内容/隐藏按钮
+		// 	clearIcon: function() {
+		// 		this.iphoneValue = '';
+		// 		this.showClearIcon = false;
+		// 	},
+		// 	// 切换登录的方式
+		// 	setLoginType(type) {
+		// 		this.type = type
+		// 	},
+		// 	// 密码登录
+		// 	Login() {
+		// 		// 登录成功后跳转到主页，然后将token保存到本地
+		// 		loginUseUser({
+		// 			email: '1@qq.com',
+		// 			password: '1'
+		// 		}).then(res => {
+		// 			console.log(res)
+		// 			if (res.code == 200) {
+		// 				try {
+		// 					uni.setStorageSync('token', res.token);
+		// 				} catch (e) {
+		// 					console.log(e)
+		// 				}
+		// 				uni.redirectTo({
+		// 					url: '/pages/MainApp'
+		// 				});
+		// 			} else {
+    //
+		// 			}
+		// 		})
+		// 	},
+		// 	// 获取验证码
+		// 	getTest() {
+    //
+		// 	},
+		// 	// 设置验证码时间动态减少
+		// 	timeDown(num) {
+		// 		let that = this;
+		// 		// 当时间为0时,恢复为按钮,清除定时器
+		// 		if (num == 0) {
+		// 			that.showTimer = true;
+		// 			return clearTimeout();
+		// 		} else {
+		// 			that.showTimer = false;
+		// 			setTimeout(function() {
+		// 				that.timer = num - 1
+		// 				that.timeDown(num - 1)
+		// 			}, 1000) //定时每秒减一
+		// 		}
+		// 	},
+		// 	// 下面是可以封装起来引入的部分
+		// 	// 判断是否是正确的手机号码
+		// 	isMobile(str) {
+		// 		// let reg = /^1\d{10}$/;
+		// 		// return reg.test(str)
+		// 	},
+		// }
 	}
 </script>
 

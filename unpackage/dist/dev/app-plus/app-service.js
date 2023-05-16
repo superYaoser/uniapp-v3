@@ -2368,117 +2368,119 @@ if (uni.restoreGlobal) {
   };
   Object.defineProperties(Store.prototype, prototypeAccessors);
   const _sfc_main$a = {
-    created() {
-      const store2 = useStore();
-      loginUseUser({
-        email: "1@qq.com",
-        password: "1"
-      }).then((res) => {
-        formatAppLog("log", "at pages/loginRegister/loginRegister.vue:41", res);
-        if (res.code == 200) {
-          try {
-            uni.setStorageSync("token", res.token);
-            const currentUser = res.data;
-            store2.dispatch("addUser", currentUser);
-            formatAppLog("log", "at pages/loginRegister/loginRegister.vue:49", store2.getters.getUser);
-          } catch (e) {
-            formatAppLog("log", "at pages/loginRegister/loginRegister.vue:51", e);
-          }
-          uni.reLaunch({
-            url: "/pages/MainApp"
-          });
-        } else {
-          uni.reLaunch({
-            url: "/pages/loginRegister/loginRegister"
-          });
-        }
-      });
-    },
-    data() {
-      return {
-        iphoneValue: "",
-        //手机号码
-        passwordValue: "",
-        //密码
-        testValue: "",
-        //验证码
-        showPassword: true,
-        //是否显示密码
-        showClearIcon: false,
-        //是否显示清除按钮
-        type: 2,
-        //登录的状态 - - - 1是验证码登录、2是密码登录
-        token: "",
-        timer: 0,
-        //验证码时间
-        showTimer: true
-        //是否显示验证码时间
-      };
-    },
-    methods: {
-      // 显示隐藏密码
-      changePassword: function() {
-        this.showPassword = !this.showPassword;
-      },
-      // 判断是否显示清除按钮
-      clearInput: function(event) {
-        this.iphoneValue = event.detail.value;
-        if (event.detail.value.length > 0) {
-          this.showClearIcon = true;
-        } else {
-          this.showClearIcon = false;
-        }
-      },
-      // 清除内容/隐藏按钮
-      clearIcon: function() {
-        this.iphoneValue = "";
-        this.showClearIcon = false;
-      },
-      // 切换登录的方式
-      setLoginType(type) {
-        this.type = type;
-      },
-      // 密码登录
-      Login() {
+    setup() {
+      vue.onMounted(() => {
+        const store2 = useStore();
         loginUseUser({
           email: "1@qq.com",
           password: "1"
         }).then((res) => {
-          formatAppLog("log", "at pages/loginRegister/loginRegister.vue:108", res);
+          formatAppLog("log", "at pages/loginRegister/loginRegister.vue:43", res);
           if (res.code == 200) {
             try {
               uni.setStorageSync("token", res.token);
+              const currentUser = res.data;
+              store2.dispatch("addUser", currentUser);
+              formatAppLog("log", "at pages/loginRegister/loginRegister.vue:51", store2.getters.getUser);
             } catch (e) {
-              formatAppLog("log", "at pages/loginRegister/loginRegister.vue:113", e);
+              formatAppLog("log", "at pages/loginRegister/loginRegister.vue:53", e);
             }
-            uni.redirectTo({
+            uni.reLaunch({
               url: "/pages/MainApp"
+            });
+          } else {
+            uni.reLaunch({
+              url: "/pages/loginRegister/loginRegister"
             });
           }
         });
-      },
-      // 获取验证码
-      getTest() {
-      },
-      // 设置验证码时间动态减少
-      timeDown(num) {
-        let that = this;
-        if (num == 0) {
-          that.showTimer = true;
-          return clearTimeout();
-        } else {
-          that.showTimer = false;
-          setTimeout(function() {
-            that.timer = num - 1;
-            that.timeDown(num - 1);
-          }, 1e3);
-        }
-      },
-      // 下面是可以封装起来引入的部分
-      // 判断是否是正确的手机号码
-      isMobile(str) {
-      }
+      });
     }
+    // data() {
+    // 	return {
+    // 		iphoneValue: '', //手机号码
+    // 		passwordValue: '', //密码
+    // 		testValue: '', //验证码
+    // 		showPassword: true, //是否显示密码
+    // 		showClearIcon: false, //是否显示清除按钮
+    // 		type: 2, //登录的状态 - - - 1是验证码登录、2是密码登录
+    // 		token: '',
+    // 		timer: 0, //验证码时间
+    // 		showTimer: true, //是否显示验证码时间
+    // 	}
+    // },
+    //
+    // methods: {
+    // 	// 显示隐藏密码
+    // 	changePassword: function() {
+    // 		this.showPassword = !this.showPassword;
+    // 	},
+    // 	// 判断是否显示清除按钮
+    // 	clearInput: function(event) {
+    // 		this.iphoneValue = event.detail.value;
+    // 		if (event.detail.value.length > 0) {
+    // 			this.showClearIcon = true;
+    // 		} else {
+    // 			this.showClearIcon = false;
+    // 		}
+    // 	},
+    // 	// 清除内容/隐藏按钮
+    // 	clearIcon: function() {
+    // 		this.iphoneValue = '';
+    // 		this.showClearIcon = false;
+    // 	},
+    // 	// 切换登录的方式
+    // 	setLoginType(type) {
+    // 		this.type = type
+    // 	},
+    // 	// 密码登录
+    // 	Login() {
+    // 		// 登录成功后跳转到主页，然后将token保存到本地
+    // 		loginUseUser({
+    // 			email: '1@qq.com',
+    // 			password: '1'
+    // 		}).then(res => {
+    // 			__f__('log','at pages/loginRegister/loginRegister.vue:111',res)
+    // 			if (res.code == 200) {
+    // 				try {
+    // 					uni.setStorageSync('token', res.token);
+    // 				} catch (e) {
+    // 					__f__('log','at pages/loginRegister/loginRegister.vue:116',e)
+    // 				}
+    // 				uni.redirectTo({
+    // 					url: '/pages/MainApp'
+    // 				});
+    // 			} else {
+    //
+    // 			}
+    // 		})
+    // 	},
+    // 	// 获取验证码
+    // 	getTest() {
+    //
+    // 	},
+    // 	// 设置验证码时间动态减少
+    // 	timeDown(num) {
+    // 		let that = this;
+    // 		// 当时间为0时,恢复为按钮,清除定时器
+    // 		if (num == 0) {
+    // 			that.showTimer = true;
+    // 			return clearTimeout();
+    // 		} else {
+    // 			that.showTimer = false;
+    // 			setTimeout(function() {
+    // 				that.timer = num - 1
+    // 				that.timeDown(num - 1)
+    // 			}, 1000) //定时每秒减一
+    // 		}
+    // 	},
+    // 	// 下面是可以封装起来引入的部分
+    // 	// 判断是否是正确的手机号码
+    // 	isMobile(str) {
+    // 		// let reg = /^1\d{10}$/;
+    // 		// return reg.test(str)
+    // 	},
+    // }
   };
   function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0);
@@ -2487,37 +2489,37 @@ if (uni.restoreGlobal) {
       vue.createElementVNode("view", { class: "iphone" }, [
         vue.createElementVNode("input", {
           placeholder: "输入手机号",
-          value: $data.iphoneValue,
-          onInput: _cache[0] || (_cache[0] = (...args) => $options.clearInput && $options.clearInput(...args))
+          value: _ctx.iphoneValue,
+          onInput: _cache[0] || (_cache[0] = (...args) => _ctx.clearInput && _ctx.clearInput(...args))
         }, null, 40, ["value"]),
-        $data.showClearIcon ? (vue.openBlock(), vue.createBlock(_component_uni_icons, {
+        _ctx.showClearIcon ? (vue.openBlock(), vue.createBlock(_component_uni_icons, {
           key: 0,
           type: "closeempty",
           color: "#808080",
           size: "25",
-          onClick: $options.clearIcon
+          onClick: _ctx.clearIcon
         }, null, 8, ["onClick"])) : vue.createCommentVNode("v-if", true)
       ]),
-      $data.type == 2 ? (vue.openBlock(), vue.createElementBlock("view", {
+      _ctx.type == 2 ? (vue.openBlock(), vue.createElementBlock("view", {
         key: 0,
         class: "password"
       }, [
         vue.createCommentVNode(' <input type="password" placeholder="输入密码" /> 要显示密码就不要设置type="password"'),
         vue.withDirectives(vue.createElementVNode("input", {
           placeholder: "请输入密码",
-          "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $data.passwordValue = $event),
-          password: $data.showPassword
+          "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => _ctx.passwordValue = $event),
+          password: _ctx.showPassword
         }, null, 8, ["password"]), [
-          [vue.vModelText, $data.passwordValue]
+          [vue.vModelText, _ctx.passwordValue]
         ]),
         vue.createVNode(_component_uni_icons, {
           type: "eye-filled",
           color: "#808080",
           size: "25",
-          onClick: $options.changePassword
+          onClick: _ctx.changePassword
         }, null, 8, ["onClick"])
       ])) : vue.createCommentVNode("v-if", true),
-      $data.type == 1 ? (vue.openBlock(), vue.createElementBlock("view", {
+      _ctx.type == 1 ? (vue.openBlock(), vue.createElementBlock("view", {
         key: 1,
         class: "test"
       }, [
@@ -2526,19 +2528,19 @@ if (uni.restoreGlobal) {
           {
             type: "text",
             placeholder: "输入验证码",
-            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $data.testValue = $event)
+            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => _ctx.testValue = $event)
           },
           null,
           512
           /* NEED_PATCH */
         ), [
-          [vue.vModelText, $data.testValue]
+          [vue.vModelText, _ctx.testValue]
         ]),
-        $data.showTimer ? (vue.openBlock(), vue.createElementBlock("view", {
+        _ctx.showTimer ? (vue.openBlock(), vue.createElementBlock("view", {
           key: 0,
           class: "get-test",
           type: "default",
-          onClick: _cache[3] || (_cache[3] = ($event) => $options.getTest())
+          onClick: _cache[3] || (_cache[3] = ($event) => _ctx.getTest())
         }, "获取验证码")) : (vue.openBlock(), vue.createElementBlock(
           "view",
           {
@@ -2546,24 +2548,24 @@ if (uni.restoreGlobal) {
             class: "get-test",
             type: "default"
           },
-          vue.toDisplayString($data.timer + "s"),
+          vue.toDisplayString(_ctx.timer + "s"),
           1
           /* TEXT */
         ))
       ])) : vue.createCommentVNode("v-if", true),
-      $data.type == 2 ? (vue.openBlock(), vue.createElementBlock("view", {
+      _ctx.type == 2 ? (vue.openBlock(), vue.createElementBlock("view", {
         key: 2,
         class: "test-btn",
-        onClick: _cache[4] || (_cache[4] = ($event) => $options.setLoginType(1))
+        onClick: _cache[4] || (_cache[4] = ($event) => _ctx.setLoginType(1))
       }, "手机验证码登录>>")) : vue.createCommentVNode("v-if", true),
-      $data.type == 1 ? (vue.openBlock(), vue.createElementBlock("view", {
+      _ctx.type == 1 ? (vue.openBlock(), vue.createElementBlock("view", {
         key: 3,
         class: "password-btn",
-        onClick: _cache[5] || (_cache[5] = ($event) => $options.setLoginType(2))
+        onClick: _cache[5] || (_cache[5] = ($event) => _ctx.setLoginType(2))
       }, "密码登录>>")) : vue.createCommentVNode("v-if", true),
       vue.createElementVNode("view", {
         class: "login-btn",
-        onClick: _cache[6] || (_cache[6] = ($event) => $options.Login())
+        onClick: _cache[6] || (_cache[6] = ($event) => _ctx.Login())
       }, "登录")
     ]);
   }
@@ -2671,9 +2673,40 @@ if (uni.restoreGlobal) {
   }
   const TabBar = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$8], ["__scopeId", "data-v-270561e4"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/common/TabBar.vue"]]);
   const _sfc_main$8 = {
-    components: {},
+    name: "TopBar",
     setup() {
-      let headerBG = vue.ref("#016fce");
+      let bgColor = vue.ref("#ffffff");
+      uni.$on("topBarBackgroundColor", function(bg) {
+        bgColor.value = bg.bg;
+      });
+      return {
+        bgColor
+      };
+    }
+  };
+  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view", null, [
+      vue.createElementVNode(
+        "view",
+        {
+          class: "status_bar",
+          style: vue.normalizeStyle("background:" + $setup.bgColor)
+        },
+        [
+          vue.createCommentVNode(" 这里是状态栏 ")
+        ],
+        4
+        /* STYLE */
+      ),
+      vue.createCommentVNode("    <view> 状态栏下的文字 </view>")
+    ]);
+  }
+  const TopBar = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$7], ["__scopeId", "data-v-35eb0c73"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/MainApp/TopBar.vue"]]);
+  const _sfc_main$7 = {
+    components: {
+      TopBar
+    },
+    setup() {
       vue.onMounted(() => {
       });
       return {
@@ -2689,35 +2722,30 @@ if (uni.restoreGlobal) {
     },
     methods: {}
   };
-  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_TopBar = vue.resolveComponent("TopBar");
     return vue.openBlock(), vue.createElementBlock("view", {
       id: "Home",
       class: "w100 h100"
     }, [
+      vue.createVNode(_component_TopBar),
       vue.createElementVNode("view", { class: "home w100 h100" }, [
         vue.createElementVNode("view", { class: "home__container w100 h100" }, [
           vue.createCommentVNode("        头部"),
-          vue.createElementVNode(
-            "view",
-            {
-              class: "container__header",
-              style: vue.normalizeStyle("background:" + $setup.headerBG)
-            },
-            [
-              vue.createCommentVNode("          搜索"),
-              vue.createElementVNode("view", { class: "header__search" }, " 搜索区域 ")
-            ],
-            4
-            /* STYLE */
-          ),
+          vue.createElementVNode("view", { class: "container__header" }, [
+            vue.createCommentVNode("          搜索"),
+            vue.createElementVNode("view", { class: "header__search" }, " 搜索区域 "),
+            vue.createCommentVNode("          导航"),
+            vue.createElementVNode("view", { class: "header__nav" }, " 导航区域 ")
+          ]),
           vue.createCommentVNode("        身体"),
-          vue.createElementVNode("view", { class: "container__body" })
+          vue.createElementVNode("view", { class: "container__body" }, " asd ")
         ])
       ])
     ]);
   }
-  const Home = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$7], ["__scopeId", "data-v-a0df4f3d"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/home/Home.vue"]]);
-  const _sfc_main$7 = {
+  const Home = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$6], ["__scopeId", "data-v-a0df4f3d"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/home/Home.vue"]]);
+  const _sfc_main$6 = {
     components: {},
     data() {
       return {
@@ -2728,10 +2756,10 @@ if (uni.restoreGlobal) {
     },
     methods: {}
   };
-  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { id: "Dynamic" }, " 这是动态页页 ");
   }
-  const Dynamic = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$6], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/pyq/Dynamic.vue"]]);
+  const Dynamic = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$5], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/pyq/Dynamic.vue"]]);
   const isObject = (val) => val !== null && typeof val === "object";
   const defaultDelimiters = ["{", "}"];
   class BaseFormatter {
@@ -5445,7 +5473,7 @@ if (uni.restoreGlobal) {
     } }), gs(Us), Us.addInterceptor = D, Us.removeInterceptor = F, Us.interceptObject = M;
   })();
   var Ls = Us;
-  const _sfc_main$6 = {
+  const _sfc_main$5 = {
     name: "uni-data-select",
     mixins: [Ls.mixinDatacom || {}],
     props: {
@@ -5678,7 +5706,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0);
     return vue.openBlock(), vue.createElementBlock("view", { class: "uni-stat__select" }, [
       $props.label ? (vue.openBlock(), vue.createElementBlock(
@@ -5803,7 +5831,7 @@ if (uni.restoreGlobal) {
       )
     ]);
   }
-  const __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$5], ["__scopeId", "data-v-ddf9e0a2"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/uni_modules/uni-data-select/components/uni-data-select/uni-data-select.vue"]]);
+  const __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$4], ["__scopeId", "data-v-ddf9e0a2"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/uni_modules/uni-data-select/components/uni-data-select/uni-data-select.vue"]]);
   function getCategoryList() {
     return request({
       url: "category/list"
@@ -5816,7 +5844,7 @@ if (uni.restoreGlobal) {
       data
     });
   }
-  const _sfc_main$5 = {
+  const _sfc_main$4 = {
     components: {},
     setup() {
       vue.onMounted(() => {
@@ -5957,7 +5985,7 @@ if (uni.restoreGlobal) {
     },
     methods: {}
   };
-  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0);
     const _component_uni_data_select = resolveEasycom(vue.resolveDynamicComponent("uni-data-select"), __easycom_1);
     return vue.openBlock(), vue.createElementBlock("view", { id: "Publish" }, [
@@ -6078,22 +6106,7 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const Publish = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$4], ["__scopeId", "data-v-acfd9c67"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/publish/Publish.vue"]]);
-  const _sfc_main$4 = {
-    components: {},
-    data() {
-      return {
-        title: "Hello"
-      };
-    },
-    onLoad() {
-    },
-    methods: {}
-  };
-  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view", { id: "Message" }, " 这是信息页 ");
-  }
-  const Message = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$3], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/message/Message.vue"]]);
+  const Publish = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$3], ["__scopeId", "data-v-acfd9c67"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/publish/Publish.vue"]]);
   const _sfc_main$3 = {
     components: {},
     data() {
@@ -6106,39 +6119,24 @@ if (uni.restoreGlobal) {
     methods: {}
   };
   function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view", { id: "Mine" }, " 这是我的页 ");
+    return vue.openBlock(), vue.createElementBlock("view", { id: "Message" }, " 这是信息页 ");
   }
-  const Mine = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/mine/Mine.vue"]]);
+  const Message = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$2], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/message/Message.vue"]]);
   const _sfc_main$2 = {
-    name: "TopBar",
-    setup() {
-      let bgColor = vue.ref("#ffffff");
-      uni.$on("topBarBackgroundColor", function(bg) {
-        bgColor.value = bg.bg;
-      });
+    components: {},
+    data() {
       return {
-        bgColor
+        title: "Hello"
       };
-    }
+    },
+    onLoad() {
+    },
+    methods: {}
   };
   function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view", null, [
-      vue.createElementVNode(
-        "view",
-        {
-          class: "status_bar",
-          style: vue.normalizeStyle("background:" + $setup.bgColor)
-        },
-        [
-          vue.createCommentVNode(" 这里是状态栏 ")
-        ],
-        4
-        /* STYLE */
-      ),
-      vue.createCommentVNode("    <view> 状态栏下的文字 </view>")
-    ]);
+    return vue.openBlock(), vue.createElementBlock("view", { id: "Mine" }, " 这是我的页 ");
   }
-  const TopBar = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__scopeId", "data-v-35eb0c73"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/MainApp/TopBar.vue"]]);
+  const Mine = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$1], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/mine/Mine.vue"]]);
   const _sfc_main$1 = {
     components: {
       TabBar,
@@ -6173,16 +6171,20 @@ if (uni.restoreGlobal) {
     methods: {}
   };
   function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_TopBar = vue.resolveComponent("TopBar");
     const _component_Home = vue.resolveComponent("Home");
     const _component_Dynamic = vue.resolveComponent("Dynamic");
     const _component_Publish = vue.resolveComponent("Publish");
     const _component_Message = vue.resolveComponent("Message");
     const _component_Mine = vue.resolveComponent("Mine");
     const _component_TabBar = vue.resolveComponent("TabBar");
-    return vue.openBlock(), vue.createElementBlock("view", { id: "Main" }, [
-      vue.createVNode(_component_TopBar),
-      vue.createElementVNode("view", { class: "main__container" }, [
+    return vue.openBlock(), vue.createElementBlock("view", {
+      id: "Main",
+      style: { "width": "100%", "height": "100%", "overflow": "hidden" }
+    }, [
+      vue.createElementVNode("view", {
+        class: "main__container",
+        style: { "width": "100%", "height": "100%", "overflow": "hidden" }
+      }, [
         vue.withDirectives(vue.createVNode(
           _component_Home,
           null,

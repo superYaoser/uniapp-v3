@@ -1,7 +1,6 @@
 <template>
-	<view id="Main">
-    <TopBar></TopBar>
-		<view class="main__container">
+	<view id="Main" style="width: 100%;height: 100%;overflow: hidden;">
+		<view class="main__container" style="width: 100%;height: 100%;overflow: hidden;">
       <Home v-show="currentR==='Home'"></Home>
       <Dynamic v-show="currentR==='Dynamic'"></Dynamic>
       <Publish v-show="currentR==='Publish'"></Publish>
