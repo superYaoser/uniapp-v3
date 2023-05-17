@@ -2716,7 +2716,7 @@ if (uni.restoreGlobal) {
   }
   function getDetailedArticle(data) {
     return request({
-      url: "article/detailed-pages",
+      url: "article/filterArticleDel-filterUserDel-filterCategoryDel-detailed-pages-create",
       data
     });
   }
@@ -2770,7 +2770,7 @@ if (uni.restoreGlobal) {
         ] }
       ];
       vue.onMounted(() => {
-        getDetailedArticle({ "page_number": 1 }).then((res) => {
+        getDetailedArticle({ "sort": 1, "page_number": 2, "articleContentMaxWord": 100 }).then((res) => {
           classifyList.value[0].articleList = res.data;
           formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:77", classifyList.value[0].articleList);
         });

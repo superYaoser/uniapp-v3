@@ -13,15 +13,17 @@ function pushNewArticle(data) {
         data: data
     });
 }
-// •	GET /api/ article /detailed-pages 文章详细列表（分页）
+// •	GET/api/article/filterArticleDel-filterUserDel-filterCategoryDel-detailed-pages-create
+// 从文章数据库中获取符合筛选、删除及字数限制条件的文章，并按照指定排序方式进行排序，返回分页数据
 /**
  * 文章详细列表 分页
- * @param data page_number、page_size(非必选)
+ * 参数：sort（0或1非必选，默认1降序）、page_number、page_size(非必选默认10)、articleContentMaxWord
+ * @param data sort（0或1非必选，默认1降序）、page_number、page_size(非必选默认10)、articleContentMaxWord
  * @returns {Promise | Promise<unknown>}
  */
 function getDetailedArticle(data) {
     return R({
-        url: 'article/detailed-pages',
+        url: 'article/filterArticleDel-filterUserDel-filterCategoryDel-detailed-pages-create',
         data: data
     });
 }
@@ -41,5 +43,6 @@ function getArticleByID(id) {
 export {
     pushNewArticle,
     getDetailedArticle,
+    getArticleByID
 
 }

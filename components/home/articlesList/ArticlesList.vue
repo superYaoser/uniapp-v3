@@ -72,7 +72,7 @@ export default {
     ]
 
     onMounted(()=>{
-      getDetailedArticle({"page_number":1}).then(res=>{
+      getDetailedArticle({"sort":1,"page_number":2,"articleContentMaxWord":100}).then(res=>{
         classifyList.value[0].articleList=res.data
         console.log(classifyList.value[0].articleList)
       })
