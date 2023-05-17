@@ -23,7 +23,7 @@ function pushNewArticle(data) {
  */
 function getDetailedArticle(data) {
     return R({
-        url: 'article/filterArticleDel-filterUserDel-filterCategoryDel-detailed-pages-create',
+        url: 'article/filterArticleDel-filterUserDel-filterAcross-filterCategoryDel-detailed-pages-create',
         data: data
     });
 }

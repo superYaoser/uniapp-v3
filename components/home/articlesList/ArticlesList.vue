@@ -8,7 +8,7 @@
               <view class="articleList__container__body" style="padding: 5px;">
                 <view v-for="(item2, index) in item1.articleList" :key="index">
                   <view>{{ item2.article_title }}</view>
-                  <view>{{item2.article_content}}</view>
+                  <view>{{item2.article_text}}</view>
                 </view>
               </view>
             </scroll-view>
@@ -33,6 +33,7 @@ export default {
           {article_across: 1,
             article_class_id: "1",
             article_comment_num: 0,
+            article_text:'测试内容text',
             article_content: "哈哈哈哈阿松大",
             article_create_time: "2023-03-25T10:28:34.000Z",
             article_hand_support_num: 0,
@@ -53,6 +54,7 @@ export default {
           {article_across: 1,
             article_class_id: "1",
             article_comment_num: 0,
+            article_text:'测试内容text',
             article_content: "哈哈哈哈阿松大",
             article_create_time: "2023-03-25T10:28:34.000Z",
             article_hand_support_num: 0,
@@ -72,7 +74,7 @@ export default {
     ]
 
     onMounted(()=>{
-      getDetailedArticle({"sort":1,"page_number":2,"articleContentMaxWord":100}).then(res=>{
+      getDetailedArticle({"sort":1,"page_number":1,"articleContentMaxWord":100}).then(res=>{
         classifyList.value[0].articleList=res.data
         console.log(classifyList.value[0].articleList)
       })

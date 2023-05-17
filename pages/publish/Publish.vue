@@ -82,6 +82,14 @@ export default {
     TopBar
   },
   setup() {
+    /*************组件全局设置*****************************************/
+
+    //编辑器text属性中回车 替换的标签
+    const enterWord = '<Yaoser-br>';
+
+
+    /*************组件全局设置 end *****************************************/
+
     //组件挂载完成后执行的函数
     onMounted(() => {
       console.log("publish挂载完毕")
@@ -149,6 +157,7 @@ export default {
     const addImage = () => {
       uni.chooseImage({
         sizeType: ['original', 'compressed'],
+        count:1,
         success(res) {
           console.log(res.tempFilePaths[0])
           uni.uploadFile({
@@ -183,9 +192,11 @@ export default {
       editorCtx.value.getContents({
         success: function (data) {
           //data就是编辑器的数据对象
-          console.log(data)
+          data.text = data.text.replace(/[\r\n]+/g, enterWord)
+          console.log(data.text)
           let articleDataJson = {
             "title":titleValue.value,
+            "text":data.text,
             "content":data.html,
             "category":categoryID.value
           }

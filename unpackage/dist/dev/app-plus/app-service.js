@@ -1281,7 +1281,7 @@ if (uni.restoreGlobal) {
     );
   }
   const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b], ["__scopeId", "data-v-d31e1c47"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/uni_modules/uni-icons/components/uni-icons/uni-icons.vue"]]);
-  const baseUrl = "http://114.115.220.47:3000/api/";
+  const baseUrl = "http://172.16.33.240:3000/api/";
   const request = (req = "") => {
     formatAppLog("log", "at static/api/root/request.js:3", req);
     return new Promise((resolve, reject) => {
@@ -2716,7 +2716,7 @@ if (uni.restoreGlobal) {
   }
   function getDetailedArticle(data) {
     return request({
-      url: "article/filterArticleDel-filterUserDel-filterCategoryDel-detailed-pages-create",
+      url: "article/filterArticleDel-filterUserDel-filterAcross-filterCategoryDel-detailed-pages-create",
       data
     });
   }
@@ -2729,6 +2729,7 @@ if (uni.restoreGlobal) {
             article_across: 1,
             article_class_id: "1",
             article_comment_num: 0,
+            article_text: "测试内容text",
             article_content: "哈哈哈哈阿松大",
             article_create_time: "2023-03-25T10:28:34.000Z",
             article_hand_support_num: 0,
@@ -2751,6 +2752,7 @@ if (uni.restoreGlobal) {
             article_across: 1,
             article_class_id: "1",
             article_comment_num: 0,
+            article_text: "测试内容text",
             article_content: "哈哈哈哈阿松大",
             article_create_time: "2023-03-25T10:28:34.000Z",
             article_hand_support_num: 0,
@@ -2770,15 +2772,15 @@ if (uni.restoreGlobal) {
         ] }
       ];
       vue.onMounted(() => {
-        getDetailedArticle({ "sort": 1, "page_number": 2, "articleContentMaxWord": 100 }).then((res) => {
+        getDetailedArticle({ "sort": 1, "page_number": 1, "articleContentMaxWord": 100 }).then((res) => {
           classifyList.value[0].articleList = res.data;
-          formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:77", classifyList.value[0].articleList);
+          formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:79", classifyList.value[0].articleList);
         });
       });
       let currentIndex = vue.ref();
       const swiperItemChange = (e) => {
         currentIndex.value = e.detail.current;
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:85", currentIndex.value);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:87", currentIndex.value);
       };
       return {
         classifyList,
@@ -2826,7 +2828,7 @@ if (uni.restoreGlobal) {
                             vue.createElementVNode(
                               "view",
                               null,
-                              vue.toDisplayString(item2.article_content),
+                              vue.toDisplayString(item2.article_text),
                               1
                               /* TEXT */
                             )
@@ -5991,8 +5993,9 @@ if (uni.restoreGlobal) {
       TopBar
     },
     setup() {
+      const enterWord = "<Yaoser-br>";
       vue.onMounted(() => {
-        formatAppLog("log", "at pages/publish/Publish.vue:87", "publish挂载完毕");
+        formatAppLog("log", "at pages/publish/Publish.vue:95", "publish挂载完毕");
         getCategoryList().then((res) => {
           if (res.code == 200) {
             let tempList = res.data;
@@ -6000,7 +6003,7 @@ if (uni.restoreGlobal) {
               value: item.class_id,
               text: item.class_name
             }));
-            formatAppLog("log", "at pages/publish/Publish.vue:96", categoryList.value);
+            formatAppLog("log", "at pages/publish/Publish.vue:104", categoryList.value);
           }
         });
       });
@@ -6017,7 +6020,7 @@ if (uni.restoreGlobal) {
         uni.createSelectorQuery().in(this).select(".myEditor").fields({
           context: true
         }, (res) => {
-          formatAppLog("log", "at pages/publish/Publish.vue:120", res);
+          formatAppLog("log", "at pages/publish/Publish.vue:128", res);
           editorCtx.value = res.context;
         }).exec();
       };
@@ -6039,8 +6042,9 @@ if (uni.restoreGlobal) {
       const addImage = () => {
         uni.chooseImage({
           sizeType: ["original", "compressed"],
+          count: 1,
           success(res) {
-            formatAppLog("log", "at pages/publish/Publish.vue:153", res.tempFilePaths[0]);
+            formatAppLog("log", "at pages/publish/Publish.vue:162", res.tempFilePaths[0]);
             uni.uploadFile({
               url: baseUrl + "upload/image",
               //域名+上传文件的请求接口 (根据你实际的接口来)
@@ -6054,7 +6058,7 @@ if (uni.restoreGlobal) {
               },
               success(res2) {
                 let data = JSON.parse(res2.data);
-                formatAppLog("log", "at pages/publish/Publish.vue:164", data);
+                formatAppLog("log", "at pages/publish/Publish.vue:173", data);
                 editorCtx.value.insertImage({
                   width: "100%",
                   //设置宽度为100%防止宽度溢出手机屏幕
@@ -6063,10 +6067,10 @@ if (uni.restoreGlobal) {
                   //服务端返回的url
                   alt: "图像",
                   success: function() {
-                    formatAppLog("log", "at pages/publish/Publish.vue:171", "insert image success");
+                    formatAppLog("log", "at pages/publish/Publish.vue:180", "insert image success");
                   }
                 });
-                formatAppLog("log", "at pages/publish/Publish.vue:174", editorCtx.value);
+                formatAppLog("log", "at pages/publish/Publish.vue:183", editorCtx.value);
               }
             });
           }
@@ -6075,32 +6079,34 @@ if (uni.restoreGlobal) {
       const pushIt = () => {
         editorCtx.value.getContents({
           success: function(data) {
-            formatAppLog("log", "at pages/publish/Publish.vue:186", data);
+            data.text = data.text.replace(/[\r\n]+/g, enterWord);
+            formatAppLog("log", "at pages/publish/Publish.vue:196", data.text);
             let articleDataJson = {
               "title": titleValue.value,
+              "text": data.text,
               "content": data.html,
               "category": categoryID.value
             };
             pushNewArticle(articleDataJson).then((res) => {
-              formatAppLog("log", "at pages/publish/Publish.vue:193", res);
+              formatAppLog("log", "at pages/publish/Publish.vue:204", res);
               if (res.code == 200) {
-                formatAppLog("log", "at pages/publish/Publish.vue:195", "文章发布成功");
+                formatAppLog("log", "at pages/publish/Publish.vue:206", "文章发布成功");
               } else {
-                formatAppLog("log", "at pages/publish/Publish.vue:197", "文章发布失败");
+                formatAppLog("log", "at pages/publish/Publish.vue:208", "文章发布失败");
               }
             }).catch((err) => {
-              formatAppLog("log", "at pages/publish/Publish.vue:200", "文章上传发生异常" + err);
+              formatAppLog("log", "at pages/publish/Publish.vue:211", "文章上传发生异常" + err);
             });
           },
           fail: function(err) {
-            formatAppLog("log", "at pages/publish/Publish.vue:205", err);
+            formatAppLog("log", "at pages/publish/Publish.vue:216", err);
           }
         });
       };
       let categoryID = vue.ref("1");
       let categoryList = vue.ref();
       const categoryChange = (e) => {
-        formatAppLog("log", "at pages/publish/Publish.vue:214", "类别发生了改变");
+        formatAppLog("log", "at pages/publish/Publish.vue:225", "类别发生了改变");
       };
       let titleValue = vue.ref();
       return {
