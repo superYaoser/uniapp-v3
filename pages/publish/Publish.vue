@@ -85,7 +85,7 @@ export default {
     /*************组件全局设置*****************************************/
 
     //编辑器text属性中回车 替换的标签
-    const enterWord = '<Yaoser-br>';
+    const enterWord = ' ';
 
 
     /*************组件全局设置 end *****************************************/
@@ -191,7 +191,7 @@ export default {
     const pushIt = () => {
       editorCtx.value.getContents({
         success: function (data) {
-          //data就是编辑器的数据对象
+          //data就是编辑器的数据对象 这段代码就是将纯文本text中的所有回车替换为一个词
           data.text = data.text.replace(/[\r\n]+/g, enterWord)
           console.log(data.text)
           let articleDataJson = {

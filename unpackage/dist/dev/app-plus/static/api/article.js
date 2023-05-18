@@ -17,8 +17,8 @@ function pushNewArticle(data) {
 // 从文章数据库中获取符合筛选、删除及字数限制条件的文章，并按照指定排序方式进行排序，返回分页数据
 /**
  * 文章详细列表 分页
- * 参数：sort（0或1非必选，默认1降序）、page_number、page_size(非必选默认10)、articleContentMaxWord
- * @param data sort（0或1非必选，默认1降序）、page_number、page_size(非必选默认10)、articleContentMaxWord
+ * 参数：sort（0或1非必选，默认1降序）、page_number、page_size(非必选默认10)、articleContentMaxWord select_title_num 扩展功能1推荐，2热门，3最新（非必选默认1）
+ * @param data sort（0或1非必选，默认1降序）、page_number、page_size(非必选默认10)、articleContentMaxWord select_title_num 扩展功能1推荐，2热门，3最新（非必选默认1）
  * @returns {Promise | Promise<unknown>}
  */
 function getDetailedArticle(data) {

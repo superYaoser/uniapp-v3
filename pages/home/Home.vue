@@ -11,7 +11,11 @@
           </view>
 <!--          导航-->
           <view class="header__nav">
-            导航区域
+            <view class="header__nav__container">
+              <view class="header__nav__container--late" :style="articleNavIndex===0?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">最新</view>
+              <view class="header__nav__container--recommend" :style="articleNavIndex===1?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">推荐</view>
+              <view class="header__nav__container--hot" :style="articleNavIndex===2?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">热门</view>
+            </view>
           </view>
         </view>
 
@@ -37,13 +41,22 @@ import ArticlesList from "@/components/home/articlesList/ArticlesList";
       ArticlesList
 		},
     setup(){
+
+      //监听 导航栏的 index变化 的功能
+      let articleNavIndex=ref(0)
+      let articleNavColor = '#131313'
+      let unArticleNavColor = '#a2a3ab'
+      uni.$on('home_article_nav_change',function(e){
+        articleNavIndex.value = e.currentNavIndex;
+      })
+
       //页面渲染完毕
       onMounted(()=>{
 
       })
 
       return{
-        headerBG
+        articleNavIndex,articleNavColor,unArticleNavColor
       }
     },
 		data() {
@@ -89,5 +102,26 @@ import ArticlesList from "@/components/home/articlesList/ArticlesList";
       position: static;
     }
   }
+}
+.header__nav{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .header__nav__container{
+    display: flex;
+    view{
+      font-size: 1rem;
+      font-weight: inherit;
+      margin: 0 10px;
+    }
+  }
+}
+
+.active__nav{
+  color: #13dbf9;
+}
+.unactive__nav{
+  color: #3a3a3a;
 }
 </style>

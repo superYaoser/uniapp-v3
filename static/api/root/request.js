@@ -1,5 +1,6 @@
 import {baseUrl} from './set'
 const request = (req = '') => {
+	console.log(baseUrl)
     console.log(req)
     return new Promise((resolve, reject) => {
         uni.request({
