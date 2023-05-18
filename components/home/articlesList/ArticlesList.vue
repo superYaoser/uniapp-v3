@@ -1,7 +1,7 @@
 <template>
 	<view class="w100 h100">
 		<view class="actives__container w100 h100">
-      <swiper style='width: 100%;height: 100%' :autoplay="false" @change="swiperItemChange($event)">
+      <swiper style='width: 100%;height: 100%' :autoplay="false" @change="swiperItemChange($event)" :current="clickNavIndex">
 
           <swiper-item v-for="(item1, index) in classifyList" :key="index">
             <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: calc(100% - 5px`">
@@ -112,6 +112,14 @@ export default {
       return res
     }
 
+
+    //用于用户点击了哪个导航跳转到哪个页面
+    let clickNavIndex = ref()
+    uni.$on('home_article_follow_nav_change',function(e){
+      clickNavIndex.value = e.page;
+      console.log(clickNavIndex.value)
+    })
+
     onMounted(async () => {
       //初始化 列表
       lateArticleList.value = await getDetailedArticleByJsonData({"sort": 1, "page_number": 1, "articleContentMaxWord": 100,"select_title_num":3})
@@ -133,7 +141,8 @@ export default {
     return{
       classifyList,
       swiperItemChange,
-      defaultCoverImgPath
+      defaultCoverImgPath,
+      clickNavIndex
     }
   },
 };

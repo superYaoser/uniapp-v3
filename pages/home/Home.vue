@@ -12,9 +12,9 @@
 <!--          导航-->
           <view class="header__nav">
             <view class="header__nav__container">
-              <view class="header__nav__container--late" :style="articleNavIndex===0?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">最新</view>
-              <view class="header__nav__container--recommend" :style="articleNavIndex===1?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">推荐</view>
-              <view class="header__nav__container--hot" :style="articleNavIndex===2?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">热门</view>
+              <view class="header__nav__container--late" @click="changeCurrentNavPage(0)" :style="articleNavIndex===0?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">最新</view>
+              <view class="header__nav__container--recommend"  @click="changeCurrentNavPage(1)" :style="articleNavIndex===1?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">推荐</view>
+              <view class="header__nav__container--hot"  @click="changeCurrentNavPage(2)" :style="articleNavIndex===2?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">热门</view>
             </view>
           </view>
         </view>
@@ -49,6 +49,9 @@ import ArticlesList from "@/components/home/articlesList/ArticlesList";
       uni.$on('home_article_nav_change',function(e){
         articleNavIndex.value = e.currentNavIndex;
       })
+      const changeCurrentNavPage = (page)=>{
+        uni.$emit('home_article_follow_nav_change', {page: page})
+      }
 
       //页面渲染完毕
       onMounted(()=>{
@@ -56,7 +59,7 @@ import ArticlesList from "@/components/home/articlesList/ArticlesList";
       })
 
       return{
-        articleNavIndex,articleNavColor,unArticleNavColor
+        articleNavIndex,articleNavColor,unArticleNavColor,changeCurrentNavPage
       }
     },
 		data() {
