@@ -10,7 +10,7 @@
 <!--                  文章卡片-->
                   <view class="active__cart w100 h100">
                     <view  class="active__cart__container">
-<!---------------------------标题栏-->
+<!---------------------------作者栏-->
                       <view class="active__cart__container__title">
                         <view class="active__cart__container__title__container">
                           <view class="active__cart__container__title__container__img"><uni-icons type="contact" size="35"></uni-icons></view>
@@ -28,19 +28,21 @@
 
 <!--                    主体文本-->
                       <view class="active__cart__container__text w100 h100">
-                        <view class="active__cart__container__text__container w100 h100">
+                        <view class="active__cart__container__text__container  w100 h100">
                           <view class="active__cart__container__text__container__title">{{ item2.article_title }}</view>
                           <view class="active__cart__container__text__container__text"><view>{{item2.article_text}}</view></view>
 
 <!--                          封面-->
-                          <view class="active__cart__container__text__container__cover">
-                            <view class="active__cart__container__text__container__cover__img" v-if="item2.article_preview1_path" :style="item2.article_preview1_path?'background-image: url('+item2.article_preview1_path+')':'background-image: url('+defaultCoverImgPath+')'" style="margin-right: 1%;"></view>
+                          <view class="active__cart__container__text__container__cover" >
+                            <view class="active__cart__container__text__container__cover__img" v-if="item2.article_preview1_path"
+                                  :style="'background-image: url('+item2.article_preview1_path+');width: '+!item2.article_preview2_path?'100%':'49%'"
+                                  style="margin-right: 1%;"></view>
                             <view class="active__cart__container__text__container__cover__img" :style="'background-image: url('+item2.article_preview2_path+')'" v-if="item2.article_preview2_path"></view>
                           </view>
 
 <!--                          点赞 评论 观看数量-->
-                          <view class="active__cart__container__text__container__interactInfo">
-                            <view class="active__cart__container__text__container__interactInfo__container">
+                          <view class="active__cart__container__text__container__interactInfo" >
+                            <view class="active__cart__container__text__container__interactInfo__container" >
                               <view class="active__cart__container__text__container__interactInfo__container--watch">
                                 <uni-icons color='#999999' type="eye" size="18"></uni-icons>
                                 <text>{{item2.article_watch_num}}</text>

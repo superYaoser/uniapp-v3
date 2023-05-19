@@ -2741,7 +2741,7 @@ if (uni.restoreGlobal) {
       let clickNavIndex = vue.ref();
       uni.$on("home_article_follow_nav_change", function(e) {
         clickNavIndex.value = e.page;
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:120", clickNavIndex.value);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:122", clickNavIndex.value);
       });
       vue.onMounted(async () => {
         lateArticleList.value = await getDetailedArticleByJsonData({ "sort": 1, "page_number": 1, "articleContentMaxWord": 100, "select_title_num": 3 });
@@ -2750,7 +2750,7 @@ if (uni.restoreGlobal) {
         classifyList.value[0].articleList = lateArticleList.value;
         classifyList.value[1].articleList = recommendArticleList.value;
         classifyList.value[2].articleList = hotArticleList.value;
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:131", classifyList.value);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:133", classifyList.value);
       });
       let currentIndex = vue.ref();
       const swiperItemChange = (e) => {
@@ -2800,7 +2800,7 @@ if (uni.restoreGlobal) {
                             vue.createCommentVNode("                  文章卡片"),
                             vue.createElementVNode("view", { class: "active__cart w100 h100" }, [
                               vue.createElementVNode("view", { class: "active__cart__container" }, [
-                                vue.createCommentVNode("-------------------------标题栏"),
+                                vue.createCommentVNode("-------------------------作者栏"),
                                 vue.createElementVNode("view", { class: "active__cart__container__title" }, [
                                   vue.createElementVNode("view", { class: "active__cart__container__title__container" }, [
                                     vue.createElementVNode("view", { class: "active__cart__container__title__container__img" }, [
@@ -2862,7 +2862,7 @@ if (uni.restoreGlobal) {
                                         {
                                           key: 0,
                                           class: "active__cart__container__text__container__cover__img",
-                                          style: vue.normalizeStyle([item2.article_preview1_path ? "background-image: url(" + item2.article_preview1_path + ")" : "background-image: url(" + $setup.defaultCoverImgPath + ")", { "margin-right": "1%" }])
+                                          style: vue.normalizeStyle(["background-image: url(" + item2.article_preview1_path + ");width: " + !item2.article_preview2_path ? "100%" : "49%", { "margin-right": "1%" }])
                                         },
                                         null,
                                         4
