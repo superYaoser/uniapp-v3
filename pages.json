@@ -19,7 +19,16 @@
 				"titleNView": false
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/article/detail/ArticleDetailPage",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "文章详细页",
+				"titleNView": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",

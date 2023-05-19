@@ -51,7 +51,7 @@
 
 		},
 		methods: {
-
+			
 		}
 	}
 </script>

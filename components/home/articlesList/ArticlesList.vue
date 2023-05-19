@@ -4,22 +4,36 @@
       <swiper style='width: 100%;height: 100%' :autoplay="false" @change="swiperItemChange($event)" :current="clickNavIndex">
 
           <swiper-item v-for="(item1, index) in classifyList" :key="index">
-            <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: calc(100% - 5px`">
-              <view class="articleList__container__body w100 h100" style="padding-top: 2px;padding-bottom: 5px">
-                <view v-for="(item2, index) in item1.articleList" :key="index">
+            <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: 100%;`">
+              <view class="articleList__container__body w100" style="padding-top: 2px;padding-bottom: 5px">
+                <view v-for="(item2, index) in item1.articleList" :key="index" style="margin-bottom: 5px;">
 <!--                  文章卡片-->
                   <view class="active__cart w100 h100">
                     <view  class="active__cart__container">
 <!---------------------------作者栏-->
                       <view class="active__cart__container__title">
                         <view class="active__cart__container__title__container">
-                          <view class="active__cart__container__title__container__img"><uni-icons type="contact" size="35"></uni-icons></view>
+                          <view class="active__cart__container__title__container__img">
+                            <view class="active__cart__container__title__container__img--path" :style="item2.u_head ? 'background-image: url(' + item2.u_head + ')' : 'background-image: url(' + defaultHeadImgPath + ')'"></view>
+                          </view>
                           <view class="active__cart__container__title__container__text">
-                            <view style="font-size: 0.9375rem">{{ item2.u_name }}</view>
+                            <view>
+                            <view class="active__cart__container__title__container__text__basic">
+                              <view style="font-size: 0.9375rem;max-width: 80%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;display: inline-block">{{ item2.u_name }}</view>
+                              <view class="active__cart__container__title__container__text__basic--level">{{item2.u_sgrade}}</view>
+                            </view>
 
                             <view style="display:flex;align-items: center;flex-direction: row;font-size: 0.8125rem;color: #bcbcbc">
                               <view class="active__cart__container__title__container__text--time">{{ item2.article_create_time }}</view>
                               <view class="active__cart__container__title__container__text--className">{{ item2.class_name }}</view>
+                            </view>
+                            </view>
+
+                            <view class="active__cart__container__title__container__text__follow">
+                              <view style="width: 100%;height: 100%;">
+                                <view class="active__cart__container__title__container__text__follow--be" v-show="item2.concern_be===1">已关注</view>
+                                <view class="active__cart__container__title__container__text__follow--no" v-show="item2.concern_be===0||!item2.concern_be">+关注</view>
+                              </view>
                             </view>
 
                           </view>
@@ -83,7 +97,6 @@ import {onMounted, ref} from "vue";
 import {getCategoryList}from '@/static/api/category'
 import {getDetailedArticle} from "@/static/api/article";
 
-
 export default {
   setup(){
     /*****************全局配置*********************************/
@@ -91,6 +104,8 @@ export default {
     //默认文章封面
     let defaultCoverImgPath = 'https://pics4.baidu.com/feed/5882b2b7d0a20cf429edbfd4b3b56b3aadaf9980.jpeg@f_auto?token=b811138c15892653e907b9d2c913b343'
 
+    //默认头像地址
+    let defaultHeadImgPath = 'https://i0.hdslb.com/bfs/medialist/cover/1febf851a41a3b87b400c386771f60fa6d5d7271.jpg@320w_182h_1c.webp'
     /*****************全局配置 end *********************************/
 
     // 类别列表
@@ -144,7 +159,8 @@ export default {
       classifyList,
       swiperItemChange,
       defaultCoverImgPath,
-      clickNavIndex
+      clickNavIndex,
+      defaultHeadImgPath
     }
   },
 };
@@ -156,10 +172,10 @@ export default {
 }
 .active__cart{
   background: #FFFFFF;
-  margin-bottom: 5px;
 
   &__container {
     padding: 5px 3px 5px 5px;
+    //作者栏
     &__title {
       margin-bottom: 8px;
 
@@ -167,19 +183,89 @@ export default {
         display: flex;
         flex-direction: row;
         align-items: flex-start;
+        &__text{
+
+          &__basic{
+            display: flex;
+            align-items: center;
+            width: 200px;
+            &--level{
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              margin-left: 10px;
+              width: 15px;
+              height: 15px;
+              background: #ffdc00;
+              color: #FFFFFF;
+              font-size: 0.5625rem;
+              border-radius: 50%;
+              text-shadow: 0 0 5px #d1b259, 0 0 5px #d5ba3b;
+            }
+          }
+        }
         &__img {
 
-          width: 10%;
-          height: 10%;
+          width: 11%;
+          height: 35px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          &--path{
+            width: 27px;
+            height: 27px;
+            background-repeat: no-repeat;
+            border-radius: 50%;
+            /*把背景图扩展至足够大，直至完全覆盖背景区域，
+图片比例保持不变且不会失真，但某些部分被切割无法显示完整背景图像*/
+            background-size: cover;
+            position: relative;
+            cursor: pointer;
+          }
         }
 
         &__text {
           margin-left: 5px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 80%;
           &--time {
 margin-right: 5px;
           }
 
           &--className {
+
+
+          }
+          &__follow{
+            width: 45px;
+            height: 18px;
+            font-size: 0.8125rem;
+
+            &--be,&--no{
+              width: 100%;
+              height: 100%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 5px;
+            }
+            &--be{
+              border: 1px solid #bcbcbc;
+
+              color: #bcbcbc;
+
+            }
+
+            &--no{
+              border: 1px solid #46a7ff;
+
+              color: #46a7ff;
+
+
+
+            }
 
           }
         }

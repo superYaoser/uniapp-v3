@@ -566,7 +566,6 @@
 }
 .active__cart[data-v-fc82db5d] {
   background: #FFFFFF;
-  margin-bottom: 5px;
 }
 .active__cart__container[data-v-fc82db5d] {
   padding: 5px 3px 5px 5px;
@@ -579,15 +578,73 @@
   flex-direction: row;
   align-items: flex-start;
 }
+.active__cart__container__title__container__text__basic[data-v-fc82db5d] {
+  display: flex;
+  align-items: center;
+  width: 200px;
+}
+.active__cart__container__title__container__text__basic--level[data-v-fc82db5d] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  width: 15px;
+  height: 15px;
+  background: #ffdc00;
+  color: #FFFFFF;
+  font-size: 0.5625rem;
+  border-radius: 50%;
+  text-shadow: 0 0 5px #d1b259, 0 0 5px #d5ba3b;
+}
 .active__cart__container__title__container__img[data-v-fc82db5d] {
-  width: 10%;
-  height: 10%;
+  width: 11%;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.active__cart__container__title__container__img--path[data-v-fc82db5d] {
+  width: 27px;
+  height: 27px;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  /*把背景图扩展至足够大，直至完全覆盖背景区域，
+图片比例保持不变且不会失真，但某些部分被切割无法显示完整背景图像*/
+  background-size: cover;
+  position: relative;
+  cursor: pointer;
 }
 .active__cart__container__title__container__text[data-v-fc82db5d] {
   margin-left: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 80%;
 }
 .active__cart__container__title__container__text--time[data-v-fc82db5d] {
   margin-right: 5px;
+}
+.active__cart__container__title__container__text__follow[data-v-fc82db5d] {
+  width: 45px;
+  height: 18px;
+  font-size: 0.8125rem;
+}
+.active__cart__container__title__container__text__follow--be[data-v-fc82db5d],
+.active__cart__container__title__container__text__follow--no[data-v-fc82db5d] {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+}
+.active__cart__container__title__container__text__follow--be[data-v-fc82db5d] {
+  border: 1px solid #bcbcbc;
+  color: #bcbcbc;
+}
+.active__cart__container__title__container__text__follow--no[data-v-fc82db5d] {
+  border: 1px solid #46a7ff;
+  color: #46a7ff;
 }
 .active__cart__container__text[data-v-fc82db5d] {
   margin-top: 3px;
