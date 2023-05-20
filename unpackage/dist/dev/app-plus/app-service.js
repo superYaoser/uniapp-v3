@@ -1223,7 +1223,7 @@ if (uni.restoreGlobal) {
     const reg = /^[0-9]*$/g;
     return typeof val === "number" || reg.test(val) ? val + "px" : val;
   };
-  const _sfc_main$d = {
+  const _sfc_main$e = {
     name: "UniIcons",
     emits: ["click"],
     props: {
@@ -1267,7 +1267,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock(
       "text",
       {
@@ -1280,7 +1280,7 @@ if (uni.restoreGlobal) {
       /* CLASS, STYLE */
     );
   }
-  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c], ["__scopeId", "data-v-d31e1c47"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/uni_modules/uni-icons/components/uni-icons/uni-icons.vue"]]);
+  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$d], ["__scopeId", "data-v-d31e1c47"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/uni_modules/uni-icons/components/uni-icons/uni-icons.vue"]]);
   const baseUrl = "http://192.168.85.1:3000/api/";
   const defaultHeadImgPath = "https://i0.hdslb.com/bfs/medialist/cover/1febf851a41a3b87b400c386771f60fa6d5d7271.jpg@320w_182h_1c.webp";
   const enterWord = " ";
@@ -2370,7 +2370,7 @@ if (uni.restoreGlobal) {
     this._committing = committing;
   };
   Object.defineProperties(Store.prototype, prototypeAccessors);
-  const _sfc_main$c = {
+  const _sfc_main$d = {
     setup() {
       vue.onMounted(() => {
         const store2 = useStore();
@@ -2485,7 +2485,7 @@ if (uni.restoreGlobal) {
     // 	},
     // }
   };
-  function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0);
     return vue.openBlock(), vue.createElementBlock("view", { class: "login-content" }, [
       vue.createElementVNode("view", { class: "login-title" }, " 登录 "),
@@ -2572,8 +2572,8 @@ if (uni.restoreGlobal) {
       }, "登录")
     ]);
   }
-  const PagesLoginRegisterLoginRegister = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b], ["__scopeId", "data-v-ed6efab4"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/loginRegister/loginRegister.vue"]]);
-  const _sfc_main$b = {
+  const PagesLoginRegisterLoginRegister = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c], ["__scopeId", "data-v-ed6efab4"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/loginRegister/loginRegister.vue"]]);
+  const _sfc_main$c = {
     name: "TabBar",
     setup() {
       vue.onMounted(() => {
@@ -2623,7 +2623,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0);
     return vue.openBlock(), vue.createElementBlock("view", { id: "TabBar" }, [
       vue.createElementVNode("view", { class: "tabbar" }, [
@@ -2674,8 +2674,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const TabBar = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$a], ["__scopeId", "data-v-270561e4"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/common/TabBar.vue"]]);
-  const _sfc_main$a = {
+  const TabBar = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b], ["__scopeId", "data-v-270561e4"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/common/TabBar.vue"]]);
+  const _sfc_main$b = {
     name: "TopBar",
     setup() {
       let bgColor = vue.ref("#ffffff");
@@ -2687,7 +2687,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", null, [
       vue.createElementVNode(
         "view",
@@ -2704,7 +2704,7 @@ if (uni.restoreGlobal) {
       vue.createCommentVNode("    <view> 状态栏下的文字 </view>")
     ]);
   }
-  const TopBar = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$9], ["__scopeId", "data-v-35eb0c73"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/MainApp/TopBar.vue"]]);
+  const TopBar = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$a], ["__scopeId", "data-v-35eb0c73"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/MainApp/TopBar.vue"]]);
   function getCategoryList() {
     return request({
       url: "category/list"
@@ -2723,7 +2723,211 @@ if (uni.restoreGlobal) {
       data
     });
   }
+  const _sfc_main$a = {
+    name: "ArticleCard",
+    props: {
+      articleData: Object,
+      needFollowModel: Boolean
+    },
+    setup(props) {
+      const articleInfo = vue.reactive({
+        ...props.articleData
+      });
+      const needFollowModel = vue.ref(true);
+      needFollowModel.value = props.needFollowModel;
+      return {
+        articleInfo,
+        defaultHeadImgPath,
+        needFollowModel
+      };
+    }
+  };
+  function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0);
+    return vue.openBlock(), vue.createElementBlock("view", { class: "ArticleCard__container w100 h100" }, [
+      vue.createCommentVNode("        单个       文章卡片"),
+      vue.createElementVNode("view", { class: "active__cart w100 h100" }, [
+        vue.createElementVNode("view", { class: "active__cart__container" }, [
+          vue.createCommentVNode("-------------------------作者栏"),
+          vue.createElementVNode("view", { class: "active__cart__container__title" }, [
+            vue.createElementVNode("view", { class: "active__cart__container__title__container" }, [
+              vue.createElementVNode("view", { class: "active__cart__container__title__container__img" }, [
+                vue.createElementVNode(
+                  "view",
+                  {
+                    class: "active__cart__container__title__container__img--path",
+                    style: vue.normalizeStyle($setup.articleInfo.u_head ? "background-image: url(" + $setup.articleInfo.u_head + ")" : "background-image: url(" + $setup.defaultHeadImgPath + ")")
+                  },
+                  null,
+                  4
+                  /* STYLE */
+                )
+              ]),
+              vue.createElementVNode("view", { class: "active__cart__container__title__container__text" }, [
+                vue.createElementVNode("view", null, [
+                  vue.createElementVNode("view", { class: "active__cart__container__title__container__text__basic" }, [
+                    vue.createElementVNode(
+                      "view",
+                      { style: { "font-size": "0.9375rem", "max-width": "80%", "overflow": "hidden", "text-overflow": "ellipsis", "white-space": "nowrap", "display": "inline-block" } },
+                      vue.toDisplayString($setup.articleInfo.u_name),
+                      1
+                      /* TEXT */
+                    ),
+                    vue.createElementVNode(
+                      "view",
+                      { class: "active__cart__container__title__container__text__basic--level" },
+                      vue.toDisplayString($setup.articleInfo.u_sgrade),
+                      1
+                      /* TEXT */
+                    )
+                  ]),
+                  vue.createElementVNode("view", { style: { "display": "flex", "align-items": "center", "flex-direction": "row", "font-size": "0.8125rem", "color": "#bcbcbc" } }, [
+                    vue.createElementVNode(
+                      "view",
+                      { class: "active__cart__container__title__container__text--time" },
+                      vue.toDisplayString($setup.articleInfo.article_create_time),
+                      1
+                      /* TEXT */
+                    ),
+                    vue.createElementVNode(
+                      "view",
+                      { class: "active__cart__container__title__container__text--className" },
+                      vue.toDisplayString($setup.articleInfo.class_name),
+                      1
+                      /* TEXT */
+                    )
+                  ])
+                ]),
+                $setup.needFollowModel ? (vue.openBlock(), vue.createElementBlock("view", {
+                  key: 0,
+                  class: "active__cart__container__title__container__text__follow"
+                }, [
+                  vue.createElementVNode("view", { style: { "width": "100%", "height": "100%" } }, [
+                    vue.withDirectives(vue.createElementVNode(
+                      "view",
+                      { class: "active__cart__container__title__container__text__follow--be" },
+                      "已关注",
+                      512
+                      /* NEED_PATCH */
+                    ), [
+                      [vue.vShow, $setup.articleInfo.concern_be === 1]
+                    ]),
+                    vue.withDirectives(vue.createElementVNode(
+                      "view",
+                      { class: "active__cart__container__title__container__text__follow--no" },
+                      "+关注",
+                      512
+                      /* NEED_PATCH */
+                    ), [
+                      [vue.vShow, $setup.articleInfo.concern_be === 0 || !$setup.articleInfo.concern_be]
+                    ])
+                  ])
+                ])) : vue.createCommentVNode("v-if", true)
+              ])
+            ])
+          ]),
+          vue.createCommentVNode("                    主体文本"),
+          vue.createElementVNode("view", { class: "active__cart__container__text w100 h100" }, [
+            vue.createElementVNode("view", { class: "active__cart__container__text__container w100 h100" }, [
+              vue.createElementVNode(
+                "view",
+                { class: "active__cart__container__text__container__title" },
+                vue.toDisplayString($setup.articleInfo.article_title),
+                1
+                /* TEXT */
+              ),
+              vue.createElementVNode("view", { class: "active__cart__container__text__container__text" }, [
+                vue.createElementVNode(
+                  "view",
+                  null,
+                  vue.toDisplayString($setup.articleInfo.article_text),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              vue.createCommentVNode("                          封面"),
+              vue.createElementVNode("view", { class: "active__cart__container__text__container__cover" }, [
+                $setup.articleInfo.article_preview1_path ? (vue.openBlock(), vue.createElementBlock(
+                  "view",
+                  {
+                    key: 0,
+                    class: "active__cart__container__text__container__cover__img",
+                    style: vue.normalizeStyle("background-image: url(" + $setup.articleInfo.article_preview1_path + ");margin-right: 1%;width:" + (!$setup.articleInfo.article_preview2_path ? "98%" : "49%"))
+                  },
+                  null,
+                  4
+                  /* STYLE */
+                )) : vue.createCommentVNode("v-if", true),
+                $setup.articleInfo.article_preview2_path ? (vue.openBlock(), vue.createElementBlock(
+                  "view",
+                  {
+                    key: 1,
+                    class: "active__cart__container__text__container__cover__img",
+                    style: vue.normalizeStyle("background-image: url(" + $setup.articleInfo.article_preview2_path + ")")
+                  },
+                  null,
+                  4
+                  /* STYLE */
+                )) : vue.createCommentVNode("v-if", true)
+              ]),
+              vue.createCommentVNode("                          点赞 评论 观看数量"),
+              vue.createElementVNode("view", { class: "active__cart__container__text__container__interactInfo" }, [
+                vue.createElementVNode("view", { class: "active__cart__container__text__container__interactInfo__container" }, [
+                  vue.createElementVNode("view", { class: "active__cart__container__text__container__interactInfo__container--watch" }, [
+                    vue.createVNode(_component_uni_icons, {
+                      color: "#999999",
+                      type: "eye",
+                      size: "18"
+                    }),
+                    vue.createElementVNode(
+                      "text",
+                      null,
+                      vue.toDisplayString($setup.articleInfo.article_watch_num),
+                      1
+                      /* TEXT */
+                    )
+                  ]),
+                  vue.createElementVNode("view", { class: "active__cart__container__text__container__interactInfo__container--comment" }, [
+                    vue.createVNode(_component_uni_icons, {
+                      color: "#999999",
+                      type: "chatbubble",
+                      size: "18"
+                    }),
+                    vue.createElementVNode(
+                      "text",
+                      null,
+                      vue.toDisplayString($setup.articleInfo.article_comment_num),
+                      1
+                      /* TEXT */
+                    )
+                  ]),
+                  vue.createElementVNode("view", { class: "active__cart__container__text__container__interactInfo__container--hand" }, [
+                    vue.createVNode(_component_uni_icons, {
+                      color: "#999999",
+                      type: "hand-up",
+                      size: "18"
+                    }),
+                    vue.createElementVNode(
+                      "text",
+                      null,
+                      vue.toDisplayString($setup.articleInfo.article_hand_support_num),
+                      1
+                      /* TEXT */
+                    )
+                  ])
+                ])
+              ])
+            ])
+          ])
+        ])
+      ])
+    ]);
+  }
+  const ArticleCard = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$9], ["__scopeId", "data-v-9eefd57b"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/article/ArticleCard.vue"]]);
   const _sfc_main$9 = {
+    components: {
+      ArticleCard
+    },
     setup() {
       let defaultCoverImgPath = "https://pics4.baidu.com/feed/5882b2b7d0a20cf429edbfd4b3b56b3aadaf9980.jpeg@f_auto?token=b811138c15892653e907b9d2c913b343";
       let classifyList = vue.ref();
@@ -2743,7 +2947,7 @@ if (uni.restoreGlobal) {
       let clickNavIndex = vue.ref();
       uni.$on("home_article_follow_nav_change", function(e) {
         clickNavIndex.value = e.page;
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:136", clickNavIndex.value);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:67", clickNavIndex.value);
       });
       vue.onMounted(async () => {
         lateArticleList.value = await getDetailedArticleByJsonData({ "sort": 1, "page_number": 1, "articleContentMaxWord": 100, "select_title_num": 3 });
@@ -2752,27 +2956,34 @@ if (uni.restoreGlobal) {
         classifyList.value[0].articleList = lateArticleList.value;
         classifyList.value[1].articleList = recommendArticleList.value;
         classifyList.value[2].articleList = hotArticleList.value;
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:147", classifyList.value);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:78", classifyList.value);
       });
       let currentIndex = vue.ref();
       const swiperItemChange = (e) => {
         currentIndex.value = e.detail.current;
         uni.$emit("home_article_nav_change", { currentNavIndex: currentIndex.value });
       };
+      let loading = vue.ref(true);
+      vue.watch(() => classifyList.value, (newVal) => {
+        if (newVal.every((item) => item.articleList.length > 0)) {
+          loading.value = false;
+        }
+      }, { deep: true });
       return {
+        loading,
         classifyList,
         swiperItemChange,
         defaultCoverImgPath,
-        clickNavIndex,
-        defaultHeadImgPath
+        clickNavIndex
       };
     }
   };
   function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0);
+    const _component_ArticleCard = vue.resolveComponent("ArticleCard");
     return vue.openBlock(), vue.createElementBlock("view", { class: "w100 h100" }, [
       vue.createElementVNode("view", { class: "actives__container w100 h100" }, [
-        vue.createElementVNode("swiper", {
+        !$setup.loading ? (vue.openBlock(), vue.createElementBlock("swiper", {
+          key: 0,
           style: { "width": "100%", "height": "100%" },
           autoplay: false,
           onChange: _cache[0] || (_cache[0] = ($event) => $setup.swiperItemChange($event)),
@@ -2801,178 +3012,10 @@ if (uni.restoreGlobal) {
                           style: { "margin-bottom": "5px" }
                         }, [
                           vue.createCommentVNode("                  文章卡片"),
-                          vue.createElementVNode("view", { class: "active__cart w100 h100" }, [
-                            vue.createElementVNode("view", { class: "active__cart__container" }, [
-                              vue.createCommentVNode("-------------------------作者栏"),
-                              vue.createElementVNode("view", { class: "active__cart__container__title" }, [
-                                vue.createElementVNode("view", { class: "active__cart__container__title__container" }, [
-                                  vue.createElementVNode("view", { class: "active__cart__container__title__container__img" }, [
-                                    vue.createElementVNode(
-                                      "view",
-                                      {
-                                        class: "active__cart__container__title__container__img--path",
-                                        style: vue.normalizeStyle(item2.u_head ? "background-image: url(" + item2.u_head + ")" : "background-image: url(" + $setup.defaultHeadImgPath + ")")
-                                      },
-                                      null,
-                                      4
-                                      /* STYLE */
-                                    )
-                                  ]),
-                                  vue.createElementVNode("view", { class: "active__cart__container__title__container__text" }, [
-                                    vue.createElementVNode("view", null, [
-                                      vue.createElementVNode("view", { class: "active__cart__container__title__container__text__basic" }, [
-                                        vue.createElementVNode(
-                                          "view",
-                                          { style: { "font-size": "0.9375rem", "max-width": "80%", "overflow": "hidden", "text-overflow": "ellipsis", "white-space": "nowrap", "display": "inline-block" } },
-                                          vue.toDisplayString(item2.u_name),
-                                          1
-                                          /* TEXT */
-                                        ),
-                                        vue.createElementVNode(
-                                          "view",
-                                          { class: "active__cart__container__title__container__text__basic--level" },
-                                          vue.toDisplayString(item2.u_sgrade),
-                                          1
-                                          /* TEXT */
-                                        )
-                                      ]),
-                                      vue.createElementVNode("view", { style: { "display": "flex", "align-items": "center", "flex-direction": "row", "font-size": "0.8125rem", "color": "#bcbcbc" } }, [
-                                        vue.createElementVNode(
-                                          "view",
-                                          { class: "active__cart__container__title__container__text--time" },
-                                          vue.toDisplayString(item2.article_create_time),
-                                          1
-                                          /* TEXT */
-                                        ),
-                                        vue.createElementVNode(
-                                          "view",
-                                          { class: "active__cart__container__title__container__text--className" },
-                                          vue.toDisplayString(item2.class_name),
-                                          1
-                                          /* TEXT */
-                                        )
-                                      ])
-                                    ]),
-                                    vue.createElementVNode("view", { class: "active__cart__container__title__container__text__follow" }, [
-                                      vue.createElementVNode("view", { style: { "width": "100%", "height": "100%" } }, [
-                                        vue.withDirectives(vue.createElementVNode(
-                                          "view",
-                                          { class: "active__cart__container__title__container__text__follow--be" },
-                                          "已关注",
-                                          512
-                                          /* NEED_PATCH */
-                                        ), [
-                                          [vue.vShow, item2.concern_be === 1]
-                                        ]),
-                                        vue.withDirectives(vue.createElementVNode(
-                                          "view",
-                                          { class: "active__cart__container__title__container__text__follow--no" },
-                                          "+关注",
-                                          512
-                                          /* NEED_PATCH */
-                                        ), [
-                                          [vue.vShow, item2.concern_be === 0 || !item2.concern_be]
-                                        ])
-                                      ])
-                                    ])
-                                  ])
-                                ])
-                              ]),
-                              vue.createCommentVNode("                    主体文本"),
-                              vue.createElementVNode("view", { class: "active__cart__container__text w100 h100" }, [
-                                vue.createElementVNode("view", { class: "active__cart__container__text__container w100 h100" }, [
-                                  vue.createElementVNode(
-                                    "view",
-                                    { class: "active__cart__container__text__container__title" },
-                                    vue.toDisplayString(item2.article_title),
-                                    1
-                                    /* TEXT */
-                                  ),
-                                  vue.createElementVNode("view", { class: "active__cart__container__text__container__text" }, [
-                                    vue.createElementVNode(
-                                      "view",
-                                      null,
-                                      vue.toDisplayString(item2.article_text),
-                                      1
-                                      /* TEXT */
-                                    )
-                                  ]),
-                                  vue.createCommentVNode("                          封面"),
-                                  vue.createElementVNode("view", { class: "active__cart__container__text__container__cover" }, [
-                                    item2.article_preview1_path ? (vue.openBlock(), vue.createElementBlock(
-                                      "view",
-                                      {
-                                        key: 0,
-                                        class: "active__cart__container__text__container__cover__img",
-                                        style: vue.normalizeStyle("background-image: url(" + item2.article_preview1_path + ");margin-right: 1%;width:" + (!item2.article_preview2_path ? "98%" : "49%"))
-                                      },
-                                      null,
-                                      4
-                                      /* STYLE */
-                                    )) : vue.createCommentVNode("v-if", true),
-                                    item2.article_preview2_path ? (vue.openBlock(), vue.createElementBlock(
-                                      "view",
-                                      {
-                                        key: 1,
-                                        class: "active__cart__container__text__container__cover__img",
-                                        style: vue.normalizeStyle("background-image: url(" + item2.article_preview2_path + ")")
-                                      },
-                                      null,
-                                      4
-                                      /* STYLE */
-                                    )) : vue.createCommentVNode("v-if", true)
-                                  ]),
-                                  vue.createCommentVNode("                          点赞 评论 观看数量"),
-                                  vue.createElementVNode("view", { class: "active__cart__container__text__container__interactInfo" }, [
-                                    vue.createElementVNode("view", { class: "active__cart__container__text__container__interactInfo__container" }, [
-                                      vue.createElementVNode("view", { class: "active__cart__container__text__container__interactInfo__container--watch" }, [
-                                        vue.createVNode(_component_uni_icons, {
-                                          color: "#999999",
-                                          type: "eye",
-                                          size: "18"
-                                        }),
-                                        vue.createElementVNode(
-                                          "text",
-                                          null,
-                                          vue.toDisplayString(item2.article_watch_num),
-                                          1
-                                          /* TEXT */
-                                        )
-                                      ]),
-                                      vue.createElementVNode("view", { class: "active__cart__container__text__container__interactInfo__container--comment" }, [
-                                        vue.createVNode(_component_uni_icons, {
-                                          color: "#999999",
-                                          type: "chatbubble",
-                                          size: "18"
-                                        }),
-                                        vue.createElementVNode(
-                                          "text",
-                                          null,
-                                          vue.toDisplayString(item2.article_comment_num),
-                                          1
-                                          /* TEXT */
-                                        )
-                                      ]),
-                                      vue.createElementVNode("view", { class: "active__cart__container__text__container__interactInfo__container--hand" }, [
-                                        vue.createVNode(_component_uni_icons, {
-                                          color: "#999999",
-                                          type: "hand-up",
-                                          size: "18"
-                                        }),
-                                        vue.createElementVNode(
-                                          "text",
-                                          null,
-                                          vue.toDisplayString(item2.article_hand_support_num),
-                                          1
-                                          /* TEXT */
-                                        )
-                                      ])
-                                    ])
-                                  ])
-                                ])
-                              ])
-                            ])
-                          ])
+                          vue.createVNode(_component_ArticleCard, {
+                            "article-data": item2,
+                            "need-follow-model": true
+                          }, null, 8, ["article-data"])
                         ]);
                       }),
                       128
@@ -2985,7 +3028,7 @@ if (uni.restoreGlobal) {
             128
             /* KEYED_FRAGMENT */
           ))
-        ], 40, ["current"])
+        ], 40, ["current"])) : vue.createCommentVNode("v-if", true)
       ])
     ]);
   }
