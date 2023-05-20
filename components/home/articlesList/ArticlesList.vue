@@ -48,9 +48,9 @@
 
 <!--                          封面-->
                           <view class="active__cart__container__text__container__cover" >
-                            <view class="active__cart__container__text__container__cover__img" v-if="item2.article_preview1_path"
-                                  :style="'background-image: url('+item2.article_preview1_path+');width: '+!item2.article_preview2_path?'100%':'49%'"
-                                  style="margin-right: 1%;"></view>
+                            <view class="active__cart__container__text__container__cover__img"
+                                  v-if="item2.article_preview1_path"
+                                  :style="'background-image: url('+ item2.article_preview1_path +');margin-right: 1%;width:' + (!item2.article_preview2_path ? '98%' : '49%')"></view>
                             <view class="active__cart__container__text__container__cover__img" :style="'background-image: url('+item2.article_preview2_path+')'" v-if="item2.article_preview2_path"></view>
                           </view>
 
@@ -96,6 +96,7 @@
 import {onMounted, ref} from "vue";
 import {getCategoryList}from '@/static/api/category'
 import {getDetailedArticle} from "@/static/api/article";
+import {defaultHeadImgPath} from '@/static/utils/globalConifg'
 
 export default {
   setup(){
@@ -104,8 +105,6 @@ export default {
     //默认文章封面
     let defaultCoverImgPath = 'https://pics4.baidu.com/feed/5882b2b7d0a20cf429edbfd4b3b56b3aadaf9980.jpeg@f_auto?token=b811138c15892653e907b9d2c913b343'
 
-    //默认头像地址
-    let defaultHeadImgPath = 'https://i0.hdslb.com/bfs/medialist/cover/1febf851a41a3b87b400c386771f60fa6d5d7271.jpg@320w_182h_1c.webp'
     /*****************全局配置 end *********************************/
 
     // 类别列表
@@ -288,12 +287,14 @@ margin-right: 5px;
 font-size: 0.9375rem;
         }
 
+        //封面
         &__cover {
+          margin: 5px 0;
 display: flex;
           overflow: hidden;
           &__img {
             width: 49%;
-            height: 150px;
+            height: 160px;
             background-repeat: no-repeat;
             border-radius: 8px;
             /*把背景图扩展至足够大，直至完全覆盖背景区域，

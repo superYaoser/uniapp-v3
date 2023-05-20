@@ -4,10 +4,10 @@
     <view class="publish">
       <view class="publish__header">
         <view class="publish__header__icon--back">
-          <uni-icons type="back" size="20" @click="useUniEmitTabBarVisibilityUpdate(true)"></uni-icons>
+          <uni-icons type="back" size="20" @tap="useUniEmitTabBarVisibilityUpdate(true)"></uni-icons>
         </view>
         <view class="publish__header__button">
-          <view class="publish__header__button--publish" @click="pushIt($event)">
+          <view class="publish__header__button--publish" @tap="pushIt($event)">
             发布
           </view>
         </view>
@@ -38,17 +38,17 @@
         </view>
         <view class="style__follow displayF displayJCSB border1S-surround">
           <view class="editorStyle">
-            <view class="item" @click="addTitle">
+            <view class="item" @tap="addTitle">
               <text class="iconfont icon-zitibiaoti"></text>
             </view>
-            <view class="item" @click="addUnderline">
+            <view class="item" @tap="addUnderline">
               <text class="iconfont icon-zitixiahuaxian"
                     :style="titleUnderline?'color:#0199fe;':'color:#333333;'"></text>
             </view>
-            <view class="item" @click="addBold">
+            <view class="item" @tap="addBold">
               <text class="iconfont icon-zitijiacu" :style="titleBold?'color:#0199fe;':'color:#333333;'"></text>
             </view>
-            <view class="item" @click="addImage">
+            <view class="item" @tap="addImage">
               <text class="iconfont icon-shangchuantupian"></text>
             </view>
           </view>
@@ -72,23 +72,17 @@
 
 <script>
 import {onMounted, ref} from "vue";
-import {baseUrl} from '@/static/api/root/set'
+import {baseUrl} from '@/static/utils/globalConifg'
 import {getCategoryList} from '@/static/api/category'
 import {pushNewArticle} from '@/static/api/article'
 import TopBar from "@/components/MainApp/TopBar";
+import {enterWord} from "@/static/utils/globalConifg";
 
 export default {
   components: {
     TopBar
   },
   setup() {
-    /*************组件全局设置*****************************************/
-
-    //编辑器text属性中回车 替换的标签
-    const enterWord = ' ';
-
-
-    /*************组件全局设置 end *****************************************/
 
     //组件挂载完成后执行的函数
     onMounted(() => {

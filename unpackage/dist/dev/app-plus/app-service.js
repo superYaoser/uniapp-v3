@@ -1281,7 +1281,9 @@ if (uni.restoreGlobal) {
     );
   }
   const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c], ["__scopeId", "data-v-d31e1c47"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/uni_modules/uni-icons/components/uni-icons/uni-icons.vue"]]);
-  const baseUrl = "http://172.16.41.142:3000/api/";
+  const baseUrl = "http://192.168.85.1:3000/api/";
+  const defaultHeadImgPath = "https://i0.hdslb.com/bfs/medialist/cover/1febf851a41a3b87b400c386771f60fa6d5d7271.jpg@320w_182h_1c.webp";
+  const enterWord = " ";
   const request = (req = "") => {
     formatAppLog("log", "at static/api/root/request.js:3", baseUrl);
     formatAppLog("log", "at static/api/root/request.js:4", req);
@@ -2724,7 +2726,6 @@ if (uni.restoreGlobal) {
   const _sfc_main$9 = {
     setup() {
       let defaultCoverImgPath = "https://pics4.baidu.com/feed/5882b2b7d0a20cf429edbfd4b3b56b3aadaf9980.jpeg@f_auto?token=b811138c15892653e907b9d2c913b343";
-      let defaultHeadImgPath = "https://i0.hdslb.com/bfs/medialist/cover/1febf851a41a3b87b400c386771f60fa6d5d7271.jpg@320w_182h_1c.webp";
       let classifyList = vue.ref();
       classifyList.value = [
         { categoryID: "1yao", classifyTitle: "最新", classifyContent: "类别描述", currentPage: 1, articleList: [{}] },
@@ -2742,7 +2743,7 @@ if (uni.restoreGlobal) {
       let clickNavIndex = vue.ref();
       uni.$on("home_article_follow_nav_change", function(e) {
         clickNavIndex.value = e.page;
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:137", clickNavIndex.value);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:136", clickNavIndex.value);
       });
       vue.onMounted(async () => {
         lateArticleList.value = await getDetailedArticleByJsonData({ "sort": 1, "page_number": 1, "articleContentMaxWord": 100, "select_title_num": 3 });
@@ -2751,7 +2752,7 @@ if (uni.restoreGlobal) {
         classifyList.value[0].articleList = lateArticleList.value;
         classifyList.value[1].articleList = recommendArticleList.value;
         classifyList.value[2].articleList = hotArticleList.value;
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:148", classifyList.value);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:147", classifyList.value);
       });
       let currentIndex = vue.ref();
       const swiperItemChange = (e) => {
@@ -2903,7 +2904,7 @@ if (uni.restoreGlobal) {
                                       {
                                         key: 0,
                                         class: "active__cart__container__text__container__cover__img",
-                                        style: vue.normalizeStyle(["background-image: url(" + item2.article_preview1_path + ");width: " + !item2.article_preview2_path ? "100%" : "49%", { "margin-right": "1%" }])
+                                        style: vue.normalizeStyle("background-image: url(" + item2.article_preview1_path + ");margin-right: 1%;width:" + (!item2.article_preview2_path ? "98%" : "49%"))
                                       },
                                       null,
                                       4
@@ -6185,9 +6186,8 @@ if (uni.restoreGlobal) {
       TopBar
     },
     setup() {
-      const enterWord = " ";
       vue.onMounted(() => {
-        formatAppLog("log", "at pages/publish/Publish.vue:95", "publish挂载完毕");
+        formatAppLog("log", "at pages/publish/Publish.vue:89", "publish挂载完毕");
         getCategoryList().then((res) => {
           if (res.code == 200) {
             let tempList = res.data;
@@ -6195,7 +6195,7 @@ if (uni.restoreGlobal) {
               value: item.class_id,
               text: item.class_name
             }));
-            formatAppLog("log", "at pages/publish/Publish.vue:104", categoryList.value);
+            formatAppLog("log", "at pages/publish/Publish.vue:98", categoryList.value);
           }
         });
       });
@@ -6212,7 +6212,7 @@ if (uni.restoreGlobal) {
         uni.createSelectorQuery().in(this).select(".myEditor").fields({
           context: true
         }, (res) => {
-          formatAppLog("log", "at pages/publish/Publish.vue:128", res);
+          formatAppLog("log", "at pages/publish/Publish.vue:122", res);
           editorCtx.value = res.context;
         }).exec();
       };
@@ -6236,7 +6236,7 @@ if (uni.restoreGlobal) {
           sizeType: ["original", "compressed"],
           count: 1,
           success(res) {
-            formatAppLog("log", "at pages/publish/Publish.vue:162", res.tempFilePaths[0]);
+            formatAppLog("log", "at pages/publish/Publish.vue:156", res.tempFilePaths[0]);
             uni.uploadFile({
               url: baseUrl + "upload/image",
               //域名+上传文件的请求接口 (根据你实际的接口来)
@@ -6250,7 +6250,7 @@ if (uni.restoreGlobal) {
               },
               success(res2) {
                 let data = JSON.parse(res2.data);
-                formatAppLog("log", "at pages/publish/Publish.vue:173", data);
+                formatAppLog("log", "at pages/publish/Publish.vue:167", data);
                 editorCtx.value.insertImage({
                   width: "100%",
                   //设置宽度为100%防止宽度溢出手机屏幕
@@ -6259,10 +6259,10 @@ if (uni.restoreGlobal) {
                   //服务端返回的url
                   alt: "图像",
                   success: function() {
-                    formatAppLog("log", "at pages/publish/Publish.vue:180", "insert image success");
+                    formatAppLog("log", "at pages/publish/Publish.vue:174", "insert image success");
                   }
                 });
-                formatAppLog("log", "at pages/publish/Publish.vue:183", editorCtx.value);
+                formatAppLog("log", "at pages/publish/Publish.vue:177", editorCtx.value);
               }
             });
           }
@@ -6272,7 +6272,7 @@ if (uni.restoreGlobal) {
         editorCtx.value.getContents({
           success: function(data) {
             data.text = data.text.replace(/[\r\n]+/g, enterWord);
-            formatAppLog("log", "at pages/publish/Publish.vue:196", data.text);
+            formatAppLog("log", "at pages/publish/Publish.vue:190", data.text);
             let articleDataJson = {
               "title": titleValue.value,
               "text": data.text,
@@ -6280,25 +6280,25 @@ if (uni.restoreGlobal) {
               "category": categoryID.value
             };
             pushNewArticle(articleDataJson).then((res) => {
-              formatAppLog("log", "at pages/publish/Publish.vue:204", res);
+              formatAppLog("log", "at pages/publish/Publish.vue:198", res);
               if (res.code == 200) {
-                formatAppLog("log", "at pages/publish/Publish.vue:206", "文章发布成功");
+                formatAppLog("log", "at pages/publish/Publish.vue:200", "文章发布成功");
               } else {
-                formatAppLog("log", "at pages/publish/Publish.vue:208", "文章发布失败");
+                formatAppLog("log", "at pages/publish/Publish.vue:202", "文章发布失败");
               }
             }).catch((err) => {
-              formatAppLog("log", "at pages/publish/Publish.vue:211", "文章上传发生异常" + err);
+              formatAppLog("log", "at pages/publish/Publish.vue:205", "文章上传发生异常" + err);
             });
           },
           fail: function(err) {
-            formatAppLog("log", "at pages/publish/Publish.vue:216", err);
+            formatAppLog("log", "at pages/publish/Publish.vue:210", err);
           }
         });
       };
       let categoryID = vue.ref("1");
       let categoryList = vue.ref();
       const categoryChange = (e) => {
-        formatAppLog("log", "at pages/publish/Publish.vue:225", "类别发生了改变");
+        formatAppLog("log", "at pages/publish/Publish.vue:219", "类别发生了改变");
       };
       let titleValue = vue.ref();
       return {

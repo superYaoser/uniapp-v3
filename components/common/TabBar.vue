@@ -3,25 +3,25 @@
     <view class="tabbar">
       <view>
         <uni-icons type="home" size="30" :color="currentR ==='Home'?activityIconsColor:staticIconsColor"
-                   @click="goHome('Home')"></uni-icons>
+                   @tap="goHome('Home')"></uni-icons>
         <text>首页</text>
       </view>
       <view>
         <uni-icons type="pyq" size="30" :color="currentR ==='Dynamic'?activityIconsColor:staticIconsColor"
-                   @click="goDynamic('Dynamic')"></uni-icons>
+                   @tap="goDynamic('Dynamic')"></uni-icons>
         <text>动态</text>
       </view>
       <view>
-        <uni-icons type="plus-filled" size="45" color="#13dbf9" @click="goPublish('Publish')"></uni-icons>
+        <uni-icons type="plus-filled" size="45" color="#13dbf9" @tap="goPublish('Publish')"></uni-icons>
       </view>
       <view>
         <uni-icons type="chat" size="30" :color="currentR ==='Message'?activityIconsColor:staticIconsColor"
-                   @click="goMessage('Message')"></uni-icons>
+                   @tap="goMessage('Message')"></uni-icons>
         <text>消息</text>
       </view>
       <view>
         <uni-icons type="person" size="30" :color="currentR ==='Mine'?activityIconsColor:staticIconsColor"
-                   @click="goMine('Mine')"></uni-icons>
+                   @tap="goMine('Mine')"></uni-icons>
         <text>我的</text>
       </view>
     </view>

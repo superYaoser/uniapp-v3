@@ -1,4 +1,4 @@
-import {baseUrl} from './set'
+import {baseUrl} from '@/static/utils/globalConifg'
 const request = (req = '') => {
 	console.log(baseUrl)
     console.log(req)

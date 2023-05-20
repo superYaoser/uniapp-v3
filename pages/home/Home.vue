@@ -12,9 +12,9 @@
 <!--          导航-->
           <view class="header__nav">
             <view class="header__nav__container">
-              <view class="header__nav__container--late" @click="changeCurrentNavPage(0)" :style="articleNavIndex===0?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">最新</view>
-              <view class="header__nav__container--recommend"  @click="changeCurrentNavPage(1)" :style="articleNavIndex===1?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">推荐</view>
-              <view class="header__nav__container--hot"  @click="changeCurrentNavPage(2)" :style="articleNavIndex===2?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">热门</view>
+              <view class="header__nav__container--late" @tap="changeCurrentNavPage(0)" :style="articleNavIndex===0?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">最新</view>
+              <view class="header__nav__container--recommend"  @tap="changeCurrentNavPage(1)" :style="articleNavIndex===1?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">推荐</view>
+              <view class="header__nav__container--hot"  @tap="changeCurrentNavPage(2)" :style="articleNavIndex===2?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">热门</view>
             </view>
           </view>
         </view>
