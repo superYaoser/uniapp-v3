@@ -102,7 +102,6 @@ export default {
     //接收文章卡片传递过来的数据变化
     const handleItemUpdate=(index, newValue)=>{
       console.log('文章卡转递了新值')
-      console.log(newValue)
       updateClassifyList(newValue)
       uni.$emit('home_articleList_change', {data: classifyList.value})
     }

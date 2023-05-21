@@ -22,7 +22,7 @@
               </view>
             </view>
 
-            <view class="active__cart__container__title__container__text__follow" v-if="needFollowModel" @tap.stop="tapFollowCard(articleInfo)">
+            <view class="active__cart__container__title__container__text__follow" v-if="needFollowModel" v-show="isSelf!=articleInfo.article_user_id" @tap.stop="tapFollowCard(articleInfo)">
               <view style="width: 100%;height: 100%;">
                 <view class="active__cart__container__title__container__text__follow--be" v-show="articleInfo.concern_be===1">已关注</view>
                 <view class="active__cart__container__title__container__text__follow--no" v-show="articleInfo.concern_be===0||!articleInfo.concern_be">+关注</view>
@@ -79,6 +79,7 @@
 import {onMounted, reactive, ref, watch, watchEffect} from "vue";
 import {defaultHeadImgPath} from '@/static/utils/globalConifg'
 import {setUserAddConcern,setUserRemoveConcern} from '@/static/api/users'
+import {useStore} from 'vuex';
 
 export default {
   name: "ArticleCard",
@@ -94,9 +95,13 @@ export default {
       ...props.articleData
     });
 
+    //查看是不是自己
+    const store = useStore()
+    let isSelf = store.getters.getUser
+    isSelf = isSelf.u_id
+
     //用于接收父组件数据后查找本篇文章 替换-----------------------
     function getArticleById(classifyList, article_id,article_user_id) {
-      console.log(classifyList)
       classifyList.forEach((item) => {
         item.articleList.forEach((article, index) => {
           if (article.article_id === article_id && article.article_user_id === article_user_id) {
@@ -106,7 +111,6 @@ export default {
       });
     }
     uni.$on('home_articleList_change',function(e){
-      console.log('监听到父组件 主页 数据改变：')
       getArticleById(e.data,articleInfo.value.article_id,articleInfo.value.article_user_id)
     })
     //用于接收父组件数据后查找本篇文章- 替换---end-------------------
@@ -115,6 +119,7 @@ export default {
     const sendNewData=(data)=>{
       emit('update:item', data)
     }
+
 
     onMounted(()=>{
 
@@ -161,7 +166,7 @@ export default {
     }
     return{
       articleInfo,defaultHeadImgPath,needFollowModel,
-      tapArticleCard,tapAuthorCard,tapFollowCard,tapHandCard
+      tapArticleCard,tapAuthorCard,tapFollowCard,tapHandCard,isSelf
     }
   }
 }
