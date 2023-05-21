@@ -22,7 +22,7 @@
               </view>
             </view>
 
-            <view class="active__cart__container__title__container__text__follow" v-if="needFollowModel" @tap.stop="tapFollowCard()">
+            <view class="active__cart__container__title__container__text__follow" v-if="needFollowModel" @tap.stop="tapFollowCard(articleInfo)">
               <view style="width: 100%;height: 100%;">
                 <view class="active__cart__container__title__container__text__follow--be" v-show="articleInfo.concern_be===1">已关注</view>
                 <view class="active__cart__container__title__container__text__follow--no" v-show="articleInfo.concern_be===0||!articleInfo.concern_be">+关注</view>
@@ -78,6 +78,7 @@
 <script>
 import {onMounted, reactive, ref, watch, watchEffect} from "vue";
 import {defaultHeadImgPath} from '@/static/utils/globalConifg'
+import {setUserAddConcern,setUserRemoveConcern} from '@/static/api/users'
 
 export default {
   name: "ArticleCard",
@@ -85,14 +86,39 @@ export default {
     articleData: Object,
     needFollowModel:Boolean,
   },
+  emits: ['update:item'],
 
-  setup(props){
-    onMounted(()=>{
-    })
+  setup(props,{ emit }){
     //记录文章的信息
-    const articleInfo = reactive({
+    let articleInfo = ref({
       ...props.articleData
     });
+
+    //用于接收父组件数据后查找本篇文章 替换-----------------------
+    function getArticleById(classifyList, article_id,article_user_id) {
+      console.log(classifyList)
+      classifyList.forEach((item) => {
+        item.articleList.forEach((article, index) => {
+          if (article.article_id === article_id && article.article_user_id === article_user_id) {
+           articleInfo.value =article
+          }
+        });
+      });
+    }
+    uni.$on('home_articleList_change',function(e){
+      console.log('监听到父组件 主页 数据改变：')
+      getArticleById(e.data,articleInfo.value.article_id,articleInfo.value.article_user_id)
+    })
+    //用于接收父组件数据后查找本篇文章- 替换---end-------------------
+
+    // 用于向父组件发送最新的数据
+    const sendNewData=(data)=>{
+      emit('update:item', data)
+    }
+
+    onMounted(()=>{
+
+    })
     //是不是需要关注模型
     const needFollowModel=ref(true)
     needFollowModel.value = props.needFollowModel
@@ -107,6 +133,26 @@ export default {
     }
     //点击关注
     const tapFollowCard=(data)=>{
+      if (data.concern_be===0){
+        setUserAddConcern({"u_id":data.article_user_id}).then(res=>{
+          console.log(res)
+          if (res.code===200){
+            articleInfo.value.concern_be=1
+            sendNewData(data)
+          }else {
+          //  关注失败
+          }
+        })
+      }else {
+        setUserRemoveConcern({"u_id":data.article_user_id}).then(res=>{
+          if (res.code===200){
+            articleInfo.value.concern_be=0
+            sendNewData(data)
+          }else {
+            //  取消关注失败
+          }
+        })
+      }
       console.log('点击了关注')
     }
     //点击点赞

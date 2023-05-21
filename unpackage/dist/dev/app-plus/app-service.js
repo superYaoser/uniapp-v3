@@ -1313,6 +1313,20 @@ if (uni.restoreGlobal) {
       data
     });
   }
+  function setUserAddConcern(data) {
+    return request({
+      url: "user/concern/add",
+      method: "POST",
+      data
+    });
+  }
+  function setUserRemoveConcern(data) {
+    return request({
+      url: "user/concern/remove",
+      method: "POST",
+      data
+    });
+  }
   function getDevtoolsGlobalHook() {
     return getTarget().__VUE_DEVTOOLS_GLOBAL_HOOK__;
   }
@@ -2717,6 +2731,7 @@ if (uni.restoreGlobal) {
       data
     });
   }
+  /*!!!!!!!!!!这个接口的返回值千万不能变，一旦变了前端就炸了*/
   function getDetailedArticle(data) {
     return request({
       url: "article/filterArticleDel-filterUserDel-filterAcross-filterCategoryDel-detailed-pages-create",
@@ -2729,25 +2744,59 @@ if (uni.restoreGlobal) {
       articleData: Object,
       needFollowModel: Boolean
     },
-    setup(props) {
-      vue.onMounted(() => {
-      });
-      const articleInfo = vue.reactive({
+    emits: ["update:item"],
+    setup(props, { emit }) {
+      let articleInfo = vue.ref({
         ...props.articleData
+      });
+      function getArticleById(classifyList, article_id, article_user_id) {
+        formatAppLog("log", "at components/article/ArticleCard.vue:99", classifyList);
+        classifyList.forEach((item) => {
+          item.articleList.forEach((article, index) => {
+            if (article.article_id === article_id && article.article_user_id === article_user_id) {
+              articleInfo.value = article;
+            }
+          });
+        });
+      }
+      uni.$on("home_articleList_change", function(e) {
+        formatAppLog("log", "at components/article/ArticleCard.vue:109", "监听到父组件 主页 数据改变：");
+        getArticleById(e.data, articleInfo.value.article_id, articleInfo.value.article_user_id);
+      });
+      const sendNewData = (data) => {
+        emit("update:item", data);
+      };
+      vue.onMounted(() => {
       });
       const needFollowModel = vue.ref(true);
       needFollowModel.value = props.needFollowModel;
       const tapArticleCard = (data) => {
-        formatAppLog("log", "at components/article/ArticleCard.vue:102", "点击了文章卡");
+        formatAppLog("log", "at components/article/ArticleCard.vue:128", "点击了文章卡");
       };
       const tapAuthorCard = (data) => {
-        formatAppLog("log", "at components/article/ArticleCard.vue:106", "点击了作者栏");
+        formatAppLog("log", "at components/article/ArticleCard.vue:132", "点击了作者栏");
       };
       const tapFollowCard = (data) => {
-        formatAppLog("log", "at components/article/ArticleCard.vue:110", "点击了关注");
+        if (data.concern_be === 0) {
+          setUserAddConcern({ "u_id": data.article_user_id }).then((res) => {
+            formatAppLog("log", "at components/article/ArticleCard.vue:138", res);
+            if (res.code === 200) {
+              articleInfo.value.concern_be = 1;
+              sendNewData(data);
+            }
+          });
+        } else {
+          setUserRemoveConcern({ "u_id": data.article_user_id }).then((res) => {
+            if (res.code === 200) {
+              articleInfo.value.concern_be = 0;
+              sendNewData(data);
+            }
+          });
+        }
+        formatAppLog("log", "at components/article/ArticleCard.vue:156", "点击了关注");
       };
       const tapHandCard = (data) => {
-        formatAppLog("log", "at components/article/ArticleCard.vue:114", "点击了点赞");
+        formatAppLog("log", "at components/article/ArticleCard.vue:160", "点击了点赞");
       };
       return {
         articleInfo,
@@ -2825,7 +2874,7 @@ if (uni.restoreGlobal) {
                 $setup.needFollowModel ? (vue.openBlock(), vue.createElementBlock("view", {
                   key: 0,
                   class: "active__cart__container__title__container__text__follow",
-                  onClick: _cache[0] || (_cache[0] = vue.withModifiers(($event) => $setup.tapFollowCard(), ["stop"]))
+                  onClick: _cache[0] || (_cache[0] = vue.withModifiers(($event) => $setup.tapFollowCard($setup.articleInfo), ["stop"]))
                 }, [
                   vue.createElementVNode("view", { style: { "width": "100%", "height": "100%" } }, [
                     vue.withDirectives(vue.createElementVNode(
@@ -2999,12 +3048,31 @@ if (uni.restoreGlobal) {
           scrollViewLoading.value = false;
         }
       }, { deep: true });
+      const handleItemUpdate = (index, newValue) => {
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:104", "文章卡转递了新值");
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:105", newValue);
+        updateClassifyList(newValue);
+        uni.$emit("home_articleList_change", { data: classifyList.value });
+      };
+      function updateClassifyList(newValue) {
+        classifyList.value.forEach((item) => {
+          item.articleList.forEach((article, index) => {
+            if (article.article_id === newValue.article_id && article.article_user_id === newValue.article_user_id) {
+              item.articleList.splice(index, 1, newValue);
+            }
+            if (article.article_user_id === newValue.article_user_id) {
+              item.articleList[index].concern_be = newValue.concern_be;
+            }
+          });
+        });
+      }
       return {
         scrollViewLoading,
         classifyList,
         swiperItemChange,
         defaultCoverImgPath,
-        clickNavIndex
+        clickNavIndex,
+        handleItemUpdate
       };
     }
   };
@@ -3044,8 +3112,9 @@ if (uni.restoreGlobal) {
                           vue.createCommentVNode("                  文章卡片"),
                           vue.createVNode(_component_ArticleCard, {
                             "article-data": item2,
-                            "need-follow-model": true
-                          }, null, 8, ["article-data"])
+                            "need-follow-model": true,
+                            "onUpdate:item": ($event) => $setup.handleItemUpdate(index2, $event)
+                          }, null, 8, ["article-data", "onUpdate:item"])
                         ]);
                       }),
                       128

@@ -8,7 +8,7 @@
               <view class="articleList__container__body w100" style="padding-top: 2px;padding-bottom: 5px">
                 <view v-for="(item2, index2) in item1.articleList" :key="item2.article_id" style="margin-bottom: 5px;">
 <!--                  文章卡片-->
-<ArticleCard :article-data="item2" :need-follow-model="true"></ArticleCard>
+<ArticleCard :article-data="item2" :need-follow-model="true" @update:item="handleItemUpdate(index2, $event)"></ArticleCard>
 
                   </view>
                 </view>
@@ -98,12 +98,37 @@ export default {
         scrollViewLoading.value = false;
       }
     }, { deep: true });
+
+    //接收文章卡片传递过来的数据变化
+    const handleItemUpdate=(index, newValue)=>{
+      console.log('文章卡转递了新值')
+      console.log(newValue)
+      updateClassifyList(newValue)
+      uni.$emit('home_articleList_change', {data: classifyList.value})
+    }
+    //更新所有classifyList中的articleList 与文章id和作者id匹配的对象
+    //newValue是articleList格式
+    function updateClassifyList(newValue) {
+      classifyList.value.forEach((item) => {
+        item.articleList.forEach((article, index) => {
+          //更新该作品信息
+          if (article.article_id === newValue.article_id && article.article_user_id === newValue.article_user_id) {
+            item.articleList.splice(index, 1, newValue);
+          }
+          // 更新该 作者关注 信息
+          if (article.article_user_id === newValue.article_user_id) {
+            item.articleList[index].concern_be=newValue.concern_be;
+          }
+        });
+      });
+    }
     return{
       scrollViewLoading,
       classifyList,
       swiperItemChange,
       defaultCoverImgPath,
       clickNavIndex,
+      handleItemUpdate
     }
   },
 };

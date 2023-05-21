@@ -21,6 +21,7 @@ function pushNewArticle(data) {
  * @param data sort（0或1非必选，默认1降序）、page_number、page_size(非必选默认10)、articleContentMaxWord select_title_num 扩展功能1推荐，2热门，3最新（非必选默认1）
  * @returns {Promise | Promise<unknown>}
  */
+/*!!!!!!!!!!这个接口的返回值千万不能变，一旦变了前端就炸了*/
 function getDetailedArticle(data) {
     return R({
         url: 'article/filterArticleDel-filterUserDel-filterAcross-filterCategoryDel-detailed-pages-create',
