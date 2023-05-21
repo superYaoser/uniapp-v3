@@ -2731,7 +2731,6 @@ if (uni.restoreGlobal) {
     },
     setup(props) {
       vue.onMounted(() => {
-        formatAppLog("log", "at components/article/ArticleCard.vue:91", props.articleData);
       });
       const articleInfo = vue.reactive({
         ...props.articleData
@@ -2739,16 +2738,16 @@ if (uni.restoreGlobal) {
       const needFollowModel = vue.ref(true);
       needFollowModel.value = props.needFollowModel;
       const tapArticleCard = (data) => {
-        formatAppLog("log", "at components/article/ArticleCard.vue:103", "点击了文章卡");
+        formatAppLog("log", "at components/article/ArticleCard.vue:102", "点击了文章卡");
       };
       const tapAuthorCard = (data) => {
-        formatAppLog("log", "at components/article/ArticleCard.vue:107", "点击了作者栏");
+        formatAppLog("log", "at components/article/ArticleCard.vue:106", "点击了作者栏");
       };
       const tapFollowCard = (data) => {
-        formatAppLog("log", "at components/article/ArticleCard.vue:111", "点击了关注");
+        formatAppLog("log", "at components/article/ArticleCard.vue:110", "点击了关注");
       };
       const tapHandCard = (data) => {
-        formatAppLog("log", "at components/article/ArticleCard.vue:115", "点击了点赞");
+        formatAppLog("log", "at components/article/ArticleCard.vue:114", "点击了点赞");
       };
       return {
         articleInfo,

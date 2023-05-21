@@ -88,7 +88,6 @@ export default {
 
   setup(props){
     onMounted(()=>{
-      console.log(props.articleData)
     })
     //记录文章的信息
     const articleInfo = reactive({
@@ -173,7 +172,7 @@ export default {
 图片比例保持不变且不会失真，但某些部分被切割无法显示完整背景图像*/
             background-size: cover;
             position: relative;
-            cursor: pointer;
+            background-position: center;
           }
         }
 
@@ -256,6 +255,7 @@ export default {
             background-size: cover;
             position: relative;
             cursor: pointer;
+            background-position: center;
           }
         }
         &__interactInfo{

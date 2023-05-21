@@ -609,7 +609,7 @@
 图片比例保持不变且不会失真，但某些部分被切割无法显示完整背景图像*/
   background-size: cover;
   position: relative;
-  cursor: pointer;
+  background-position: center;
 }
 .active__cart__container__title__container__text[data-v-9eefd57b] {
   margin-left: 5px;
@@ -670,6 +670,7 @@
   background-size: cover;
   position: relative;
   cursor: pointer;
+  background-position: center;
 }
 .active__cart__container__text__container__interactInfo[data-v-9eefd57b] {
   margin-top: 5px;
