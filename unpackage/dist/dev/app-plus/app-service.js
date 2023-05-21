@@ -2730,15 +2730,34 @@ if (uni.restoreGlobal) {
       needFollowModel: Boolean
     },
     setup(props) {
+      vue.onMounted(() => {
+        formatAppLog("log", "at components/article/ArticleCard.vue:91", props.articleData);
+      });
       const articleInfo = vue.reactive({
         ...props.articleData
       });
       const needFollowModel = vue.ref(true);
       needFollowModel.value = props.needFollowModel;
+      const tapArticleCard = (data) => {
+        formatAppLog("log", "at components/article/ArticleCard.vue:103", "点击了文章卡");
+      };
+      const tapAuthorCard = (data) => {
+        formatAppLog("log", "at components/article/ArticleCard.vue:107", "点击了作者栏");
+      };
+      const tapFollowCard = (data) => {
+        formatAppLog("log", "at components/article/ArticleCard.vue:111", "点击了关注");
+      };
+      const tapHandCard = (data) => {
+        formatAppLog("log", "at components/article/ArticleCard.vue:115", "点击了点赞");
+      };
       return {
         articleInfo,
         defaultHeadImgPath,
-        needFollowModel
+        needFollowModel,
+        tapArticleCard,
+        tapAuthorCard,
+        tapFollowCard,
+        tapHandCard
       };
     }
   };
@@ -2747,9 +2766,15 @@ if (uni.restoreGlobal) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "ArticleCard__container w100 h100" }, [
       vue.createCommentVNode("        单个       文章卡片"),
       vue.createElementVNode("view", { class: "active__cart w100 h100" }, [
-        vue.createElementVNode("view", { class: "active__cart__container" }, [
+        vue.createElementVNode("view", {
+          class: "active__cart__container",
+          onClick: _cache[3] || (_cache[3] = ($event) => $setup.tapArticleCard())
+        }, [
           vue.createCommentVNode("-------------------------作者栏"),
-          vue.createElementVNode("view", { class: "active__cart__container__title" }, [
+          vue.createElementVNode("view", {
+            class: "active__cart__container__title",
+            onClick: _cache[1] || (_cache[1] = vue.withModifiers(($event) => $setup.tapAuthorCard(), ["stop"]))
+          }, [
             vue.createElementVNode("view", { class: "active__cart__container__title__container" }, [
               vue.createElementVNode("view", { class: "active__cart__container__title__container__img" }, [
                 vue.createElementVNode(
@@ -2800,7 +2825,8 @@ if (uni.restoreGlobal) {
                 ]),
                 $setup.needFollowModel ? (vue.openBlock(), vue.createElementBlock("view", {
                   key: 0,
-                  class: "active__cart__container__title__container__text__follow"
+                  class: "active__cart__container__title__container__text__follow",
+                  onClick: _cache[0] || (_cache[0] = vue.withModifiers(($event) => $setup.tapFollowCard(), ["stop"]))
                 }, [
                   vue.createElementVNode("view", { style: { "width": "100%", "height": "100%" } }, [
                     vue.withDirectives(vue.createElementVNode(
@@ -2901,7 +2927,10 @@ if (uni.restoreGlobal) {
                       /* TEXT */
                     )
                   ]),
-                  vue.createElementVNode("view", { class: "active__cart__container__text__container__interactInfo__container--hand" }, [
+                  vue.createElementVNode("view", {
+                    class: "active__cart__container__text__container__interactInfo__container--hand",
+                    onClick: _cache[2] || (_cache[2] = vue.withModifiers(($event) => $setup.tapHandCard(), ["stop"]))
+                  }, [
                     vue.createVNode(_component_uni_icons, {
                       color: "#999999",
                       type: "hand-up",
@@ -2941,13 +2970,14 @@ if (uni.restoreGlobal) {
       let hotArticleList = vue.ref([]);
       const getDetailedArticleByJsonData = async (data) => {
         let temp = await getDetailedArticle(data);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:59", temp.data);
         let res = temp.data;
         return res;
       };
       let clickNavIndex = vue.ref();
       uni.$on("home_article_follow_nav_change", function(e) {
         clickNavIndex.value = e.page;
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:67", clickNavIndex.value);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:69", clickNavIndex.value);
       });
       vue.onMounted(async () => {
         lateArticleList.value = await getDetailedArticleByJsonData({ "sort": 1, "page_number": 1, "articleContentMaxWord": 100, "select_title_num": 3 });
@@ -2956,21 +2986,22 @@ if (uni.restoreGlobal) {
         classifyList.value[0].articleList = lateArticleList.value;
         classifyList.value[1].articleList = recommendArticleList.value;
         classifyList.value[2].articleList = hotArticleList.value;
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:78", classifyList.value);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:80", classifyList.value);
       });
       let currentIndex = vue.ref();
       const swiperItemChange = (e) => {
         currentIndex.value = e.detail.current;
         uni.$emit("home_article_nav_change", { currentNavIndex: currentIndex.value });
       };
-      let loading = vue.ref(true);
-      vue.watch(() => classifyList.value, (newVal) => {
-        if (newVal.every((item) => item.articleList.length > 0)) {
-          loading.value = false;
+      let scrollViewLoading = vue.ref(true);
+      vue.watch(classifyList, (newValue) => {
+        let allArticleListHaveValue = newValue.every((item) => item.articleList.length > 0);
+        if (allArticleListHaveValue) {
+          scrollViewLoading.value = false;
         }
       }, { deep: true });
       return {
-        loading,
+        scrollViewLoading,
         classifyList,
         swiperItemChange,
         defaultCoverImgPath,
@@ -2982,8 +3013,7 @@ if (uni.restoreGlobal) {
     const _component_ArticleCard = vue.resolveComponent("ArticleCard");
     return vue.openBlock(), vue.createElementBlock("view", { class: "w100 h100" }, [
       vue.createElementVNode("view", { class: "actives__container w100 h100" }, [
-        !$setup.loading ? (vue.openBlock(), vue.createElementBlock("swiper", {
-          key: 0,
+        vue.createElementVNode("swiper", {
           style: { "width": "100%", "height": "100%" },
           autoplay: false,
           onChange: _cache[0] || (_cache[0] = ($event) => $setup.swiperItemChange($event)),
@@ -2992,9 +3022,10 @@ if (uni.restoreGlobal) {
           (vue.openBlock(true), vue.createElementBlock(
             vue.Fragment,
             null,
-            vue.renderList($setup.classifyList, (item1, index) => {
-              return vue.openBlock(), vue.createElementBlock("swiper-item", { key: index }, [
-                vue.createElementVNode("scroll-view", {
+            vue.renderList($setup.classifyList, (item1, index1) => {
+              return vue.openBlock(), vue.createElementBlock("swiper-item", { key: index1 }, [
+                !$setup.scrollViewLoading ? (vue.openBlock(), vue.createElementBlock("scroll-view", {
+                  key: 0,
                   class: "scrollview",
                   "scroll-y": "true",
                   style: `width: 100%;height: 100%;`
@@ -3008,7 +3039,7 @@ if (uni.restoreGlobal) {
                       null,
                       vue.renderList(item1.articleList, (item2, index2) => {
                         return vue.openBlock(), vue.createElementBlock("view", {
-                          key: index2,
+                          key: item2.article_id,
                           style: { "margin-bottom": "5px" }
                         }, [
                           vue.createCommentVNode("                  文章卡片"),
@@ -3022,13 +3053,13 @@ if (uni.restoreGlobal) {
                       /* KEYED_FRAGMENT */
                     ))
                   ])
-                ])
+                ])) : vue.createCommentVNode("v-if", true)
               ]);
             }),
             128
             /* KEYED_FRAGMENT */
           ))
-        ], 40, ["current"])) : vue.createCommentVNode("v-if", true)
+        ], 40, ["current"])
       ])
     ]);
   }

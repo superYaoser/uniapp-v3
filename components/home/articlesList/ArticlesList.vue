@@ -1,12 +1,12 @@
 <template>
 	<view class="w100 h100">
 		<view class="actives__container w100 h100">
-      <swiper style='width: 100%;height: 100%' :autoplay="false" @change="swiperItemChange($event)" :current="clickNavIndex" v-if="!loading">
+      <swiper style='width: 100%;height: 100%' :autoplay="false" @change="swiperItemChange($event)" :current="clickNavIndex">
 
-          <swiper-item v-for="(item1, index) in classifyList" :key="index">
-            <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: 100%;`">
+          <swiper-item v-for="(item1, index1) in classifyList" :key="index1">
+            <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: 100%;`"  v-if="!scrollViewLoading">
               <view class="articleList__container__body w100" style="padding-top: 2px;padding-bottom: 5px">
-                <view v-for="(item2, index) in item1.articleList" :key="index" style="margin-bottom: 5px;">
+                <view v-for="(item2, index2) in item1.articleList" :key="item2.article_id" style="margin-bottom: 5px;">
 <!--                  文章卡片-->
 <ArticleCard :article-data="item2" :need-follow-model="true"></ArticleCard>
 
@@ -25,6 +25,7 @@ import {onMounted, ref, watch} from "vue";
 import {getCategoryList}from '@/static/api/category'
 import {getDetailedArticle} from "@/static/api/article";
 import ArticleCard from "@/components/article/ArticleCard";
+import { computed } from 'vue';
 
 export default {
   components:{
@@ -55,6 +56,7 @@ export default {
     //将请求文章初始列表 封装
     const getDetailedArticleByJsonData = async (data)=>{
       let temp = await getDetailedArticle(data)
+      console.log(temp.data)
       let res =temp.data
       return res
     }
@@ -86,18 +88,18 @@ export default {
       uni.$emit('home_article_nav_change', {currentNavIndex: currentIndex.value})
     }
 
-    // 监视 classifyList 数组中每个分类的 articleList 属性
-    // 当所有分类都包含一些非空数据时，
-    // 将加载状态设置为 false，表示数据已加载
-    let loading =ref(true)
-    watch(() => classifyList.value, (newVal) => {
-      if (newVal.every(item => item.articleList.length > 0)) {
-        loading.value = false;
+    let scrollViewLoading =ref(true)
+    watch(classifyList, (newValue) => {
+      // 定义一个变量判断是否所有的articleList都有值
+      let allArticleListHaveValue = newValue.every((item) => item.articleList.length > 0);
+
+      // 如果所有articleList都有值，则设置loading为false
+      if (allArticleListHaveValue) {
+        scrollViewLoading.value = false;
       }
     }, { deep: true });
-
     return{
-      loading,
+      scrollViewLoading,
       classifyList,
       swiperItemChange,
       defaultCoverImgPath,

@@ -2,9 +2,9 @@
 <view class="ArticleCard__container w100 h100">
   <!--        单个       文章卡片-->
   <view class="active__cart w100 h100">
-    <view  class="active__cart__container">
+    <view  class="active__cart__container" @tap="tapArticleCard()">
       <!---------------------------作者栏-->
-      <view class="active__cart__container__title">
+      <view class="active__cart__container__title" @tap.stop="tapAuthorCard()">
         <view class="active__cart__container__title__container">
           <view class="active__cart__container__title__container__img">
             <view class="active__cart__container__title__container__img--path" :style="articleInfo.u_head ? 'background-image: url(' + articleInfo.u_head + ')' : 'background-image: url(' + defaultHeadImgPath + ')'"></view>
@@ -22,7 +22,7 @@
               </view>
             </view>
 
-            <view class="active__cart__container__title__container__text__follow" v-if="needFollowModel">
+            <view class="active__cart__container__title__container__text__follow" v-if="needFollowModel" @tap.stop="tapFollowCard()">
               <view style="width: 100%;height: 100%;">
                 <view class="active__cart__container__title__container__text__follow--be" v-show="articleInfo.concern_be===1">已关注</view>
                 <view class="active__cart__container__title__container__text__follow--no" v-show="articleInfo.concern_be===0||!articleInfo.concern_be">+关注</view>
@@ -59,7 +59,7 @@
                 <text>{{articleInfo.article_comment_num}}</text>
               </view>
 
-              <view class="active__cart__container__text__container__interactInfo__container--hand">
+              <view class="active__cart__container__text__container__interactInfo__container--hand" @tap.stop="tapHandCard()">
                 <uni-icons color='#999999' type="hand-up" size="18"></uni-icons>
                 <text>{{articleInfo.article_hand_support_num}}</text>
               </view>
@@ -76,7 +76,7 @@
 </template>
 
 <script>
-import {reactive, ref, watch, watchEffect} from "vue";
+import {onMounted, reactive, ref, watch, watchEffect} from "vue";
 import {defaultHeadImgPath} from '@/static/utils/globalConifg'
 
 export default {
@@ -87,6 +87,9 @@ export default {
   },
 
   setup(props){
+    onMounted(()=>{
+      console.log(props.articleData)
+    })
     //记录文章的信息
     const articleInfo = reactive({
       ...props.articleData
@@ -94,8 +97,26 @@ export default {
     //是不是需要关注模型
     const needFollowModel=ref(true)
     needFollowModel.value = props.needFollowModel
+
+    //点击文章卡片
+    const tapArticleCard=(data)=>{
+      console.log('点击了文章卡')
+    }
+    //点击作者栏
+    const tapAuthorCard=(data)=>{
+      console.log('点击了作者栏')
+    }
+    //点击关注
+    const tapFollowCard=(data)=>{
+      console.log('点击了关注')
+    }
+    //点击点赞
+    const tapHandCard=(data)=>{
+      console.log('点击了点赞')
+    }
     return{
-      articleInfo,defaultHeadImgPath,needFollowModel
+      articleInfo,defaultHeadImgPath,needFollowModel,
+      tapArticleCard,tapAuthorCard,tapFollowCard,tapHandCard
     }
   }
 }
