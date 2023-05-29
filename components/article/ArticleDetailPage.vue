@@ -1,5 +1,5 @@
 <template>
-<view style="padding: 5px 5px 10px;background: #FFFFFF;margin-top: 8px;height: 100%;">
+<view style="padding: 0 5px 10px;background: #FFFFFF;height: 100%;">
   <Loading :loading="false"></Loading>
 
   <scroll-view scroll-y='true' style="width: 100%;height: 100%;">
@@ -8,12 +8,32 @@
 
         <view class="articleInfo__container__header">
           <view class="articleInfo__container__header__authorInfo">
+            <view class="articleInfo__container__header__authorInfo__head">
 
-            作者信息
+              <view class="articleInfo__container__header__authorInfo__head--img">
+                <view class="articleInfo__container__header__authorInfo__head--img--path" :style="authorInfo.u_head ? 'background-image: url(' + authorInfo.u_head + ')' : 'background-image: url(' + defaultHeadImgPath + ')'"></view>
+              </view>
+              <view class="articleInfo__container__header__authorInfo__head--name">
+                {{authorInfo.u_name}}
+              </view>
+              <view class="articleInfo__container__header__authorInfo__head--level">{{authorInfo.u_sgrade}}</view>
+            </view>
+            <view class="articleInfo__container__header__authorInfo__follow" v-if="needFollowModel">
+              <view style="width: 100%;height: 100%;">
+                <view class="articleInfo__container__header__authorInfo__follow--be" v-show="1===1">已关注</view>
+                <view class="articleInfo__container__header__authorInfo__follow--no" v-show="1===0||!1">+关注</view>
+              </view>
+            </view>
+
+
+
           </view>
 
           <view class="articleInfo__container__header__title">
-            标题信息
+             <view class="articleInfo__container__header__title--text">{{articleInfo.article_title}}</view>
+          </view>
+          <view class="articleInfo__container__header__time">
+            <view>{{'文章发布于：'}}{{articleInfo.article_create_time}}</view>
           </view>
         </view>
 
@@ -24,7 +44,22 @@
         </view>
 
         <view class="articleInfo__container__footer">
+          <view class="articleInfo__container__footer--comments">
+            <view class="articleInfo__container__footer--comments--search">
 
+              <input type="text" placeholder="  我有话想说..."/>
+            </view>
+          </view>
+          <view class="articleInfo__container__footer--util">
+            <view><uni-icons type="chatbubble" size="21"></uni-icons>
+              {{ articleInfo.article_comment_num }}</view>
+
+            <view><uni-icons type="fire" size="21"></uni-icons>{{ Number(articleInfo.article_hand_support_num) + Number(articleInfo.article_watch_num) + Number(articleInfo.article_comment_num)}}</view>
+
+
+            <view><uni-icons type="hand-up" size="21"></uni-icons>
+              {{ articleInfo.article_hand_support_num }}</view>
+          </view>
         </view>
 
       </view>
@@ -48,9 +83,16 @@ import App from "@/App";
 import {getUserInfoById} from '@/static/api/users'
 import {sendMessageToScreen} from'@/static/utils/globalConifg'
 import Loading from "@/components/loading/Loading";
+import {defaultHeadImgPath} from '@/static/utils/globalConifg'
 export default {
+  props: {
+    needFollowModel:Boolean,
+  },
   components: {Loading, App},
-  setup() {
+  setup(props) {
+    //是不是需要关注模型
+    const needFollowModel=ref(true)
+    needFollowModel.value = props.needFollowModel
     //作者信息
     let authorInfo = ref()
     //文章信息
@@ -103,7 +145,7 @@ export default {
     //
 
     return{
-      articleId,html,authorInfo
+      articleId,html,authorInfo,defaultHeadImgPath,articleInfo,needFollowModel
     }
   }
 }
@@ -118,11 +160,101 @@ export default {
 
       &__authorInfo{
         height: 40px;
-        background: #b52424;
+        background: #FFFFFF;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        &__head{
+          margin-left: 15px;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+          width: 50%;
+          &--img{
+            height: 35px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            &--path{
+              width: 27px;
+              height: 27px;
+              background-repeat: no-repeat;
+              border-radius: 50%;
+              border: 0.0375rem silver solid;
+              /*把背景图扩展至足够大，直至完全覆盖背景区域，
+  图片比例保持不变且不会失真，但某些部分被切割无法显示完整背景图像*/
+              background-size: cover;
+              position: relative;
+              background-position: center;
+            }
+          }
+
+          &--name{
+
+            margin-left: 5px;
+            font-size: 0.9rem;
+          }
+          &--level{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 10px;
+            width: 15px;
+            height: 15px;
+            background: #ffdc00;
+            color: #FFFFFF;
+            font-size: 0.5625rem;
+            border-radius: 50%;
+            text-shadow: 0 0 5px #d1b259, 0 0 5px #d5ba3b;
+          }
+
+        }
+        &__follow{
+          margin-right: 15px;
+          width: 45px;
+          height: 18px;
+          font-size: 0.8125rem;
+          &--be,&--no{
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+          }
+          &--be{
+            border: 1px solid #bcbcbc;
+
+            color: #bcbcbc;
+          }
+          &--no{
+            border: 1px solid #46a7ff;
+
+            color: #46a7ff;
+          }
+        }
+
       }
       &__title{
-        height: 60px;
-        background: #73b7f4;
+        background: #FFFFFF;
+        padding: 5px;
+        &--text{
+          font-size: 1.25rem;
+          font-weight: 200;
+          color: #1f1f1f;
+        }
+      }
+      &__time{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 30px;
+        view{
+          color: #c1c1c1;
+          font-size: 0.77rem;
+        }
       }
     }
 
@@ -131,6 +263,45 @@ export default {
 
       &--html{
         padding-bottom: 10px;
+      }
+    }
+    &__footer{
+      display: flex;
+      align-items: center;
+      background: #f3f3f3;
+      height: 40px;
+      width: 100%;
+      position: fixed;
+      z-index: 99;
+      bottom: 0;
+      left: 0;
+      &--comments{
+
+        &--search{
+
+          margin-left: 20px;
+          input{
+            width: 200px;
+            height: 25px;
+            background: #FFFFFF;
+            border: 1px #efefef solid;
+            border-radius: 5px;
+            font-size: 0.75rem;
+          }
+        }
+      }
+      &--util{
+        display: flex;
+        align-items: center;
+        color: #9d9d9d;
+        font-size: 0.650rem;
+        width: calc(100% - 250px);
+        view{
+          margin-left: 17px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
       }
     }
 

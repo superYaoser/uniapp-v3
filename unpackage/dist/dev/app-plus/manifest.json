@@ -79,7 +79,7 @@
       "style": "dark",
       "background": "#F8F8F8"
     },
-    "arguments": "{\"name\":\"\",\"path\":\"pages/loginRegister/loginRegister\",\"query\":\"\"}",
+    "arguments": "{\"path\":\"pages/article/detail/ArticleDetailPage\"}",
     "uniStatistics": {
       "enable": false
     },

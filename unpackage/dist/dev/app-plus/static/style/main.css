@@ -8,6 +8,11 @@ page{
     display: flex;
     justify-content: space-between;
 }
+.displayF-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .mT10px{
     margin-top: 10px;
 }

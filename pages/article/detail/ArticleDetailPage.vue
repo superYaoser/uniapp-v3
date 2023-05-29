@@ -18,12 +18,11 @@
       </view>
 
       <view class="articleDetailPage__container__body">
-        <ArticleDetailPage></ArticleDetailPage>
+        <ArticleDetailPage :need-follow-model="true"></ArticleDetailPage>
       </view>
 
       <view class="articleDetailPage__container__footer">
 
-        脚步
       </view>
 
     </view>
@@ -128,13 +127,7 @@ export default {
       margin-top: calc(41px + var(--status-bar-height));
     }
     &__footer{
-      background: #d0d0d0;
-      height: 40px;
-      width: 100%;
-      position: fixed;
-      z-index: 99;
-      bottom: 0;
-      left: 0;
+
     }
    }
 }
