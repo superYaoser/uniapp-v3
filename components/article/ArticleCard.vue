@@ -2,7 +2,7 @@
 <view class="ArticleCard__container w100 h100">
   <!--        单个       文章卡片-->
   <view class="active__cart w100 h100">
-    <view  class="active__cart__container" @tap="tapArticleCard()">
+    <view  class="active__cart__container" @tap="tapArticleCard(articleInfo)">
       <!---------------------------作者栏-->
       <view class="active__cart__container__title" @tap.stop="tapAuthorCard()">
         <view class="active__cart__container__title__container">
@@ -131,6 +131,9 @@ export default {
     //点击文章卡片
     const tapArticleCard=(data)=>{
       console.log('点击了文章卡')
+      uni.navigateTo({
+        url: '/pages/article/detail/ArticleDetailPage?id='+data.article_id
+      })
     }
     //点击作者栏
     const tapAuthorCard=(data)=>{

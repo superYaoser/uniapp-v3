@@ -20,11 +20,22 @@
   import Mine from "@/pages/mine/Mine";
   import TopBar from "@/components/MainApp/TopBar";
   import {ref} from "vue";
+  import {
+    onBackPress,onShow
+  } from "@dcloudio/uni-app";
 	export default {
 		components: {
 			TabBar,Home,Dynamic,Publish,Message,Mine,TopBar
 		},
     setup(){
+      onShow(()=>{
+        if (currentR.value==='Home'){
+          uni.$emit('topBarBackgroundColor', {bg: '#016fce'})
+        }else {
+
+        }
+      })
+      let backButtonPress =ref(0)
       //当前路由
       let currentR = ref('Home')
       //页脚导航的可见性
@@ -37,6 +48,19 @@
       //监听页脚的可见性变化
       uni.$on('tabBarVisibilityUpdate',function(b){
         tabBarVisibility.value = b.tabBarVisibility;
+      })
+      //监听用户触发返回后处理请求
+      onBackPress((e) => {
+        backButtonPress.value++;
+        if (backButtonPress.value > 1) {
+          plus.runtime.quit();
+        } else {
+          plus.nativeUI.toast('再按一次退出应用');
+        }
+        setTimeout(()=> {
+          backButtonPress.value = 0;
+        }, 1000);
+        return true;
       })
       return{
         currentR,tabBarVisibility
@@ -51,7 +75,7 @@
 
 		},
 		methods: {
-			
+
 		}
 	}
 </script>

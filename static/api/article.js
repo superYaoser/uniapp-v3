@@ -38,7 +38,6 @@ function getDetailedArticle(data) {
 function getArticleByID(id) {
     return R({
         url: 'article/'+id,
-        data: data
     });
 }
 export {

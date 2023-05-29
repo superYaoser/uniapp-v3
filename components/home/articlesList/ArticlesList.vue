@@ -60,8 +60,8 @@ export default {
       let res =temp.data
       return res
     }
-
-
+ 
+ 
     //用于用户点击了哪个导航跳转到哪个页面
     let clickNavIndex = ref()
     uni.$on('home_article_follow_nav_change',function(e){
@@ -92,7 +92,7 @@ export default {
     watch(classifyList, (newValue) => {
       // 定义一个变量判断是否所有的articleList都有值
       let allArticleListHaveValue = newValue.every((item) => item.articleList.length > 0);
-
+      //
       // 如果所有articleList都有值，则设置loading为false
       if (allArticleListHaveValue) {
         scrollViewLoading.value = false;
