@@ -49,6 +49,7 @@
       uni.$on('tabBarVisibilityUpdate',function(b){
         tabBarVisibility.value = b.tabBarVisibility;
       })
+
       //监听用户触发返回后处理请求
       onBackPress((e) => {
         backButtonPress.value++;

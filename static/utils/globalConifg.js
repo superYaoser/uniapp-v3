@@ -8,8 +8,19 @@ const defaultHeadImgPath = 'https://i2.hdslb.com/bfs/face/544c89e68f2b1f12ffcbb8
 //发布页 需要将text文本中回车替换的文字
 const enterWord = ' ';
 
-export {
+//在页面上显示信息
+const sendMessageToScreen =(data)=>{
+    uni.showToast({
+        icon:'error',
+        title:data.message,
+        duration:2000,
+        mask:false,
+    });
+}
+
+export{
     baseUrl,
     defaultHeadImgPath,
-    enterWord
+    enterWord,
+    sendMessageToScreen
 }

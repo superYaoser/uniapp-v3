@@ -1,8 +1,10 @@
 import App from './App'
 //引入vuex
 import store from './store'
+
 // #ifndef VUE3
 import Vue from 'vue'
+
 Vue.config.productionTip = false
 App.mpType = 'app'
 
@@ -34,17 +36,33 @@ try {
   });
 } catch (error) { }
 
+
 const app = new Vue({
   ...App
 })
+
 app.use(store)
 app.$mount()
 // #endif
 
+
+
 // #ifdef VUE3
 import { createSSRApp } from 'vue'
+import {sendMessageToScreen} from '@/static/utils/globalConifg'
+
+class myUtils{
+  static sendMessageToScreen(data){
+    return sendMessageToScreen(data)
+  }
+}
+
 export function createApp() {
+
+
   const app = createSSRApp(App)
+  app.config.globalProperties.myUtils = myUtils;
+
   app.use(store)
   return {
     app

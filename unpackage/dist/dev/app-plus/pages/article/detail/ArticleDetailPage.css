@@ -607,6 +607,21 @@ body{
 .icon-zitibiaoti:before {
   content: "\e64e";
 }
+.articleInfo__container__header__authorInfo[data-v-388cd4fe] {
+  height: 40px;
+  background: #b52424;
+}
+.articleInfo__container__header__title[data-v-388cd4fe] {
+  height: 60px;
+  background: #73b7f4;
+}
+.articleInfo__container__body[data-v-388cd4fe] {
+  font-size: 1.08rem;
+}
+.articleInfo__container__body--html[data-v-388cd4fe] {
+  padding-bottom: 10px;
+}
+
 
 .status_bar[data-v-35eb0c73] {
   height: var(--status-bar-height);
@@ -614,19 +629,31 @@ body{
 }
 
 .articleDetailPage[data-v-b0178992] {
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+}
+.articleDetailPage__container[data-v-b0178992] {
   width: 100%;
   height: 100%;
 }
 .articleDetailPage__container__header[data-v-b0178992] {
+  width: 100%;
+  background: #f3f3f3;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+}
+.articleDetailPage__container__header--main[data-v-b0178992] {
+  height: 40px;
   display: flex;
   justify-items: center;
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: 40px;
-  background: #f3f3f3;
 }
-.articleDetailPage__container__header uni-view[data-v-b0178992] {
+.articleDetailPage__container__header--main uni-view[data-v-b0178992] {
   width: 33%;
 }
 .articleDetailPage__container__header--title[data-v-b0178992] {
@@ -644,4 +671,15 @@ body{
 }
 .articleDetailPage__container__body[data-v-b0178992] {
   width: 100%;
+  height: calc(100% - 41px - 45px - var(--status-bar-height));
+  margin-top: calc(41px + var(--status-bar-height));
+}
+.articleDetailPage__container__footer[data-v-b0178992] {
+  background: #d0d0d0;
+  height: 40px;
+  width: 100%;
+  position: fixed;
+  z-index: 99;
+  bottom: 0;
+  left: 0;
 }

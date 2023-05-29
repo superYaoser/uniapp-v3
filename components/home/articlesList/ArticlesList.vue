@@ -4,6 +4,9 @@
       <swiper style='width: 100%;height: 100%' :autoplay="false" @change="swiperItemChange($event)" :current="clickNavIndex">
 
           <swiper-item v-for="(item1, index1) in classifyList" :key="index1">
+
+            <Loading :loading="scrollViewLoading"></Loading>
+
             <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: 100%;`"  v-if="!scrollViewLoading">
               <view class="articleList__container__body w100" style="padding-top: 2px;padding-bottom: 5px">
                 <view v-for="(item2, index2) in item1.articleList" :key="item2.article_id" style="margin-bottom: 5px;">
@@ -25,10 +28,12 @@ import {onMounted, ref, watch} from "vue";
 import {getCategoryList}from '@/static/api/category'
 import {getDetailedArticle} from "@/static/api/article";
 import ArticleCard from "@/components/article/ArticleCard";
+import Loading from "@/components/loading/Loading";
 import { computed } from 'vue';
 
 export default {
   components:{
+    Loading,
     ArticleCard
   },
   setup(){
@@ -60,8 +65,8 @@ export default {
       let res =temp.data
       return res
     }
- 
- 
+
+
     //用于用户点击了哪个导航跳转到哪个页面
     let clickNavIndex = ref()
     uni.$on('home_article_follow_nav_change',function(e){

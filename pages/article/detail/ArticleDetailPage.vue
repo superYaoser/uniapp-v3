@@ -1,21 +1,31 @@
 <template>
   <view class="articleDetailPage">
-    <TopBar></TopBar>
     <view class="articleDetailPage__container">
       <view class="articleDetailPage__container__header">
 
-        <view class="articleDetailPage__container__header--button">
-          <view @click="pageBack()" style="margin-left: 10px;"><uni-icons type="left" size="20"></uni-icons>
+        <view style="height: var(--status-bar-height);"></view>
+        <view class="articleDetailPage__container__header--main">
+          <view class="articleDetailPage__container__header--button">
+            <view @click="pageBack()" style="margin-left: 10px;"><uni-icons type="left" size="20"></uni-icons>
+            </view>
           </view>
+
+          <view class="articleDetailPage__container__header--title">{{headerTitle}}</view>
+          <view class="articleDetailPage__container__header--more"><uni-icons type="more" size="20"></uni-icons></view>
         </view>
 
-        <view class="articleDetailPage__container__header--title">{{headerTitle}}</view>
-        <view class="articleDetailPage__container__header--more"><uni-icons type="more" size="20"></uni-icons></view>
+
       </view>
 
       <view class="articleDetailPage__container__body">
         <ArticleDetailPage></ArticleDetailPage>
       </view>
+
+      <view class="articleDetailPage__container__footer">
+
+        脚步
+      </view>
+
     </view>
 
   </view>
@@ -29,16 +39,18 @@ import {
   onBackPress
 } from "@dcloudio/uni-app";
 import {onMounted, ref} from "vue";
+import Loading from "@/components/loading/Loading";
 
 export default {
   components: {
+    Loading,
     ArticleDetailPage,TopBar
   },
   setup() {
     let headerTitle =ref('默认标题')
     onMounted(()=>{
-      //让头改变颜色
-      uni.$emit('topBarBackgroundColor', {bg: '#f3f3f3'})
+
+
     })
     //页面返回会触发的方法
     const pageBack = () => {
@@ -70,21 +82,31 @@ export default {
 
 <style scoped lang="less">
 .articleDetailPage{
+  overflow: hidden;
   width: 100%;
   height: 100%;
   &__container{
-
+    width: 100%;
+    height: 100%;
     &__header{
-      display: flex;
-      justify-items: center;
-      align-items: center;
-      justify-content: space-between;
       width: 100%;
-      height: 40px;
       background: #f3f3f3;
-      view{
-        width: 33%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 999;
+      &--main{
+        height: 40px;
+        display: flex;
+        justify-items: center;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        view{
+          width: 33%;
+        }
       }
+
       &--title{
         display: flex;
         justify-items: center;
@@ -102,6 +124,17 @@ export default {
 
     &__body{
       width: 100%;
+      height: calc(100% - 41px - 45px - var(--status-bar-height));
+      margin-top: calc(41px + var(--status-bar-height));
+    }
+    &__footer{
+      background: #d0d0d0;
+      height: 40px;
+      width: 100%;
+      position: fixed;
+      z-index: 99;
+      bottom: 0;
+      left: 0;
     }
    }
 }

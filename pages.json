@@ -21,12 +21,11 @@
 		}
 	    ,{
             "path" : "pages/article/detail/ArticleDetailPage",
-            "style" :                                                                                    
+            "style" :
             {
                 "navigationBarTitleText": "文章详细页",
 				"titleNView": false
-            }
-            
+			}
         }
     ],
 	"globalStyle": {
