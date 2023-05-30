@@ -752,7 +752,7 @@
   background: #FFFFFF;
   width: 100%;
   height: calc(100% - 9% - 7% + var(--status-bar-height));
-  margin-top: calc(9% + var(--status-bar-height));
+  margin-top: calc(10% + var(--status-bar-height));
   position: static;
 }
 

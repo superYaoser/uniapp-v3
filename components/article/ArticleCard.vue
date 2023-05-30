@@ -17,7 +17,7 @@
               </view>
 
               <view style="display:flex;align-items: center;flex-direction: row;font-size: 0.8125rem;color: #bcbcbc">
-                <view class="active__cart__container__title__container__text--time">{{ articleInfo.article_create_time }}</view>
+                <view class="active__cart__container__title__container__text--time">{{ formatDate(articleInfo.article_create_time) }}</view>
                 <view class="active__cart__container__title__container__text--className">{{ articleInfo.class_name }}</view>
               </view>
             </view>
@@ -77,7 +77,7 @@
 
 <script>
 import {onMounted, reactive, ref, watch, watchEffect} from "vue";
-import {defaultHeadImgPath} from '@/static/utils/globalConifg'
+import {defaultHeadImgPath,formatDate} from '@/static/utils/globalConifg'
 import {setUserAddConcern,setUserRemoveConcern} from '@/static/api/users'
 import {useStore} from 'vuex';
 
@@ -169,7 +169,7 @@ export default {
     }
     return{
       articleInfo,defaultHeadImgPath,needFollowModel,
-      tapArticleCard,tapAuthorCard,tapFollowCard,tapHandCard,isSelf
+      tapArticleCard,tapAuthorCard,tapFollowCard,tapHandCard,isSelf,formatDate
     }
   }
 }

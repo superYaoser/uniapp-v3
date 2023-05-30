@@ -144,7 +144,7 @@ if (uni.restoreGlobal) {
     socketReadyCallback = callback;
   };
   let targetHost = "";
-  const hosts = "192.168.239.1,192.168.85.1,172.16.35.118".split(",");
+  const hosts = "192.168.239.1,192.168.85.1,192.168.43.50".split(",");
   setTimeout(() => {
     uni.request({
       url: `http://${"localhost"}:${9501}`,
@@ -13809,7 +13809,7 @@ if (uni.restoreGlobal) {
     );
   }
   const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$f], ["__scopeId", "data-v-d31e1c47"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/uni_modules/uni-icons/components/uni-icons/uni-icons.vue"]]);
-  const baseUrl = "http://192.168.85.1:3000/api/";
+  const baseUrl = "http://192.168.43.50:3000/api/";
   const defaultHeadImgPath = "https://i2.hdslb.com/bfs/face/544c89e68f2b1f12ffcbb8b3c062a3328e8692d9.jpg@96w_96h.webp";
   const enterWord = " ";
   const sendMessageToScreen = (data) => {
@@ -13819,6 +13819,23 @@ if (uni.restoreGlobal) {
       duration: 2e3,
       mask: false
     });
+  };
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const day = date.getDate().toString().padStart(2, "0");
+    const diffInMs = new Date() - date;
+    if (diffInMs < 864e5 && date.getDate() === new Date().getDate()) {
+      if (diffInMs < 36e5 && date.getHours() === new Date().getHours()) {
+        const diffInMinutes = Math.floor(diffInMs / 6e4);
+        return `${diffInMinutes}分钟前`;
+      } else {
+        const diffInHours = Math.floor(diffInMs / 36e5);
+        return `${diffInHours}小时前`;
+      }
+    } else {
+      return `${month}-${day}`;
+    }
   };
   const request = (req = "") => {
     formatAppLog("log", "at static/api/root/request.js:3", baseUrl);
@@ -15362,7 +15379,8 @@ if (uni.restoreGlobal) {
         tapAuthorCard,
         tapFollowCard,
         tapHandCard,
-        isSelf
+        isSelf,
+        formatDate
       };
     }
   };
@@ -15415,7 +15433,7 @@ if (uni.restoreGlobal) {
                     vue.createElementVNode(
                       "view",
                       { class: "active__cart__container__title__container__text--time" },
-                      vue.toDisplayString($setup.articleInfo.article_create_time),
+                      vue.toDisplayString($setup.formatDate($setup.articleInfo.article_create_time)),
                       1
                       /* TEXT */
                     ),
@@ -15701,7 +15719,7 @@ if (uni.restoreGlobal) {
         refreshOK.value = true;
         setTimeout(() => {
           refreshOK.value = false;
-        }, 1600);
+        }, 1100);
         if (!canRefresh) {
           formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:159", "当前不能刷新");
           return;
@@ -15709,7 +15727,7 @@ if (uni.restoreGlobal) {
         canRefresh = false;
         setTimeout(() => {
           canRefresh = true;
-        }, 1500);
+        }, 1e3);
         formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:168", "下拉刷新被触发");
         if (set.static === 2) {
           concernArticleList.value = await getConcernDetailedArticleByJsonData({
@@ -15962,13 +15980,31 @@ if (uni.restoreGlobal) {
   const Home = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$8], ["__scopeId", "data-v-a0df4f3d"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/home/Home.vue"]]);
   const _sfc_main$8 = {
     components: {
-      ArticlesList
+      ArticlesList,
+      Loading
     },
     setup() {
-      return {};
+      vue.onMounted(() => {
+      });
+      const store2 = useStore();
+      let login_u_id = store2.getters.getUser;
+      login_u_id = login_u_id.u_id;
+      vue.watch(
+        () => login_u_id,
+        (newValue) => {
+          if (newValue !== null && newValue !== void 0 && newValue !== "") {
+            loading.value = false;
+          }
+        }
+      );
+      let loading = vue.ref(true);
+      return {
+        loading
+      };
     }
   };
   function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_Loading = vue.resolveComponent("Loading");
     const _component_ArticlesList = vue.resolveComponent("ArticlesList");
     return vue.openBlock(), vue.createElementBlock("view", { class: "w100 h100" }, [
       vue.createElementVNode("view", { class: "w100 h100" }, [
@@ -15977,16 +16013,25 @@ if (uni.restoreGlobal) {
           vue.createElementVNode("view", { class: "pyq__container__header bg-efefef pageTitle-height pageTitle-top-fix-zindex999 w100" }, [
             vue.createElementVNode("view", { class: "status-bar-height bg-efefef w100 disF-center" }),
             vue.createCommentVNode("          标题"),
-            vue.createElementVNode("view", { class: "pyq__container__header__title my-h3 disF-center w100" }, " 关注 ")
+            vue.createElementVNode("view", {
+              class: "pyq__container__header__title my-h3 disF-center w100",
+              style: { "padding": "5px 0" }
+            }, " 关注 ")
           ]),
           vue.createCommentVNode("        身体"),
           vue.createElementVNode("view", { class: "pyq__container__body" }, [
-            vue.createElementVNode("view", { class: "w100 h100" }, [
+            vue.createVNode(_component_Loading, {
+              loading: !$setup.loading
+            }, null, 8, ["loading"]),
+            $setup.loading ? (vue.openBlock(), vue.createElementBlock("view", {
+              key: 0,
+              class: "w100 h100"
+            }, [
               vue.createVNode(_component_ArticlesList, {
                 "need-follow-model": false,
                 model_str_num: "pyq"
               })
-            ])
+            ])) : vue.createCommentVNode("v-if", true)
           ])
         ])
       ])
@@ -19127,7 +19172,7 @@ if (uni.restoreGlobal) {
           sizeType: ["original", "compressed"],
           count: 1,
           success(res) {
-            formatAppLog("log", "at pages/publish/Publish.vue:156", res.tempFilePaths[0]);
+            formatAppLog("log", "at pages/publish/Publish.vue:157", res.tempFilePaths[0]);
             uni.uploadFile({
               url: baseUrl + "upload/image",
               //域名+上传文件的请求接口 (根据你实际的接口来)
@@ -19141,7 +19186,7 @@ if (uni.restoreGlobal) {
               },
               success(res2) {
                 let data = JSON.parse(res2.data);
-                formatAppLog("log", "at pages/publish/Publish.vue:167", data);
+                formatAppLog("log", "at pages/publish/Publish.vue:168", data);
                 editorCtx.value.insertImage({
                   width: "100%",
                   //设置宽度为100%防止宽度溢出手机屏幕
@@ -19150,10 +19195,10 @@ if (uni.restoreGlobal) {
                   //服务端返回的url
                   alt: "图像",
                   success: function() {
-                    formatAppLog("log", "at pages/publish/Publish.vue:174", "insert image success");
+                    formatAppLog("log", "at pages/publish/Publish.vue:175", "insert image success");
                   }
                 });
-                formatAppLog("log", "at pages/publish/Publish.vue:177", editorCtx.value);
+                formatAppLog("log", "at pages/publish/Publish.vue:178", editorCtx.value);
               }
             });
           }
@@ -19163,7 +19208,7 @@ if (uni.restoreGlobal) {
         editorCtx.value.getContents({
           success: function(data) {
             data.text = data.text.replace(/[\r\n]+/g, enterWord);
-            formatAppLog("log", "at pages/publish/Publish.vue:190", data.text);
+            formatAppLog("log", "at pages/publish/Publish.vue:191", data.text);
             let articleDataJson = {
               "title": titleValue.value,
               "text": data.text,
@@ -19171,25 +19216,25 @@ if (uni.restoreGlobal) {
               "category": categoryID.value
             };
             pushNewArticle(articleDataJson).then((res) => {
-              formatAppLog("log", "at pages/publish/Publish.vue:198", res);
+              formatAppLog("log", "at pages/publish/Publish.vue:199", res);
               if (res.code == 200) {
-                formatAppLog("log", "at pages/publish/Publish.vue:200", "文章发布成功");
+                formatAppLog("log", "at pages/publish/Publish.vue:201", "文章发布成功");
               } else {
-                formatAppLog("log", "at pages/publish/Publish.vue:202", "文章发布失败");
+                formatAppLog("log", "at pages/publish/Publish.vue:203", "文章发布失败");
               }
             }).catch((err) => {
-              formatAppLog("log", "at pages/publish/Publish.vue:205", "文章上传发生异常" + err);
+              formatAppLog("log", "at pages/publish/Publish.vue:206", "文章上传发生异常" + err);
             });
           },
           fail: function(err) {
-            formatAppLog("log", "at pages/publish/Publish.vue:210", err);
+            formatAppLog("log", "at pages/publish/Publish.vue:211", err);
           }
         });
       };
       let categoryID = vue.ref("1");
       let categoryList = vue.ref();
       const categoryChange = (e) => {
-        formatAppLog("log", "at pages/publish/Publish.vue:219", "类别发生了改变");
+        formatAppLog("log", "at pages/publish/Publish.vue:220", "类别发生了改变");
       };
       let titleValue = vue.ref();
       return {

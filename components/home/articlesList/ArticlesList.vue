@@ -154,7 +154,7 @@ export default {
     const refreshListWithThrottle = async (index) => {
       // 下面是原有的刷新逻辑，不需要修改
       refreshOK.value = true
-      setTimeout(() => { refreshOK.value = false }, 1600) // 1.5秒后将刷新状态重新设置为true
+      setTimeout(() => { refreshOK.value = false }, 1100) // 1.5秒后将刷新状态重新设置为true
       if (!canRefresh){
         console.log("当前不能刷新")
 
@@ -162,7 +162,7 @@ export default {
       }
 
       canRefresh = false // 将刷新状态设置为false
-      setTimeout(() => { canRefresh = true }, 1500) // 1.5秒后将刷新状态重新设置为true
+      setTimeout(() => { canRefresh = true }, 1000) // 1.5秒后将刷新状态重新设置为true
 
       // 下面是原有的刷新逻辑，不需要修改
       console.log("下拉刷新被触发")

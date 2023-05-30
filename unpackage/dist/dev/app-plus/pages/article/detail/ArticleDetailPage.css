@@ -585,7 +585,7 @@ body{
     height: var(--status-bar-height);
 }
 .pageTitle-height{
-    height: calc(10% - var(--status-bar-height));
+    height: calc(5% + var(--status-bar-height));
 }
 .pageTitle-top-fix-zindex999{
     position: fixed;

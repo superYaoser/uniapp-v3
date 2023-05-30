@@ -120,7 +120,8 @@ export default {
         context: true
       }, res => {
         console.log(res);
-        editorCtx.value = res.context
+
+        editorCtx.value = res.context 
       }).exec()
     }
 
