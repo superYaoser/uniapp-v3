@@ -8,11 +8,6 @@ page{
     display: flex;
     justify-content: space-between;
 }
-.displayF-center{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 .mT10px{
     margin-top: 10px;
 }
@@ -25,4 +20,27 @@ page{
 .h100{
     height: 100%;
 }
-
+.status-bar-height{
+    height: var(--status-bar-height);
+}
+.pageTitle-height{
+    height: calc(10% - var(--status-bar-height));
+}
+.pageTitle-top-fix-zindex999{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+.bg-efefef{
+    background: #efefef;
+}
+.disF-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.my-h3{
+    font-size: 1.125rem;
+    font-weight: bold;
+}

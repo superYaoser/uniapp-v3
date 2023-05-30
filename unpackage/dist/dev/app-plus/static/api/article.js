@@ -28,6 +28,21 @@ function getDetailedArticle(data) {
         data: data
     });
 }
+/*•	GET/api/article/filterArticleDel-filterUserDel-filterAcross-filterCategoryDel-detailed-concern-createTime
+从文章数据库中获取符合筛选、
+返回 根据用户id 关注的用户的 文章、并可以选择按照创建时间排序
+可以选择返回内容的字数限制
+过滤不存在的作者，类别，删除的文章，审核未通过的文章
+详细请看返回结构
+权限：1
+参数：u_id（用户id）、sort（0或1非必选，默认1降序）、articleContentMaxWord
+*/
+function getConcernDetailedArticle(data) {
+    return R({
+        url: 'article/filterArticleDel-filterUserDel-filterAcross-filterCategoryDel-detailed-concern-createTime',
+        data: data
+    });
+}
 
 // •	GET /api/article/:id 获取文章详情
 /**
@@ -43,6 +58,7 @@ function getArticleByID(id) {
 export {
     pushNewArticle,
     getDetailedArticle,
-    getArticleByID
+    getArticleByID,
+    getConcernDetailedArticle
 
 }

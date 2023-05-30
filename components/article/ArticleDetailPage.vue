@@ -51,13 +51,13 @@
             </view>
           </view>
           <view class="articleInfo__container__footer--util">
-            <view><uni-icons type="chatbubble" size="21"></uni-icons>
+            <view><uni-icons type="chatbubble" size="23"></uni-icons>
               {{ articleInfo.article_comment_num }}</view>
 
-            <view><uni-icons type="fire" size="21"></uni-icons>{{ Number(articleInfo.article_hand_support_num) + Number(articleInfo.article_watch_num) + Number(articleInfo.article_comment_num)}}</view>
+            <view><uni-icons type="fire" size="23"></uni-icons>{{ Number(articleInfo.article_hand_support_num) + Number(articleInfo.article_watch_num) + Number(articleInfo.article_comment_num)}}</view>
 
 
-            <view><uni-icons type="hand-up" size="21"></uni-icons>
+            <view><uni-icons type="hand-up" size="23"></uni-icons>
               {{ articleInfo.article_hand_support_num }}</view>
           </view>
         </view>
@@ -241,7 +241,7 @@ export default {
         padding: 5px;
         &--text{
           font-size: 1.25rem;
-          font-weight: 200;
+          font-weight: bold;
           color: #1f1f1f;
         }
       }
@@ -293,14 +293,18 @@ export default {
       &--util{
         display: flex;
         align-items: center;
+
+        justify-content: space-around;
         color: #9d9d9d;
         font-size: 0.650rem;
-        width: calc(100% - 250px);
+        width: calc(100% - 210px);
         view{
-          margin-left: 17px;
           display: flex;
           flex-direction: column;
           align-items: center;
+        }
+        view:last-child{
+          margin-right: 0.9375rem;
         }
       }
     }

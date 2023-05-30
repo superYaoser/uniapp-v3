@@ -65,10 +65,26 @@ let model =[
                 u_sgrade: ""}
         ] },
 ]
-const getDetailedArticleByJsonData = async (data)=>{
-    return await getDetailedArticle(data)
+const getListSetConfig=(e)=>{
+    console.log(e)
+
+    const listSetConfig={
+        needSwiperSum:3,
+        aroundMove:true,
+        //1 是首页
+        static:1,
+    }
+    if (e ==='pyq'){
+        listSetConfig.needSwiperSum=1
+        listSetConfig.aroundMove=false
+        listSetConfig.static=2
+        return listSetConfig
+    }else {
+        return listSetConfig
+    }
+
 }
 
 export {
-
+    getListSetConfig
 }

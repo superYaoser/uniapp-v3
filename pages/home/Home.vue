@@ -22,7 +22,7 @@
 <!--        身体-->
         <view class="container__body">
           <view class="w100 h100">
-            <ArticlesList></ArticlesList>
+            <ArticlesList :need-follow-model="true"></ArticlesList>
           </view>
         </view>
 
@@ -101,7 +101,7 @@ import ArticlesList from "@/components/home/articlesList/ArticlesList";
       background: #FFFFFF;
       width: 100%;
       height: calc(100% - 10% - 7% - var(--status-bar-height));
-      margin-top: calc(16% + var(--status-bar-height));
+      margin-top: calc(13% + var(--status-bar-height));
       position: static;
     }
   }

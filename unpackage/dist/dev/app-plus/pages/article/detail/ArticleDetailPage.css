@@ -581,6 +581,30 @@ body{
 .h100{
     height: 100%;
 }
+.status-bar-height{
+    height: var(--status-bar-height);
+}
+.pageTitle-height{
+    height: calc(10% - var(--status-bar-height));
+}
+.pageTitle-top-fix-zindex999{
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+.bg-efefef{
+    background: #efefef;
+}
+.disF-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.my-h3{
+    font-size: 1.125rem;
+    font-weight: bold;
+}
 /* 发布页需要的素材1 */
 @font-face {
   font-family: "iconfont"; /* Project id 4064600 */
@@ -685,7 +709,7 @@ body{
 }
 .articleInfo__container__header__title--text[data-v-388cd4fe] {
   font-size: 1.25rem;
-  font-weight: 200;
+  font-weight: bold;
   color: #1f1f1f;
 }
 .articleInfo__container__header__time[data-v-388cd4fe] {
@@ -730,15 +754,18 @@ body{
 .articleInfo__container__footer--util[data-v-388cd4fe] {
   display: flex;
   align-items: center;
+  justify-content: space-around;
   color: #9d9d9d;
   font-size: 0.65rem;
-  width: calc(100% - 250px);
+  width: calc(100% - 210px);
 }
 .articleInfo__container__footer--util uni-view[data-v-388cd4fe] {
-  margin-left: 17px;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.articleInfo__container__footer--util uni-view[data-v-388cd4fe]:last-child {
+  margin-right: 0.9375rem;
 }
 
 

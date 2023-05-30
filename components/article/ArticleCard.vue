@@ -12,7 +12,7 @@
           <view class="active__cart__container__title__container__text">
             <view>
               <view class="active__cart__container__title__container__text__basic">
-                <view style="font-size: 0.9375rem;max-width: 80%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;display: inline-block">{{ articleInfo.u_name }}</view>
+                <view style="font-size: 0.95rem;max-width: 80%;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;display: inline-block">{{ articleInfo.u_name }}</view>
                 <view class="active__cart__container__title__container__text__basic--level">{{articleInfo.u_sgrade}}</view>
               </view>
 
@@ -222,6 +222,7 @@ export default {
             height: 27px;
             background-repeat: no-repeat;
             border-radius: 50%;
+            border: 0.0375rem silver solid;
             /*把背景图扩展至足够大，直至完全覆盖背景区域，
 图片比例保持不变且不会失真，但某些部分被切割无法显示完整背景图像*/
             background-size: cover;

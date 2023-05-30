@@ -605,6 +605,7 @@
   height: 27px;
   background-repeat: no-repeat;
   border-radius: 50%;
+  border: 0.0375rem silver solid;
   /*把背景图扩展至足够大，直至完全覆盖背景区域，
 图片比例保持不变且不会失真，但某些部分被切割无法显示完整背景图像*/
   background-size: cover;
@@ -723,7 +724,7 @@
   background: #FFFFFF;
   width: 100%;
   height: calc(100% - 10% - 7% - var(--status-bar-height));
-  margin-top: calc(16% + var(--status-bar-height));
+  margin-top: calc(13% + var(--status-bar-height));
   position: static;
 }
 .header__nav[data-v-a0df4f3d] {
@@ -745,6 +746,14 @@
 }
 .unactive__nav[data-v-a0df4f3d] {
   color: #3a3a3a;
+}
+
+.pyq__container__body[data-v-508725f9] {
+  background: #FFFFFF;
+  width: 100%;
+  height: calc(100% - 9% - 7% + var(--status-bar-height));
+  margin-top: calc(9% + var(--status-bar-height));
+  position: static;
 }
 
 /**
