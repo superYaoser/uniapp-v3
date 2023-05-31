@@ -1,10 +1,10 @@
 <template>
-	<view id="Home" class="w100 h100">
-    <TopBar></TopBar>
-		<view class="home w100 h100">
-      <view class="home__container w100 h100">
+	<view id="Home" style="width: 100%;">
+		<view class="home">
+      <view class="home__container">
 <!--        头部-->
-        <view class="container__header">
+        <view class="container__header pageTitle-top-fix-zindex999 w100">
+          <view class="status-bar-height" style="background: #016fce;"></view>
 <!--          搜索-->
           <view class="header__search">
             搜索区域
@@ -77,31 +77,32 @@ import ArticlesList from "@/components/home/articlesList/ArticlesList";
 </script>
 
 <style scoped lang="less">
+@import "@/static/style/lessMain.less";
 .home{
   &__container{
+    height: 100vh;
     .container__header{
       position: fixed;
       left: 0;
       top: 0;
       z-index: 999;
       width: 100%;
-      height: 10%;
-      margin-top: var(--status-bar-height);
+      height: calc(10vh + var(--status-bar-height));
       .header__search{
         background: #016fce;
-        height: 53%;
+        height: calc((100% - var(--status-bar-height)) * 0.53);
       }
       .header__nav{
         background: #FFFFFF;
         border-bottom: 1px solid #f1f1f1;
-        height: 47%;
+        height: calc((100% - var(--status-bar-height)) * 0.47);
       }
     }
     .container__body{
       background: #FFFFFF;
       width: 100%;
-      height: calc(100% - 10% - 7% - var(--status-bar-height));
-      margin-top: calc(13% + var(--status-bar-height));
+      height: calc(100% -  var(--status-bar-height) - 10vh - @My-TabBar-H);
+      margin-top: calc(10vh + var(--status-bar-height));
       position: static;
     }
   }

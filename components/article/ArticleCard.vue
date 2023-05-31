@@ -2,7 +2,8 @@
 <view class="ArticleCard__container w100 h100">
   <!--        单个       文章卡片-->
   <view class="active__cart w100 h100">
-    <view  class="active__cart__container" @tap="tapArticleCard(articleInfo)">
+    <Loading v-if="articleLoading"></Loading>
+    <view  class="active__cart__container" @tap="tapArticleCard(articleInfo)" v-else>
       <!---------------------------作者栏-->
       <view class="active__cart__container__title" @tap.stop="tapAuthorCard()">
         <view class="active__cart__container__title__container">
@@ -76,13 +77,16 @@
 </template>
 
 <script>
-import {onMounted, reactive, ref, watch, watchEffect} from "vue";
+import {onMounted, reactive, ref, watch, watchEffect,computed} from "vue";
 import {defaultHeadImgPath,formatDate} from '@/static/utils/globalConifg'
 import {setUserAddConcern,setUserRemoveConcern} from '@/static/api/users'
 import {useStore} from 'vuex';
+import Loading from "@/components/loading/Loading";
 
 export default {
   name: "ArticleCard",
+  components: {Loading},
+
   props: {
     articleData: Object,
     needFollowModel:Boolean,
@@ -95,6 +99,15 @@ export default {
       ...props.articleData
     });
 
+    //文章卡片加载种
+    // 当articleInfo没有值或为空时返回true，否则返回false
+    const articleLoading = computed(() => {
+      if (!articleInfo.value || Object.keys(articleInfo.value).length === 0) {
+        return true;
+      } else {
+        return false;
+      }
+    })
     //查看是不是自己
     const store = useStore()
     let isSelf = store.getters.getUser
@@ -166,6 +179,7 @@ export default {
           console.log(res)
           if (res.code===200){
             articleInfo.value.concern_be=1
+            plus.nativeUI.toast(`关注成功`)
             sendNewData(data)
           }else {
           //  关注失败
@@ -175,6 +189,7 @@ export default {
         setUserRemoveConcern({"u_id":data.article_user_id}).then(res=>{
           if (res.code===200){
             articleInfo.value.concern_be=0
+            plus.nativeUI.toast(`取关成功`)
             sendNewData(data)
           }else {
             //  取消关注失败
@@ -189,7 +204,7 @@ export default {
     }
     return{
       articleInfo,defaultHeadImgPath,needFollowModel,
-      tapArticleCard,tapAuthorCard,tapFollowCard,tapHandCard,isSelf,formatDate
+      tapArticleCard,tapAuthorCard,tapFollowCard,tapHandCard,isSelf,formatDate,articleLoading
     }
   }
 }

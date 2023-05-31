@@ -5,12 +5,15 @@
 
           <swiper-item v-for="(item1, index1) in classifyList" :key="index1">
 
-            <Loading :loading="scrollViewLoading"></Loading>
-
-            <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: 100%;`"  v-if="!scrollViewLoading"
+<!--            <Loading v-if="scrollViewLoading"></Loading>-->
+            <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: 100%;`"
                          refresher-enabled="true" refresher-background="#f5f5f5" @refresherrefresh="refreshListWithThrottle(item1.categoryID)"
                          :refresher-triggered="refreshOK">
-              <view class="articleList__container__body w100" style="padding-top: 2px;padding-bottom: 5px">
+              <view class="articleList__container__body w100" :style="'padding-top: 2px;padding-bottom: 5px'+concernArticleNULL?'background: #FFFFFF;':'background: #f5f5f5;'">
+                <view class="articleList__container__body__concern--blank disF-center" v-if="concernArticleNULL" style="flex-direction: column;margin-top: 40%">
+                  <image src="./static/images/utils/blank_page.png"></image>
+                  <view style="color: #a0a0a0">你还有没有关注任何人~~ 请刷新~</view>
+                </view>
                 <view v-for="(item2, index2) in item1.articleList" :key="item2.article_id" style="margin-bottom: 5px;">
 <!--                  文章卡片-->
 <ArticleCard :article-data="item2" :need-follow-model="needFollowModel" @update:item="handleItemUpdate(index2, $event)"></ArticleCard>
@@ -122,14 +125,21 @@ export default {
     let login_u_id = store.getters.getUser
     login_u_id = login_u_id.u_id
     console.log("ArticleList用户id"+login_u_id)
+
     //文章列表 关注
     let concernArticleList=ref([])
     const getConcernDetailedArticleByJsonData =async (data) => {
       let temp = await getConcernDetailedArticle(data)
+      if (temp.data.length<1 || !temp || temp==''){
+        concernArticleNULL.value = true
+      }else {
+        concernArticleNULL.value = false
+      }
       console.log(temp.data)
       let res = temp.data
       return res
     }
+
     // 初始化朋友圈的数据 的方法
     const initializePyqData = async () => {
       //初始化classifyList
@@ -142,6 +152,7 @@ export default {
       console.log(concernArticleList.value)
       classifyList.value[0].articleList = concernArticleList.value
     }
+    let concernArticleNULL = ref(false)
     //---------------------------------------动态 end-------------------------------------------------------------------------
 
     //----------------------------关键配置-------------------------------------------------------------------------------------------
@@ -240,7 +251,7 @@ export default {
     let scrollViewLoading =ref(true)
     watch(classifyList, (newValue) => {
       // 定义一个变量判断是否所有的articleList都有值
-      let allArticleListHaveValue = newValue.every((item) => item.articleList.length > 0);
+      let allArticleListHaveValue = newValue.every((item) => item.articleList.length > 1);
       //
       // 如果所有articleList都有值，则设置loading为false
       if (allArticleListHaveValue) {
@@ -279,7 +290,8 @@ export default {
       handleItemUpdate,
       aroundMove,
       refreshListWithThrottle,
-      refreshOK
+      refreshOK,
+      concernArticleNULL
     }
   },
 };

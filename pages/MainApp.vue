@@ -1,8 +1,8 @@
 <template>
-	<view id="Main" style="width: 100%;height: 100%;overflow: hidden;">
+	<view id="Main" style="width: 100%;height: 100vh;overflow: hidden;">
 		<view class="main__container" style="width: 100%;height: 100%;overflow: hidden;">
       <Home v-show="currentR==='Home'"></Home>
-      <Dynamic v-show="currentR==='Dynamic'" v-if="loginLoading"></Dynamic>
+      <Dynamic v-show="currentR==='Dynamic'"></Dynamic>
       <Publish v-show="currentR==='Publish'"></Publish>
       <Message v-show="currentR==='Message'"></Message>
       <Mine v-show="currentR==='Mine'"></Mine>
@@ -31,7 +31,6 @@ import {onMounted, ref} from "vue";
 		},
     setup(){
       //登录初始化
-      let loginLoading =ref(false)
       onShow(()=>{
         if (currentR.value==='Home'){
           uni.$emit('topBarBackgroundColor', {bg: '#016fce'})
@@ -50,7 +49,6 @@ import {onMounted, ref} from "vue";
         }).then(res => {
           console.log(res)
           if (res.code == 200) {
-            loginLoading.value =true
             try {
               uni.setStorageSync('token', res.token);
 // 如果登录成功，则获取当前用户
@@ -63,7 +61,6 @@ import {onMounted, ref} from "vue";
               console.log(e)
             }
           }else {
-            loginLoading.value =true
           }
         })
       })
@@ -97,7 +94,7 @@ import {onMounted, ref} from "vue";
         return true;
       })
       return{
-        currentR,tabBarVisibility,loginLoading
+        currentR,tabBarVisibility
       }
     },
 		data() {
@@ -115,6 +112,7 @@ import {onMounted, ref} from "vue";
 </script>
 
 <style scoped lang="less">
+@import "@/static/style/lessMain.less";
 #Main .main__container{
   width: 100%;
   height: 100%;

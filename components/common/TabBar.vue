@@ -102,13 +102,14 @@ export default {
 </script>
 
 <style lang="less" scoped>
+@import "@/static/style/lessMain.less";
 #TabBar {
   position: fixed;
   left: 0;
   bottom: 0;
   z-index: 999;
   width: 100%;
-  height: 7%;
+  height: @My-TabBar-H;
   background-color: #f9f9f9;
 
   .tabbar {

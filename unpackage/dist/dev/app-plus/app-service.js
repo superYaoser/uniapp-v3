@@ -2593,7 +2593,42 @@ if (uni.restoreGlobal) {
     });
   }
   const _sfc_main$d = {
+    name: "Loading",
+    data() {
+      return {};
+    },
+    /**
+     * 组件的属性列表
+     */
+    props: {
+      loading: {
+        type: Boolean,
+        default: true
+      },
+      errmsg: {
+        type: String,
+        default: ""
+      }
+    },
+    /**
+     * 组件的方法列表
+     */
+    methods: {}
+  };
+  function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
+    return vue.openBlock(), vue.createElementBlock("view", { style: { "background": "#fff", "text-align": "center" } }, [
+      $props.loading ? (vue.openBlock(), vue.createElementBlock("image", {
+        key: 0,
+        mode: "widthFix",
+        src: "/static/images/utils/list_loading.gif",
+        style: { "width": "90%", "height": "250rpx" }
+      })) : vue.createCommentVNode("v-if", true)
+    ]);
+  }
+  const Loading = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/loading/Loading.vue"]]);
+  const _sfc_main$c = {
     name: "ArticleCard",
+    components: { Loading },
     props: {
       articleData: Object,
       needFollowModel: Boolean
@@ -2602,6 +2637,13 @@ if (uni.restoreGlobal) {
     setup(props, { emit }) {
       let articleInfo = vue.ref({
         ...props.articleData
+      });
+      const articleLoading = vue.computed(() => {
+        if (!articleInfo.value || Object.keys(articleInfo.value).length === 0) {
+          return true;
+        } else {
+          return false;
+        }
       });
       const store2 = useStore();
       let isSelf = store2.getters.getUser;
@@ -2613,10 +2655,10 @@ if (uni.restoreGlobal) {
       uni.$on("articleCard_concern_update", function(e) {
         let data = e.data;
         if (articleInfo.value.article_user_id == data.u_id) {
-          formatAppLog("log", "at components/article/ArticleCard.vue:121", "找到该用户的关注变化" + articleInfo.value.article_user_id);
-          formatAppLog("log", "at components/article/ArticleCard.vue:122", "用户的关注原值：" + articleInfo.value.concern_be);
+          formatAppLog("log", "at components/article/ArticleCard.vue:134", "找到该用户的关注变化" + articleInfo.value.article_user_id);
+          formatAppLog("log", "at components/article/ArticleCard.vue:135", "用户的关注原值：" + articleInfo.value.concern_be);
           articleInfo.value.concern_be = data.concern_be;
-          formatAppLog("log", "at components/article/ArticleCard.vue:124", "用户的关注新值：" + articleInfo.value.concern_be);
+          formatAppLog("log", "at components/article/ArticleCard.vue:137", "用户的关注新值：" + articleInfo.value.concern_be);
         }
       });
       uni.$on("articleCard_interaction_update", function(e) {
@@ -2635,20 +2677,21 @@ if (uni.restoreGlobal) {
       const needFollowModel = vue.ref(true);
       needFollowModel.value = props.needFollowModel;
       const tapArticleCard = (data) => {
-        formatAppLog("log", "at components/article/ArticleCard.vue:153", "点击了文章卡");
+        formatAppLog("log", "at components/article/ArticleCard.vue:166", "点击了文章卡");
         uni.navigateTo({
           url: "/pages/article/detail/ArticleDetailPage?id=" + data.article_id
         });
       };
       const tapAuthorCard = (data) => {
-        formatAppLog("log", "at components/article/ArticleCard.vue:160", "点击了作者栏");
+        formatAppLog("log", "at components/article/ArticleCard.vue:173", "点击了作者栏");
       };
       const tapFollowCard = (data) => {
         if (data.concern_be === 0) {
           setUserAddConcern({ "u_id": data.article_user_id }).then((res) => {
-            formatAppLog("log", "at components/article/ArticleCard.vue:166", res);
+            formatAppLog("log", "at components/article/ArticleCard.vue:179", res);
             if (res.code === 200) {
               articleInfo.value.concern_be = 1;
+              plus.nativeUI.toast(`关注成功`);
               sendNewData(data);
             }
           });
@@ -2656,14 +2699,15 @@ if (uni.restoreGlobal) {
           setUserRemoveConcern({ "u_id": data.article_user_id }).then((res) => {
             if (res.code === 200) {
               articleInfo.value.concern_be = 0;
+              plus.nativeUI.toast(`取关成功`);
               sendNewData(data);
             }
           });
         }
-        formatAppLog("log", "at components/article/ArticleCard.vue:184", "点击了关注");
+        formatAppLog("log", "at components/article/ArticleCard.vue:199", "点击了关注");
       };
       const tapHandCard = (data) => {
-        formatAppLog("log", "at components/article/ArticleCard.vue:188", "点击了点赞");
+        formatAppLog("log", "at components/article/ArticleCard.vue:203", "点击了点赞");
       };
       return {
         articleInfo,
@@ -2674,16 +2718,19 @@ if (uni.restoreGlobal) {
         tapFollowCard,
         tapHandCard,
         isSelf,
-        formatDate
+        formatDate,
+        articleLoading
       };
     }
   };
-  function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_Loading = vue.resolveComponent("Loading");
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0);
     return vue.openBlock(), vue.createElementBlock("view", { class: "ArticleCard__container w100 h100" }, [
       vue.createCommentVNode("        单个       文章卡片"),
       vue.createElementVNode("view", { class: "active__cart w100 h100" }, [
-        vue.createElementVNode("view", {
+        $setup.articleLoading ? (vue.openBlock(), vue.createBlock(_component_Loading, { key: 0 })) : (vue.openBlock(), vue.createElementBlock("view", {
+          key: 1,
           class: "active__cart__container",
           onClick: _cache[3] || (_cache[3] = ($event) => $setup.tapArticleCard($setup.articleInfo))
         }, [
@@ -2873,45 +2920,11 @@ if (uni.restoreGlobal) {
               ])
             ])
           ])
-        ])
+        ]))
       ])
     ]);
   }
-  const ArticleCard = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c], ["__scopeId", "data-v-9eefd57b"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/article/ArticleCard.vue"]]);
-  const _sfc_main$c = {
-    name: "Loading",
-    data() {
-      return {};
-    },
-    /**
-     * 组件的属性列表
-     */
-    props: {
-      loading: {
-        type: Boolean,
-        default: true
-      },
-      errmsg: {
-        type: String,
-        default: ""
-      }
-    },
-    /**
-     * 组件的方法列表
-     */
-    methods: {}
-  };
-  function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view", { style: { "background": "#fff", "text-align": "center" } }, [
-      $props.loading ? (vue.openBlock(), vue.createElementBlock("image", {
-        key: 0,
-        mode: "widthFix",
-        src: "/static/images/utils/list_loading.gif",
-        style: { "width": "90%", "height": "250rpx" }
-      })) : vue.createCommentVNode("v-if", true)
-    ]);
-  }
-  const Loading = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/loading/Loading.vue"]]);
+  const ArticleCard = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$b], ["__scopeId", "data-v-9eefd57b"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/article/ArticleCard.vue"]]);
   const getListSetConfig = (e) => {
     formatAppLog("log", "at components/home/articlesList/functions.js:69", e);
     const listSetConfig = {
@@ -2948,14 +2961,14 @@ if (uni.restoreGlobal) {
       let hotArticleList = vue.ref([]);
       const getDetailedArticleByJsonData = async (data) => {
         let temp = await getDetailedArticle(data);
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:67", temp.data);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:70", temp.data);
         let res = temp.data;
         return res;
       };
       let clickNavIndex = vue.ref();
       uni.$on("home_article_follow_nav_change", function(e) {
         clickNavIndex.value = e.page;
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:77", clickNavIndex.value);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:80", clickNavIndex.value);
       });
       let currentIndex = vue.ref();
       const swiperItemChange = (e) => {
@@ -2991,11 +3004,16 @@ if (uni.restoreGlobal) {
       const store2 = useStore();
       let login_u_id = store2.getters.getUser;
       login_u_id = login_u_id.u_id;
-      formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:124", "ArticleList用户id" + login_u_id);
+      formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:127", "ArticleList用户id" + login_u_id);
       let concernArticleList = vue.ref([]);
       const getConcernDetailedArticleByJsonData = async (data) => {
         let temp = await getConcernDetailedArticle(data);
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:129", temp.data);
+        if (temp.data.length < 1 || !temp || temp == "") {
+          concernArticleNULL.value = true;
+        } else {
+          concernArticleNULL.value = false;
+        }
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:138", temp.data);
         let res = temp.data;
         return res;
       };
@@ -3005,9 +3023,10 @@ if (uni.restoreGlobal) {
           "u_id": login_u_id,
           "articleContentMaxWord": 100
         });
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:142", concernArticleList.value);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:152", concernArticleList.value);
         classifyList.value[0].articleList = concernArticleList.value;
       };
+      let concernArticleNULL = vue.ref(false);
       let refreshOK = vue.ref(false);
       let canRefresh = true;
       const refreshListWithThrottle = async (index) => {
@@ -3017,14 +3036,14 @@ if (uni.restoreGlobal) {
           uni.$emit("home_articleList_change", { data: classifyList.value });
         }, 1100);
         if (!canRefresh) {
-          formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:161", "当前不能刷新");
+          formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:172", "当前不能刷新");
           return;
         }
         canRefresh = false;
         setTimeout(() => {
           canRefresh = true;
         }, 1e3);
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:170", "下拉刷新被触发");
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:181", "下拉刷新被触发");
         if (set.static === 2) {
           concernArticleList.value = await getConcernDetailedArticleByJsonData({
             "u_id": login_u_id,
@@ -3032,9 +3051,9 @@ if (uni.restoreGlobal) {
           });
           classifyList.value[index].articleList = concernArticleList.value;
         } else {
-          formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:179", index);
+          formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:190", index);
           if (index === 0) {
-            formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:181", "123123123213213122");
+            formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:192", "123123123213213122");
             lateArticleList.value = await getDetailedArticleByJsonData({
               "sort": 1,
               "page_number": 1,
@@ -3066,7 +3085,7 @@ if (uni.restoreGlobal) {
       model_str_num = props.model_str_num;
       let set = getListSetConfig(model_str_num);
       vue.onMounted(async () => {
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:220", set);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:231", set);
         if (set.static === 2) {
           if (!login_u_id) {
             plus.nativeUI.toast(`用户没有登录`);
@@ -3080,13 +3099,13 @@ if (uni.restoreGlobal) {
       });
       let scrollViewLoading = vue.ref(true);
       vue.watch(classifyList, (newValue) => {
-        let allArticleListHaveValue = newValue.every((item) => item.articleList.length > 0);
+        let allArticleListHaveValue = newValue.every((item) => item.articleList.length > 1);
         if (allArticleListHaveValue) {
           scrollViewLoading.value = false;
         }
       }, { deep: true });
       const handleItemUpdate = (index, newValue) => {
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:253", "文章卡转递了新值");
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:264", "文章卡转递了新值");
         updateClassifyList(newValue);
         uni.$emit("home_articleList_change", { data: classifyList.value });
       };
@@ -3111,12 +3130,12 @@ if (uni.restoreGlobal) {
         handleItemUpdate,
         aroundMove,
         refreshListWithThrottle,
-        refreshOK
+        refreshOK,
+        concernArticleNULL
       };
     }
   };
   function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_Loading = vue.resolveComponent("Loading");
     const _component_ArticleCard = vue.resolveComponent("ArticleCard");
     return vue.openBlock(), vue.createElementBlock("view", { class: "w100 h100" }, [
       vue.createElementVNode("view", { class: "actives__container w100 h100" }, [
@@ -3131,9 +3150,8 @@ if (uni.restoreGlobal) {
             null,
             vue.renderList($setup.classifyList, (item1, index1) => {
               return vue.openBlock(), vue.createElementBlock("swiper-item", { key: index1 }, [
-                vue.createVNode(_component_Loading, { loading: $setup.scrollViewLoading }, null, 8, ["loading"]),
-                !$setup.scrollViewLoading ? (vue.openBlock(), vue.createElementBlock("scroll-view", {
-                  key: 0,
+                vue.createCommentVNode('            <Loading v-if="scrollViewLoading"></Loading>'),
+                vue.createElementVNode("scroll-view", {
                   class: "scrollview",
                   "scroll-y": "true",
                   style: `width: 100%;height: 100%;`,
@@ -3142,31 +3160,45 @@ if (uni.restoreGlobal) {
                   onRefresherrefresh: ($event) => $setup.refreshListWithThrottle(item1.categoryID),
                   "refresher-triggered": $setup.refreshOK
                 }, [
-                  vue.createElementVNode("view", {
-                    class: "articleList__container__body w100",
-                    style: { "padding-top": "2px", "padding-bottom": "5px" }
-                  }, [
-                    (vue.openBlock(true), vue.createElementBlock(
-                      vue.Fragment,
-                      null,
-                      vue.renderList(item1.articleList, (item2, index2) => {
-                        return vue.openBlock(), vue.createElementBlock("view", {
-                          key: item2.article_id,
-                          style: { "margin-bottom": "5px" }
-                        }, [
-                          vue.createCommentVNode("                  文章卡片"),
-                          vue.createVNode(_component_ArticleCard, {
-                            "article-data": item2,
-                            "need-follow-model": $setup.needFollowModel,
-                            "onUpdate:item": ($event) => $setup.handleItemUpdate(index2, $event)
-                          }, null, 8, ["article-data", "need-follow-model", "onUpdate:item"])
-                        ]);
-                      }),
-                      128
-                      /* KEYED_FRAGMENT */
-                    ))
-                  ])
-                ], 40, ["onRefresherrefresh", "refresher-triggered"])) : vue.createCommentVNode("v-if", true)
+                  vue.createElementVNode(
+                    "view",
+                    {
+                      class: "articleList__container__body w100",
+                      style: vue.normalizeStyle("padding-top: 2px;padding-bottom: 5px" + $setup.concernArticleNULL ? "background: #FFFFFF;" : "background: #f5f5f5;")
+                    },
+                    [
+                      $setup.concernArticleNULL ? (vue.openBlock(), vue.createElementBlock("view", {
+                        key: 0,
+                        class: "articleList__container__body__concern--blank disF-center",
+                        style: { "flex-direction": "column", "margin-top": "40%" }
+                      }, [
+                        vue.createElementVNode("image", { src: "/static/images/utils/blank_page.png" }),
+                        vue.createElementVNode("view", { style: { "color": "#a0a0a0" } }, "你还有没有关注任何人~~ 请刷新~")
+                      ])) : vue.createCommentVNode("v-if", true),
+                      (vue.openBlock(true), vue.createElementBlock(
+                        vue.Fragment,
+                        null,
+                        vue.renderList(item1.articleList, (item2, index2) => {
+                          return vue.openBlock(), vue.createElementBlock("view", {
+                            key: item2.article_id,
+                            style: { "margin-bottom": "5px" }
+                          }, [
+                            vue.createCommentVNode("                  文章卡片"),
+                            vue.createVNode(_component_ArticleCard, {
+                              "article-data": item2,
+                              "need-follow-model": $setup.needFollowModel,
+                              "onUpdate:item": ($event) => $setup.handleItemUpdate(index2, $event)
+                            }, null, 8, ["article-data", "need-follow-model", "onUpdate:item"])
+                          ]);
+                        }),
+                        128
+                        /* KEYED_FRAGMENT */
+                      ))
+                    ],
+                    4
+                    /* STYLE */
+                  )
+                ], 40, ["onRefresherrefresh", "refresher-triggered"])
               ]);
             }),
             128
@@ -3211,17 +3243,19 @@ if (uni.restoreGlobal) {
     methods: {}
   };
   function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
-    const _component_TopBar = vue.resolveComponent("TopBar");
     const _component_ArticlesList = vue.resolveComponent("ArticlesList");
     return vue.openBlock(), vue.createElementBlock("view", {
       id: "Home",
-      class: "w100 h100"
+      style: { "width": "100%" }
     }, [
-      vue.createVNode(_component_TopBar),
-      vue.createElementVNode("view", { class: "home w100 h100" }, [
-        vue.createElementVNode("view", { class: "home__container w100 h100" }, [
+      vue.createElementVNode("view", { class: "home" }, [
+        vue.createElementVNode("view", { class: "home__container" }, [
           vue.createCommentVNode("        头部"),
-          vue.createElementVNode("view", { class: "container__header" }, [
+          vue.createElementVNode("view", { class: "container__header pageTitle-top-fix-zindex999 w100" }, [
+            vue.createElementVNode("view", {
+              class: "status-bar-height",
+              style: { "background": "#016fce" }
+            }),
             vue.createCommentVNode("          搜索"),
             vue.createElementVNode("view", { class: "header__search" }, " 搜索区域 "),
             vue.createCommentVNode("          导航"),
@@ -3282,19 +3316,16 @@ if (uni.restoreGlobal) {
     setup() {
       vue.onMounted(() => {
       });
-      const store2 = useStore();
-      let login_u_id = store2.getters.getUser;
-      login_u_id = login_u_id.u_id;
-      formatAppLog("log", "at pages/pyq/Dynamic.vue:45", login_u_id);
-      vue.watch(
-        () => login_u_id,
-        (newValue) => {
-          if (newValue !== null && newValue !== void 0 && newValue !== "") {
-            loading.value = false;
-          }
+      const loading = vue.computed(() => {
+        const store2 = useStore();
+        let login_u_id = store2.getters.getUser;
+        login_u_id = login_u_id.u_id;
+        if (!login_u_id) {
+          return true;
+        } else {
+          return false;
         }
-      );
-      let loading = vue.ref(true);
+      });
       return {
         loading
       };
@@ -3317,18 +3348,15 @@ if (uni.restoreGlobal) {
           ]),
           vue.createCommentVNode("        身体"),
           vue.createElementVNode("view", { class: "pyq__container__body" }, [
-            vue.createVNode(_component_Loading, {
-              loading: !$setup.loading
-            }, null, 8, ["loading"]),
-            $setup.loading ? (vue.openBlock(), vue.createElementBlock("view", {
-              key: 0,
+            $setup.loading ? (vue.openBlock(), vue.createBlock(_component_Loading, { key: 0 })) : (vue.openBlock(), vue.createElementBlock("view", {
+              key: 1,
               class: "w100 h100"
             }, [
               vue.createVNode(_component_ArticlesList, {
                 "need-follow-model": false,
                 model_str_num: "pyq"
               })
-            ])) : vue.createCommentVNode("v-if", true)
+            ]))
           ])
         ])
       ])
@@ -6725,7 +6753,6 @@ if (uni.restoreGlobal) {
       TopBar
     },
     setup() {
-      let loginLoading = vue.ref(false);
       onShow(() => {
         if (currentR.value === "Home") {
           uni.$emit("topBarBackgroundColor", { bg: "#016fce" });
@@ -6737,20 +6764,17 @@ if (uni.restoreGlobal) {
           email: "1@qq.com",
           password: "1"
         }).then((res) => {
-          formatAppLog("log", "at pages/MainApp.vue:51", res);
+          formatAppLog("log", "at pages/MainApp.vue:50", res);
           if (res.code == 200) {
-            loginLoading.value = true;
             try {
               uni.setStorageSync("token", res.token);
               const currentUser = res.data;
               store2.dispatch("addUser", currentUser);
-              formatAppLog("log", "at pages/MainApp.vue:60", store2.getters.getUser);
+              formatAppLog("log", "at pages/MainApp.vue:58", store2.getters.getUser);
               plus.nativeUI.toast(`登录成功，当前用户：${store2.getters.getUser.u_id}`);
             } catch (e) {
-              formatAppLog("log", "at pages/MainApp.vue:63", e);
+              formatAppLog("log", "at pages/MainApp.vue:61", e);
             }
-          } else {
-            loginLoading.value = true;
           }
         });
       });
@@ -6777,8 +6801,7 @@ if (uni.restoreGlobal) {
       });
       return {
         currentR,
-        tabBarVisibility,
-        loginLoading
+        tabBarVisibility
       };
     },
     data() {
@@ -6799,7 +6822,7 @@ if (uni.restoreGlobal) {
     const _component_TabBar = vue.resolveComponent("TabBar");
     return vue.openBlock(), vue.createElementBlock("view", {
       id: "Main",
-      style: { "width": "100%", "height": "100%", "overflow": "hidden" }
+      style: { "width": "100%", "height": "100vh", "overflow": "hidden" }
     }, [
       vue.createElementVNode("view", {
         class: "main__container",
@@ -6814,15 +6837,15 @@ if (uni.restoreGlobal) {
         ), [
           [vue.vShow, $setup.currentR === "Home"]
         ]),
-        $setup.loginLoading ? vue.withDirectives((vue.openBlock(), vue.createBlock(
+        vue.withDirectives(vue.createVNode(
           _component_Dynamic,
-          { key: 0 },
+          null,
           null,
           512
           /* NEED_PATCH */
-        )), [
+        ), [
           [vue.vShow, $setup.currentR === "Dynamic"]
-        ]) : vue.createCommentVNode("v-if", true),
+        ]),
         vue.withDirectives(vue.createVNode(
           _component_Publish,
           null,
