@@ -8,7 +8,7 @@
 
         <view class="articleInfo__container__header">
           <view class="articleInfo__container__header__authorInfo">
-            <view class="articleInfo__container__header__authorInfo__head">
+            <view class="articleInfo__container__header__authorInfo__head" @tap="tapAuthorCard(authorInfo)">
 
               <view class="articleInfo__container__header__authorInfo__head--img">
                 <view class="articleInfo__container__header__authorInfo__head--img--path" :style="authorInfo.u_head ? 'background-image: url(' + authorInfo.u_head + ')' : 'background-image: url(' + defaultHeadImgPath + ')'"></view>
@@ -18,10 +18,10 @@
               </view>
               <view class="articleInfo__container__header__authorInfo__head--level">{{authorInfo.u_sgrade}}</view>
             </view>
-            <view class="articleInfo__container__header__authorInfo__follow" v-if="needFollowModel">
+            <view class="articleInfo__container__header__authorInfo__follow" v-if="needFollowModel" v-show="selfId!=authorInfo.u_id" @tap="tapFollowCard(authorInfo)">
               <view style="width: 100%;height: 100%;">
-                <view class="articleInfo__container__header__authorInfo__follow--be" v-show="1===1">已关注</view>
-                <view class="articleInfo__container__header__authorInfo__follow--no" v-show="1===0||!1">+关注</view>
+                <view class="articleInfo__container__header__authorInfo__follow--be" v-show="concern_be">已关注</view>
+                <view class="articleInfo__container__header__authorInfo__follow--no" v-show="!concern_be">+关注</view>
               </view>
             </view>
 
@@ -72,24 +72,25 @@
 </template>
 
 <script>
-import { getCurrentInstance } from "vue";
 import {
   onLoad
 } from "@dcloudio/uni-app";
-
+import ArticleFun from "@/components/article/articleFun";
 import {onMounted, ref} from "vue";
 import {getArticleByID} from '@/static/api/article'
 import App from "@/App";
-import {getUserInfoById} from '@/static/api/users'
+import {getUserInfoById, getUser1AndUser2Concern, setUserAddConcern, setUserRemoveConcern} from '@/static/api/users'
 import {sendMessageToScreen} from'@/static/utils/globalConifg'
 import Loading from "@/components/loading/Loading";
 import {defaultHeadImgPath} from '@/static/utils/globalConifg'
+import {useStore} from 'vuex';
 export default {
   props: {
     needFollowModel:Boolean,
   },
   components: {Loading, App},
-  setup(props) {
+  emits: ['update:item'],
+  setup(props,{emit}) {
     //是不是需要关注模型
     const needFollowModel=ref(true)
     needFollowModel.value = props.needFollowModel
@@ -97,8 +98,14 @@ export default {
     let authorInfo = ref()
     //文章信息
     let articleInfo = ref()
+    //关注信息
+    let concern_be = ref(false)
+    // 获取登录用户信息
+    const store = useStore()
+    let selfId = store.getters.getUser
+    selfId = selfId.u_id
 
-    //标准写法 获取个人信息
+    //标准写法 获取作者个人信息
     const getAuthorInfo = async (id)=>{
       try {
         const res = await getUserInfoById(id);
@@ -116,6 +123,29 @@ export default {
         plus.nativeUI.toast(`获取个人信息错误
           代码：${error}`,{ duration:'long'})
       }
+    }
+    //获取用户关注信息
+    const getUserConcern = async (id1,id2)=>{
+      try {
+        const res = await getUser1AndUser2Concern({"u_id":id1,"be_u_id":id2});
+        if (res.code === 200){
+          // Process the result here
+          return res.data.concern_be === 1;
+        } else {
+          // Handle error here
+          plus.nativeUI.toast(`获取关注状态错误
+          代码：${res.code}`,{ duration:'long'})
+          // sendMessageToScreen({message:'获取个人信息错误'})
+        }
+      } catch (error) {
+        // Handle any exceptions here
+        plus.nativeUI.toast(`获取关注状态错误
+          代码：${error}`,{ duration:'long'})
+      }
+    }
+    // 用于向父组件发送最新的作者数据
+    const sendUserId=(id)=>{
+      emit('del:item', id)
     }
 
 
@@ -140,12 +170,46 @@ export default {
 
       // 赋值作者信息
       authorInfo.value = await getAuthorInfo(articleInfo.value.article_user_id)
+      //赋值关注信息
+      concern_be.value = await getUserConcern(selfId,articleInfo.value.article_user_id)
     })
 
-    //
+    //---------------互动 --------------------------------
+    //点击作者栏
+    const tapAuthorCard=(data)=>{
+      console.log('点击了作者栏')
+    }
+    //点击关注
+    const tapFollowCard=(data)=>{
+      if (concern_be.value===false){
+        setUserAddConcern({"u_id":data.u_id}).then(res=>{
+          console.log(res)
+          if (res.code===200){
+            concern_be.value=true
+            ArticleFun.setArticleCardUpdate(data.u_id,null,1)
+            plus.nativeUI.toast(`关注成功`)
+          }else {
+            //  关注失败
+          }
+        })
+      }else {
+        setUserRemoveConcern({"u_id":data.u_id}).then(res=>{
+          if (res.code===200){
+            concern_be.value=false
+            ArticleFun.setArticleCardUpdate(data.u_id,null,0)
+            plus.nativeUI.toast(`取关成功`)
+          }else {
+            //  取消关注失败
+          }
+        })
+      }
+      console.log('点击了关注')
+    }
+    //---------------互动 end--------------------------------
 
     return{
-      articleId,html,authorInfo,defaultHeadImgPath,articleInfo,needFollowModel
+      articleId,html,authorInfo,defaultHeadImgPath,articleInfo,needFollowModel,concern_be
+      ,tapAuthorCard,tapFollowCard,selfId
     }
   }
 }

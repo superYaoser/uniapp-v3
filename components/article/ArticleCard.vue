@@ -110,9 +110,29 @@ export default {
         });
       });
     }
+    //-----------------------------------监听卡片变化---------------------------------------------------------------------------------------
     uni.$on('home_articleList_change',function(e){
-      getArticleById(e.data,articleInfo.value.article_id,articleInfo.value.article_user_id)
+      let u_id =e.u_id
+      articleInfo.value.concern_be
     })
+    uni.$on('articleCard_concern_update',function(e){
+      let data = e.data
+      if (articleInfo.value.article_user_id == data.u_id){
+        console.log('找到该用户的关注变化'+articleInfo.value.article_user_id)
+        console.log('用户的关注原值：'+articleInfo.value.concern_be)
+        articleInfo.value.concern_be=data.concern_be
+        console.log('用户的关注新值：'+articleInfo.value.concern_be)
+      }
+    })
+    uni.$on('articleCard_interaction_update',function(e){
+      let data = e.data
+      if(articleInfo.value.article_id == data.article_id){
+        articleInfo.value.article_watch_num=data.watch
+        articleInfo.value.article_comment_num=data.comment
+        articleInfo.value.article_hand_support_num=data.hand
+      }
+    })
+    //-----------------------------------监听卡片变化 end--------------------------------------------------------------------------------------------------------
     //用于接收父组件数据后查找本篇文章- 替换---end-------------------
 
     // 用于向父组件发送最新的数据

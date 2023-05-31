@@ -42,6 +42,7 @@ import Loading from "@/components/loading/Loading";
       const store = useStore()
       let login_u_id = store.getters.getUser
       login_u_id = login_u_id.u_id
+      console.log(login_u_id)
       watch(
           () => login_u_id,
           (newValue) => {

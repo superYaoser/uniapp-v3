@@ -2,7 +2,7 @@
 	<view id="Main" style="width: 100%;height: 100%;overflow: hidden;">
 		<view class="main__container" style="width: 100%;height: 100%;overflow: hidden;">
       <Home v-show="currentR==='Home'"></Home>
-      <Dynamic v-show="currentR==='Dynamic'"></Dynamic>
+      <Dynamic v-show="currentR==='Dynamic'" v-if="loginLoading"></Dynamic>
       <Publish v-show="currentR==='Publish'"></Publish>
       <Message v-show="currentR==='Message'"></Message>
       <Mine v-show="currentR==='Mine'"></Mine>
@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import {useStore} from 'vuex';
 	import TabBar from "@/components/common/TabBar.vue";
   import Home from "@/pages/home/Home";
   import Dynamic from "@/pages/pyq/Dynamic";
@@ -19,15 +20,18 @@
   import Message from "@/pages/message/Message";
   import Mine from "@/pages/mine/Mine";
   import TopBar from "@/components/MainApp/TopBar";
-  import {ref} from "vue";
+import {onMounted, ref} from "vue";
   import {
     onBackPress,onShow
   } from "@dcloudio/uni-app";
+  import {loginUseUser} from "@/static/api/users";
 	export default {
 		components: {
 			TabBar,Home,Dynamic,Publish,Message,Mine,TopBar
 		},
     setup(){
+      //登录初始化
+      let loginLoading =ref(false)
       onShow(()=>{
         if (currentR.value==='Home'){
           uni.$emit('topBarBackgroundColor', {bg: '#016fce'})
@@ -35,6 +39,35 @@
 
         }
       })
+      //初始化
+      onMounted(()=>{
+
+        const store = useStore()
+        // 登录成功后跳转到主页，然后将token保存到本地
+        loginUseUser({
+          email: '1@qq.com',
+          password: '1'
+        }).then(res => {
+          console.log(res)
+          if (res.code == 200) {
+            loginLoading.value =true
+            try {
+              uni.setStorageSync('token', res.token);
+// 如果登录成功，则获取当前用户
+              const currentUser = res.data;
+// 利用 Vuex 的 dispatch 方法将用户信息存储到全局状态中
+              store.dispatch('addUser', currentUser);
+              console.log(store.getters.getUser)
+              plus.nativeUI.toast(`登录成功，当前用户：${store.getters.getUser.u_id}`)
+            } catch (e) {
+              console.log(e)
+            }
+          }else {
+            loginLoading.value =true
+          }
+        })
+      })
+
       let backButtonPress =ref(0)
       //当前路由
       let currentR = ref('Home')
@@ -64,7 +97,7 @@
         return true;
       })
       return{
-        currentR,tabBarVisibility
+        currentR,tabBarVisibility,loginLoading
       }
     },
 		data() {
@@ -72,7 +105,7 @@
 				title: 'Hello'
 			}
 		},
-		onLoad() {
+		created() {
 
 		},
 		methods: {

@@ -108,7 +108,7 @@ export default {
       uni.$emit('currentRouterUpdate', {router: currentR.value})
     }
     //点击返回应该展示的界面
-    uni.$on('tabBarCurrentRvalue', function (data) {
+    uni.$on('tabBarCurrentRvalue', function (data) { 
       currentR.value = data.router;
     })
 

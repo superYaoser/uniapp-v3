@@ -121,6 +121,7 @@ export default {
     const store = useStore()
     let login_u_id = store.getters.getUser
     login_u_id = login_u_id.u_id
+    console.log("ArticleList用户id"+login_u_id)
     //文章列表 关注
     let concernArticleList=ref([])
     const getConcernDetailedArticleByJsonData =async (data) => {
@@ -154,7 +155,8 @@ export default {
     const refreshListWithThrottle = async (index) => {
       // 下面是原有的刷新逻辑，不需要修改
       refreshOK.value = true
-      setTimeout(() => { refreshOK.value = false }, 1100) // 1.5秒后将刷新状态重新设置为true
+      setTimeout(() => { refreshOK.value = false
+        uni.$emit('home_articleList_change', {data: classifyList.value})}, 1100) // 1.5秒后将刷新状态重新设置为true
       if (!canRefresh){
         console.log("当前不能刷新")
 

@@ -58,8 +58,25 @@ function setUserRemoveConcern(data){
 		data:data,
 	});
 }
+/*•	GET /api/user/concern查询单个用户关注信息
+权限：1
+参数：u_id（用户id）、be_u_id（被关注的用户id）
+说明：
+*/
+/**getUser1AndUser2Concern
+ * @param data u_id（用户id）
+ * @param data be_u_id（用户id）
+ * @returns {Promise | Promise<unknown>}
+ */
+function getUser1AndUser2Concern(data){
+	return R({
+		url: 'user/concern',
+		method:'GET',
+		data:data,
+	});
+}
 export {
 	loginUseUser,
 	getUserInfoById,
-	getUserInfoPageJson,setUserAddConcern,setUserRemoveConcern
+	getUserInfoPageJson,setUserAddConcern,setUserRemoveConcern,getUser1AndUser2Concern
 }
