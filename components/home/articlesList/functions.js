@@ -2,7 +2,8 @@ import {getDetailedArticle}from '@/static/api/article'
 //模型
 let model =[
     { categoryID:'1yao',classifyTitle: "最新", classifyContent: "类别描述",currentPage:1, articleList:[
-            {article_across: 1,
+            {
+                article_across: 1,
                 article_class_id: "1",
                 article_comment_num: 0,
                 article_text:'测试内容text',
@@ -20,7 +21,9 @@ let model =[
                 article_watch_num: 0,
                 class_name: "综合",
                 u_name: "",
-                u_sgrade: ""}
+                u_sgrade: "",
+                concern_be:1
+            }
         ] },
     { categoryID:'2yao',classifyTitle: "推荐", classifyContent: "类别描述",currentPage:1, articleList:[
             {article_across: 1,

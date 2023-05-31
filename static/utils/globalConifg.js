@@ -18,6 +18,7 @@ const sendMessageToScreen =(data)=>{
         duration:2000,
         mask:false,
     });
+//     plus.nativeUI.toast(`关注成功`)
 }
 /*这个方法会首先将传入的字符串解析成一个时间戳对象 date，然后从中依次提取年月日小时分钟等信息，
 并根据当前年与该日期的年份是否相同来决定在字符串中插入横线或者减号。同时，它还计算了传入的日期与当前时间之间的时间跨度，

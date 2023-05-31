@@ -8,7 +8,8 @@
 <!--            <Loading v-if="scrollViewLoading"></Loading>-->
             <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: 100%;`"
                          refresher-enabled="true" refresher-background="#f5f5f5" @refresherrefresh="refreshListWithThrottle(item1.categoryID)"
-                         :refresher-triggered="refreshOK">
+                         :refresher-triggered="refreshOK"
+                         @scrolltolower="upRefreshListWithThrottle(item1.categoryID)">
               <view class="articleList__container__body w100" :style="'padding-top: 2px;padding-bottom: 5px'+concernArticleNULL?'background: #FFFFFF;':'background: #f5f5f5;'">
                 <view class="articleList__container__body__concern--blank disF-center" v-if="concernArticleNULL" style="flex-direction: column;margin-top: 40%">
                   <image src="./static/images/utils/blank_page.png"></image>
@@ -16,7 +17,7 @@
                 </view>
                 <view v-for="(item2, index2) in item1.articleList" :key="item2.article_id" style="margin-bottom: 5px;">
 <!--                  文章卡片-->
-<ArticleCard :article-data="item2" :need-follow-model="needFollowModel" @update:item="handleItemUpdate(index2, $event)"></ArticleCard>
+<ArticleCard :article-data="item2" :need-follow-model="needFollowModel"></ArticleCard>
 
                   </view>
                 </view>
@@ -69,6 +70,9 @@ export default {
       let temp = await getDetailedArticle(data)
       console.log(temp.data)
       let res =temp.data
+      if (temp.data.length<1 || !temp || temp==''){
+        plus.nativeUI.toast(`没有更多数据`)
+      }
       return res
     }
 
@@ -158,7 +162,7 @@ export default {
     //----------------------------关键配置-------------------------------------------------------------------------------------------
 
 
-    //----------------------------刷新-------------------------------------------------------------------------------------------
+    //--------------------------下拉--刷新-------------------------------------------------------------------------------------------
     //是否下拉刷新完毕
     let refreshOK = ref(false)
     //下拉刷新列表
@@ -219,6 +223,95 @@ export default {
     }
     //----------------------------刷新 end-------------------------------------------------------------------------------------------
 
+    //--------------------------上拉---刷新-------------------------------------------------------------------------------------------
+    //是否上拉刷新完毕
+    let upRefreshOK = ref(false)
+    //记录当前索引刷新页数
+    let indexReFreshPage=[1,1,1]
+    //下拉刷新列表
+    let canUpRefresh = true // 初始状态为true表示可以刷新
+    const upRefreshListWithThrottle =async (index) =>{
+      //动态页不需要刷新，直接返回即可
+      if (set.static===2){
+        return
+      }
+      // 下面是原有的刷新逻辑，不需要修改
+      upRefreshOK.value = true
+      setTimeout(() => { upRefreshOK.value = false
+        uni.$emit('home_articleList_change', {data: classifyList.value})}, 1100) // 1.1秒后将刷新状态重新设置为true
+      if (!canUpRefresh){
+        console.log("当前不能上拉刷新")
+        plus.nativeUI.toast(`载入中...`)
+
+        return // 如果当前不能刷新，则直接返回
+      }
+
+      canUpRefresh = false // 将刷新状态设置为false
+      setTimeout(() => { canUpRefresh = true }, 1000) // 1秒后将刷新状态重新设置为true
+
+      // 下面是原有的刷新逻辑，不需要修改
+      console.log("上拉刷新被触发")
+      //显示加载中
+      sendLoadingLogo()
+      // classifyList.value[0] = { categoryID:0,classifyTitle:"",classifyContent:"类别描述",currentPage:1,articleList:[{}] }
+      if (index === 0) {
+        let lateArticleList = await getDetailedArticleByJsonData({
+          "sort": 1,
+          "page_number": indexReFreshPage[index]+1,
+          "articleContentMaxWord": 100,
+          "select_title_num": 3
+        })
+        if(pushInClassifyListIndexByArticleList(index,lateArticleList)){
+          indexReFreshPage[index]++
+        }
+      } else if (index === 1) {
+        let lateArticleList = await getDetailedArticleByJsonData({
+          "sort": 1,
+          "page_number": indexReFreshPage[index]+1,
+          "articleContentMaxWord": 100,
+          "select_title_num": 1
+        })
+        if(pushInClassifyListIndexByArticleList(index,lateArticleList)){
+          indexReFreshPage[index]++
+        }
+      } else if (index === 2) {
+        let lateArticleList = await getDetailedArticleByJsonData({
+          "sort": 1,
+          "page_number": indexReFreshPage[index]+1,
+          "articleContentMaxWord": 100,
+          "select_title_num": 2
+        })
+        if(pushInClassifyListIndexByArticleList(index,lateArticleList)){
+          indexReFreshPage[index]++
+        }
+      }
+    }
+    // 将数据 push到老数组中
+    const pushInClassifyListIndexByArticleList= (index,articleList) =>{
+      try{
+        for (let i=0;i<articleList.length;i++){
+          classifyList.value[index].articleList.push(articleList[i])
+        }
+        return true
+      }catch (e){
+        return false
+      }
+    }
+    //发送加载
+    const sendLoadingLogo = () => {
+      // uni.showToast({
+      //   icon:'loading',
+      //   title:'加载中',
+      //   duration:350,
+      //   mask:false,
+      //   position:'bottom'
+      // });
+      uni.showLoading({
+        title: '加载中',
+        mask:true
+      });
+    }
+    //--------------------------上拉---刷新- end------------------------------------------------------------------------------------------
 
     // 允许左右滑动
     const aroundMove=ref(true)
@@ -259,12 +352,6 @@ export default {
       }
     }, { deep: true });
 
-    //接收文章卡片传递过来的数据变化
-    const handleItemUpdate=(index, newValue)=>{
-      console.log('文章卡转递了新值')
-      updateClassifyList(newValue)
-      uni.$emit('home_articleList_change', {data: classifyList.value})
-    }
     //更新所有classifyList中的articleList 与文章id和作者id匹配的对象
     //newValue是articleList格式
     function updateClassifyList(newValue) {
@@ -287,11 +374,11 @@ export default {
       swiperItemChange,
       clickNavIndex,
       needFollowModel,
-      handleItemUpdate,
       aroundMove,
       refreshListWithThrottle,
       refreshOK,
-      concernArticleNULL
+      concernArticleNULL,
+      upRefreshListWithThrottle
     }
   },
 };

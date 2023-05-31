@@ -82,6 +82,7 @@ import {defaultHeadImgPath,formatDate} from '@/static/utils/globalConifg'
 import {setUserAddConcern,setUserRemoveConcern} from '@/static/api/users'
 import {useStore} from 'vuex';
 import Loading from "@/components/loading/Loading";
+import ArticleFun from "@/components/article/articleFun";
 
 export default {
   name: "ArticleCard",
@@ -148,10 +149,6 @@ export default {
     //-----------------------------------监听卡片变化 end--------------------------------------------------------------------------------------------------------
     //用于接收父组件数据后查找本篇文章- 替换---end-------------------
 
-    // 用于向父组件发送最新的数据
-    const sendNewData=(data)=>{
-      emit('update:item', data)
-    }
 
 
     onMounted(()=>{
@@ -179,8 +176,8 @@ export default {
           console.log(res)
           if (res.code===200){
             articleInfo.value.concern_be=1
+            ArticleFun.setArticleCardUpdate(data.article_user_id,null,1)
             plus.nativeUI.toast(`关注成功`)
-            sendNewData(data)
           }else {
           //  关注失败
           }
@@ -189,8 +186,8 @@ export default {
         setUserRemoveConcern({"u_id":data.article_user_id}).then(res=>{
           if (res.code===200){
             articleInfo.value.concern_be=0
+            ArticleFun.setArticleCardUpdate(data.article_user_id,null,0)
             plus.nativeUI.toast(`取关成功`)
-            sendNewData(data)
           }else {
             //  取消关注失败
           }
