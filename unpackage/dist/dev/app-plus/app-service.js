@@ -7036,7 +7036,7 @@ if (uni.restoreGlobal) {
         let id = option.id;
         articleId.value = id;
         await getArticleByID(articleId.value).then((res) => {
-          formatAppLog("log", "at components/article/ArticleDetailPage.vue:160", res);
+          formatAppLog("log", "at components/article/ArticleDetailPage.vue:161", res);
           if (res.code === 200) {
             articleInfo.value = res.data[0];
             html.value = articleInfo.value.article_content;
@@ -7048,12 +7048,12 @@ if (uni.restoreGlobal) {
         concern_be.value = await getUserConcern(selfId, articleInfo.value.article_user_id);
       });
       const tapAuthorCard = (data) => {
-        formatAppLog("log", "at components/article/ArticleDetailPage.vue:180", "点击了作者栏");
+        formatAppLog("log", "at components/article/ArticleDetailPage.vue:181", "点击了作者栏");
       };
       const tapFollowCard = (data) => {
         if (concern_be.value === false) {
           setUserAddConcern({ "u_id": data.u_id }).then((res) => {
-            formatAppLog("log", "at components/article/ArticleDetailPage.vue:186", res);
+            formatAppLog("log", "at components/article/ArticleDetailPage.vue:187", res);
             if (res.code === 200) {
               concern_be.value = true;
               ArticleFun.setArticleCardUpdate(data.u_id, null, 1);
@@ -7069,7 +7069,7 @@ if (uni.restoreGlobal) {
             }
           });
         }
-        formatAppLog("log", "at components/article/ArticleDetailPage.vue:206", "点击了关注");
+        formatAppLog("log", "at components/article/ArticleDetailPage.vue:207", "点击了关注");
       };
       return {
         articleId,
@@ -7081,7 +7081,8 @@ if (uni.restoreGlobal) {
         concern_be,
         tapAuthorCard,
         tapFollowCard,
-        selfId
+        selfId,
+        formatDate
       };
     }
   };
@@ -7177,7 +7178,7 @@ if (uni.restoreGlobal) {
                 vue.createElementVNode(
                   "view",
                   null,
-                  vue.toDisplayString("文章发布于：") + vue.toDisplayString($setup.articleInfo.article_create_time),
+                  vue.toDisplayString("文章发布于：") + vue.toDisplayString($setup.formatDate($setup.articleInfo.article_create_time)),
                   1
                   /* TEXT */
                 )

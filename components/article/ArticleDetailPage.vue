@@ -33,7 +33,7 @@
              <view class="articleInfo__container__header__title--text">{{articleInfo.article_title}}</view>
           </view>
           <view class="articleInfo__container__header__time">
-            <view>{{'文章发布于：'}}{{articleInfo.article_create_time}}</view>
+            <view>{{'文章发布于：'}}{{formatDate(articleInfo.article_create_time)}}</view>
           </view>
         </view>
 
@@ -84,6 +84,7 @@ import {sendMessageToScreen} from'@/static/utils/globalConifg'
 import Loading from "@/components/loading/Loading";
 import {defaultHeadImgPath} from '@/static/utils/globalConifg'
 import {useStore} from 'vuex';
+import {formatDate} from '@/static/utils/globalConifg'
 export default {
   props: {
     needFollowModel:Boolean,
@@ -209,7 +210,7 @@ export default {
 
     return{
       articleId,html,authorInfo,defaultHeadImgPath,articleInfo,needFollowModel,concern_be
-      ,tapAuthorCard,tapFollowCard,selfId
+      ,tapAuthorCard,tapFollowCard,selfId,formatDate
     }
   }
 }
