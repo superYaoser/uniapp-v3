@@ -6,11 +6,11 @@
           <swiper-item v-for="(item1, index1) in classifyList" :key="index1">
 
 <!--            <Loading v-if="scrollViewLoading"></Loading>-->
-            <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: 100%;`"
+            <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: 100%;background: #f5f5f5;`"
                          refresher-enabled="true" refresher-background="#f5f5f5" @refresherrefresh="refreshListWithThrottle(item1.categoryID)"
                          :refresher-triggered="refreshOK"
                          @scrolltolower="upRefreshListWithThrottle(item1.categoryID)">
-              <view class="articleList__container__body w100" :style="'padding-top: 2px;padding-bottom: 5px'+concernArticleNULL?'background: #FFFFFF;':'background: #f5f5f5;'">
+              <view class="articleList__container__body w100" :style="'padding-top: 2px;padding-bottom: 5px;'">
                 <view class="articleList__container__body__concern--blank disF-center" v-if="concernArticleNULL" style="flex-direction: column;margin-top: 40%">
                   <image src="./static/images/utils/blank_page.png"></image>
                   <view style="color: #a0a0a0">你还有没有关注任何人~~ 请刷新~</view>
@@ -139,7 +139,6 @@ export default {
       }else {
         concernArticleNULL.value = false
       }
-      console.log(temp.data)
       let res = temp.data
       return res
     }
@@ -183,6 +182,7 @@ export default {
 
       // 下面是原有的刷新逻辑，不需要修改
       console.log("下拉刷新被触发")
+      indexReFreshPage = [1,1,1]
       if (set.static === 2) {
         concernArticleList.value = await getConcernDetailedArticleByJsonData({
           "u_id": login_u_id,

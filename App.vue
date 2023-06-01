@@ -22,7 +22,7 @@
 	/* 发布页需要的素材1 */
 	@import url("@/static/iconfont/publish/iconfont.css"); 
 ////  字体
-//  @font-face {  
+//  @font-face {   
 //    font-family: 'Source Han Serif';
 //    src: url('./static/style/Source_Han_Serif_SC_Light_Light.otf'); /* 如果换成woff或者woff2文件格式，请修改后缀名 */
 //  } 

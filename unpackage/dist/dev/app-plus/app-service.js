@@ -3082,7 +3082,6 @@ if (uni.restoreGlobal) {
         } else {
           concernArticleNULL.value = false;
         }
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:142", temp.data);
         let res = temp.data;
         return res;
       };
@@ -3092,7 +3091,7 @@ if (uni.restoreGlobal) {
           "u_id": login_u_id,
           "articleContentMaxWord": 100
         });
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:156", concernArticleList.value);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:155", concernArticleList.value);
         classifyList.value[0].articleList = concernArticleList.value;
       };
       let concernArticleNULL = vue.ref(false);
@@ -3105,14 +3104,15 @@ if (uni.restoreGlobal) {
           uni.$emit("home_articleList_change", { data: classifyList.value });
         }, 1100);
         if (!canRefresh) {
-          formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:176", "当前不能刷新");
+          formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:175", "当前不能刷新");
           return;
         }
         canRefresh = false;
         setTimeout(() => {
           canRefresh = true;
         }, 1e3);
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:185", "下拉刷新被触发");
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:184", "下拉刷新被触发");
+        indexReFreshPage = [1, 1, 1];
         if (set.static === 2) {
           concernArticleList.value = await getConcernDetailedArticleByJsonData({
             "u_id": login_u_id,
@@ -3280,50 +3280,44 @@ if (uni.restoreGlobal) {
                 vue.createElementVNode("scroll-view", {
                   class: "scrollview",
                   "scroll-y": "true",
-                  style: `width: 100%;height: 100%;`,
+                  style: `width: 100%;height: 100%;background: #f5f5f5;`,
                   "refresher-enabled": "true",
                   "refresher-background": "#f5f5f5",
                   onRefresherrefresh: ($event) => $setup.refreshListWithThrottle(item1.categoryID),
                   "refresher-triggered": $setup.refreshOK,
                   onScrolltolower: ($event) => $setup.upRefreshListWithThrottle(item1.categoryID)
                 }, [
-                  vue.createElementVNode(
-                    "view",
-                    {
-                      class: "articleList__container__body w100",
-                      style: vue.normalizeStyle("padding-top: 2px;padding-bottom: 5px" + $setup.concernArticleNULL ? "background: #FFFFFF;" : "background: #f5f5f5;")
-                    },
-                    [
-                      $setup.concernArticleNULL ? (vue.openBlock(), vue.createElementBlock("view", {
-                        key: 0,
-                        class: "articleList__container__body__concern--blank disF-center",
-                        style: { "flex-direction": "column", "margin-top": "40%" }
-                      }, [
-                        vue.createElementVNode("image", { src: "/static/images/utils/blank_page.png" }),
-                        vue.createElementVNode("view", { style: { "color": "#a0a0a0" } }, "你还有没有关注任何人~~ 请刷新~")
-                      ])) : vue.createCommentVNode("v-if", true),
-                      (vue.openBlock(true), vue.createElementBlock(
-                        vue.Fragment,
-                        null,
-                        vue.renderList(item1.articleList, (item2, index2) => {
-                          return vue.openBlock(), vue.createElementBlock("view", {
-                            key: item2.article_id,
-                            style: { "margin-bottom": "5px" }
-                          }, [
-                            vue.createCommentVNode("                  文章卡片"),
-                            vue.createVNode(_component_ArticleCard, {
-                              "article-data": item2,
-                              "need-follow-model": $setup.needFollowModel
-                            }, null, 8, ["article-data", "need-follow-model"])
-                          ]);
-                        }),
-                        128
-                        /* KEYED_FRAGMENT */
-                      ))
-                    ],
-                    4
-                    /* STYLE */
-                  )
+                  vue.createElementVNode("view", {
+                    class: "articleList__container__body w100",
+                    style: "padding-top: 2px;padding-bottom: 5px;"
+                  }, [
+                    $setup.concernArticleNULL ? (vue.openBlock(), vue.createElementBlock("view", {
+                      key: 0,
+                      class: "articleList__container__body__concern--blank disF-center",
+                      style: { "flex-direction": "column", "margin-top": "40%" }
+                    }, [
+                      vue.createElementVNode("image", { src: "/static/images/utils/blank_page.png" }),
+                      vue.createElementVNode("view", { style: { "color": "#a0a0a0" } }, "你还有没有关注任何人~~ 请刷新~")
+                    ])) : vue.createCommentVNode("v-if", true),
+                    (vue.openBlock(true), vue.createElementBlock(
+                      vue.Fragment,
+                      null,
+                      vue.renderList(item1.articleList, (item2, index2) => {
+                        return vue.openBlock(), vue.createElementBlock("view", {
+                          key: item2.article_id,
+                          style: { "margin-bottom": "5px" }
+                        }, [
+                          vue.createCommentVNode("                  文章卡片"),
+                          vue.createVNode(_component_ArticleCard, {
+                            "article-data": item2,
+                            "need-follow-model": $setup.needFollowModel
+                          }, null, 8, ["article-data", "need-follow-model"])
+                        ]);
+                      }),
+                      128
+                      /* KEYED_FRAGMENT */
+                    ))
+                  ])
                 ], 40, ["onRefresherrefresh", "refresher-triggered", "onScrolltolower"])
               ]);
             }),
