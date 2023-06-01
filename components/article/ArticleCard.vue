@@ -130,20 +130,30 @@ export default {
       articleInfo.value.concern_be
     })
     uni.$on('articleCard_concern_update',function(e){
+      console.log("123123")
       let data = e.data
       if (articleInfo.value.article_user_id == data.u_id){
-        console.log('找到该用户的关注变化'+articleInfo.value.article_user_id)
-        console.log('用户的关注原值：'+articleInfo.value.concern_be)
         articleInfo.value.concern_be=data.concern_be
-        console.log('用户的关注新值：'+articleInfo.value.concern_be)
       }
     })
-    uni.$on('articleCard_interaction_update',function(e){
+    uni.$on('articleCard_interaction_hand_update',function(e){
       let data = e.data
       if(articleInfo.value.article_id == data.article_id){
         articleInfo.value.article_watch_num=data.watch
         articleInfo.value.article_comment_num=data.comment
         articleInfo.value.article_hand_support_num=data.hand
+      }
+    })
+    uni.$on('articleCard_interaction_watch_update',function(e){
+      let data = e.data
+      if(articleInfo.value.article_id == data.article_id){
+        articleInfo.value.article_watch_num=data.watch
+      }
+    })
+    uni.$on('articleCard_interaction_comment_update',function(e){
+      let data = e.data
+      if(articleInfo.value.article_id == data.article_id){
+        articleInfo.value.article_comment_num=data.comment
       }
     })
     //-----------------------------------监听卡片变化 end--------------------------------------------------------------------------------------------------------
@@ -170,13 +180,22 @@ export default {
       console.log('点击了作者栏')
     }
     //点击关注
+    let canTapFollow = true
     const tapFollowCard=(data)=>{
+      if (!canTapFollow){
+        plus.nativeUI.toast(`点的太快啦~`)
+        return // 如果当前不能刷新，则直接返回
+      }
+      canTapFollow = false
+      //一秒只能点一次关注
+      setTimeout(() => { canTapFollow = true }, 1000)
+
       if (data.concern_be===0){
         setUserAddConcern({"u_id":data.article_user_id}).then(res=>{
           console.log(res)
           if (res.code===200){
             articleInfo.value.concern_be=1
-            ArticleFun.setArticleCardUpdate(data.article_user_id,null,1)
+            ArticleFun.setArticleCardUpdate(data.article_user_id,null,{concern_be:1})
             plus.nativeUI.toast(`关注成功`)
           }else {
           //  关注失败
@@ -186,7 +205,7 @@ export default {
         setUserRemoveConcern({"u_id":data.article_user_id}).then(res=>{
           if (res.code===200){
             articleInfo.value.concern_be=0
-            ArticleFun.setArticleCardUpdate(data.article_user_id,null,0)
+            ArticleFun.setArticleCardUpdate(data.article_user_id,null,{concern_be:0})
             plus.nativeUI.toast(`取关成功`)
           }else {
             //  取消关注失败

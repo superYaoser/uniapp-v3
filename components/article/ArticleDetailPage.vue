@@ -85,6 +85,7 @@ import Loading from "@/components/loading/Loading";
 import {defaultHeadImgPath} from '@/static/utils/globalConifg'
 import {useStore} from 'vuex';
 import {formatDate} from '@/static/utils/globalConifg'
+import {addWatchByArticleId} from "@/static/api/act";
 export default {
   props: {
     needFollowModel:Boolean,
@@ -144,11 +145,15 @@ export default {
           代码：${error}`,{ duration:'long'})
       }
     }
-    // 用于向父组件发送最新的作者数据
-    const sendUserId=(id)=>{
-      emit('del:item', id)
+    //向服务器添加观看记录数据
+    const setWatchByArticleId= async (id)=>{
+      try {
+        await addWatchByArticleId(id)
+        ArticleFun.setArticleCardUpdate(null,id,{watch:++articleInfo.value.article_watch_num})
+      }catch (e){
+        console.log('添加历史观看记录失败')
+      }
     }
-
 
     let html =ref(`<div style='color:red' class='classTest'>文章加载失败</div>`)
     //记录文章id
@@ -173,6 +178,7 @@ export default {
       authorInfo.value = await getAuthorInfo(articleInfo.value.article_user_id)
       //赋值关注信息
       concern_be.value = await getUserConcern(selfId,articleInfo.value.article_user_id)
+      await setWatchByArticleId(articleInfo.value.article_id)
     })
 
     //---------------互动 --------------------------------
@@ -181,13 +187,22 @@ export default {
       console.log('点击了作者栏')
     }
     //点击关注
+    let canTapFollow = true
     const tapFollowCard=(data)=>{
+      if (!canTapFollow){
+        plus.nativeUI.toast(`点的太快啦~`)
+        return // 如果当前不能刷新，则直接返回
+      }
+      canTapFollow = false
+      //一秒只能点一次关注
+      setTimeout(() => { canTapFollow = true }, 1000)
+
       if (concern_be.value===false){
         setUserAddConcern({"u_id":data.u_id}).then(res=>{
           console.log(res)
           if (res.code===200){
             concern_be.value=true
-            ArticleFun.setArticleCardUpdate(data.u_id,null,1)
+            ArticleFun.setArticleCardUpdate(data.u_id,null,{concern_be:1})
             plus.nativeUI.toast(`关注成功`)
           }else {
             //  关注失败
@@ -197,7 +212,7 @@ export default {
         setUserRemoveConcern({"u_id":data.u_id}).then(res=>{
           if (res.code===200){
             concern_be.value=false
-            ArticleFun.setArticleCardUpdate(data.u_id,null,0)
+            ArticleFun.setArticleCardUpdate(data.u_id,null,{concern_be:0})
             plus.nativeUI.toast(`取关成功`)
           }else {
             //  取消关注失败

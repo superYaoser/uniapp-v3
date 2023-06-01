@@ -1,29 +1,44 @@
 class ArticleFun {
     /**
-     * 更新文章卡片信息,原理是触发文章卡片总线
-     * @param {null} u_id - 用户ID。
-     * @param {null} article_id - 文章ID。
-     * @param {number} concern_be - 是否关注（1 表示已关注；0 表示未关注）。
-     * @param {*} hand - 手柄（默认为空）。
-     * @param {*} comment - 评论（默认为空）。
-     * @param {*} watch - 观看（默认为空）。
-     * @returns {boolean} 成功为true
-     */
-    static setArticleCardUpdate(u_id, article_id, concern_be, hand = null, comment = null, watch = null) {
+     修改文章卡片的交互信息和用户关注状态
+     @param {null} u_id 用户id
+     @param {null} article_id 文章id
+     @param {Object} Obj 包含要修改的交互信息和关注状态的对象，格式如下：
+     {
+    hand: number, // 是否点赞
+    watch: number, // 是否收藏
+    comment: number, // 评论内容
+    concern_be: number // 是否关注该文章作者
+    }
+     @return {boolean} 修改是否成功，成功返回true，失败返回false */
+    static setArticleCardUpdate(u_id=null, article_id=null, Obj) {
+        console.log(Obj)
         try {
-            if (article_id != null && hand != null && comment != null && watch != null) {
+            if (article_id != null && Obj.hand!=null) {
                 let e = {
-                    article_id:article_id,
-                    hand: hand,
-                    comment: comment,
-                    watch: watch
+                    article_id: article_id,
+                    hand: Obj.hand,
                 }
-                uni.$emit('articleCard_interaction_update', {data: e})
+                uni.$emit('articleCard_interaction_hand_update', {data: e})
             }
-            if (u_id!=null&&concern_be!=null){
+            if (article_id != null && Obj.watch!=null) {
                 let e = {
-                    u_id:u_id,
-                    concern_be: concern_be,
+                    article_id: article_id,
+                    watch: Obj.watch
+                }
+                uni.$emit('articleCard_interaction_watch_update', {data: e})
+            }
+            if (article_id != null && Obj.comment!=null) {
+                let e = {
+                    article_id: article_id,
+                    comment: Obj.comment,
+                }
+                uni.$emit('articleCard_interaction_comment_update', {data: e})
+            }
+            if (u_id != null && Obj.concern_be!=null) {
+                let e = {
+                    u_id: u_id,
+                    concern_be: Obj.concern_be,
                 }
                 uni.$emit('articleCard_concern_update', {data: e})
             }
@@ -31,7 +46,7 @@ class ArticleFun {
         } catch (e) {
             return false
         }
-
     }
 }
+
 export default ArticleFun

@@ -39,6 +39,7 @@ import {
 } from "@dcloudio/uni-app";
 import {onMounted, ref} from "vue";
 import Loading from "@/components/loading/Loading";
+import {addWatchByArticleId} from "@/static/api/act";
 
 export default {
   components: {
@@ -48,7 +49,6 @@ export default {
   setup() {
     let headerTitle =ref('默认标题')
     onMounted(()=>{
-
 
     })
     //页面返回会触发的方法

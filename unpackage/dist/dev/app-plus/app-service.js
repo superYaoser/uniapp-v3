@@ -2628,30 +2628,45 @@ if (uni.restoreGlobal) {
   const Loading = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$c], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/loading/Loading.vue"]]);
   class ArticleFun {
     /**
-     * 更新文章卡片信息,原理是触发文章卡片总线
-     * @param {null} u_id - 用户ID。
-     * @param {null} article_id - 文章ID。
-     * @param {number} concern_be - 是否关注（1 表示已关注；0 表示未关注）。
-     * @param {*} hand - 手柄（默认为空）。
-     * @param {*} comment - 评论（默认为空）。
-     * @param {*} watch - 观看（默认为空）。
-     * @returns {boolean} 成功为true
-     */
-    static setArticleCardUpdate(u_id, article_id, concern_be, hand = null, comment = null, watch = null) {
+     修改文章卡片的交互信息和用户关注状态
+     @param {null} u_id 用户id
+     @param {null} article_id 文章id
+     @param {Object} Obj 包含要修改的交互信息和关注状态的对象，格式如下：
+     {
+    hand: number, // 是否点赞
+    watch: number, // 是否收藏
+    comment: number, // 评论内容
+    concern_be: number // 是否关注该文章作者
+    }
+     @return {boolean} 修改是否成功，成功返回true，失败返回false */
+    static setArticleCardUpdate(u_id = null, article_id = null, Obj) {
+      formatAppLog("log", "at components/article/articleFun.js:15", Obj);
       try {
-        if (article_id != null && hand != null && comment != null && watch != null) {
+        if (article_id != null && Obj.hand != null) {
           let e = {
             article_id,
-            hand,
-            comment,
-            watch
+            hand: Obj.hand
           };
-          uni.$emit("articleCard_interaction_update", { data: e });
+          uni.$emit("articleCard_interaction_hand_update", { data: e });
         }
-        if (u_id != null && concern_be != null) {
+        if (article_id != null && Obj.watch != null) {
+          let e = {
+            article_id,
+            watch: Obj.watch
+          };
+          uni.$emit("articleCard_interaction_watch_update", { data: e });
+        }
+        if (article_id != null && Obj.comment != null) {
+          let e = {
+            article_id,
+            comment: Obj.comment
+          };
+          uni.$emit("articleCard_interaction_comment_update", { data: e });
+        }
+        if (u_id != null && Obj.concern_be != null) {
           let e = {
             u_id,
-            concern_be
+            concern_be: Obj.concern_be
           };
           uni.$emit("articleCard_concern_update", { data: e });
         }
@@ -2688,15 +2703,13 @@ if (uni.restoreGlobal) {
         articleInfo.value.concern_be;
       });
       uni.$on("articleCard_concern_update", function(e) {
+        formatAppLog("log", "at components/article/ArticleCard.vue:133", "123123");
         let data = e.data;
         if (articleInfo.value.article_user_id == data.u_id) {
-          formatAppLog("log", "at components/article/ArticleCard.vue:135", "找到该用户的关注变化" + articleInfo.value.article_user_id);
-          formatAppLog("log", "at components/article/ArticleCard.vue:136", "用户的关注原值：" + articleInfo.value.concern_be);
           articleInfo.value.concern_be = data.concern_be;
-          formatAppLog("log", "at components/article/ArticleCard.vue:138", "用户的关注新值：" + articleInfo.value.concern_be);
         }
       });
-      uni.$on("articleCard_interaction_update", function(e) {
+      uni.$on("articleCard_interaction_hand_update", function(e) {
         let data = e.data;
         if (articleInfo.value.article_id == data.article_id) {
           articleInfo.value.article_watch_num = data.watch;
@@ -2704,26 +2717,47 @@ if (uni.restoreGlobal) {
           articleInfo.value.article_hand_support_num = data.hand;
         }
       });
+      uni.$on("articleCard_interaction_watch_update", function(e) {
+        let data = e.data;
+        if (articleInfo.value.article_id == data.article_id) {
+          articleInfo.value.article_watch_num = data.watch;
+        }
+      });
+      uni.$on("articleCard_interaction_comment_update", function(e) {
+        let data = e.data;
+        if (articleInfo.value.article_id == data.article_id) {
+          articleInfo.value.article_comment_num = data.comment;
+        }
+      });
       vue.onMounted(() => {
       });
       const needFollowModel = vue.ref(true);
       needFollowModel.value = props.needFollowModel;
       const tapArticleCard = (data) => {
-        formatAppLog("log", "at components/article/ArticleCard.vue:163", "点击了文章卡");
+        formatAppLog("log", "at components/article/ArticleCard.vue:173", "点击了文章卡");
         uni.navigateTo({
           url: "/pages/article/detail/ArticleDetailPage?id=" + data.article_id
         });
       };
       const tapAuthorCard = (data) => {
-        formatAppLog("log", "at components/article/ArticleCard.vue:170", "点击了作者栏");
+        formatAppLog("log", "at components/article/ArticleCard.vue:180", "点击了作者栏");
       };
+      let canTapFollow = true;
       const tapFollowCard = (data) => {
+        if (!canTapFollow) {
+          plus.nativeUI.toast(`点的太快啦~`);
+          return;
+        }
+        canTapFollow = false;
+        setTimeout(() => {
+          canTapFollow = true;
+        }, 1e3);
         if (data.concern_be === 0) {
           setUserAddConcern({ "u_id": data.article_user_id }).then((res) => {
-            formatAppLog("log", "at components/article/ArticleCard.vue:176", res);
+            formatAppLog("log", "at components/article/ArticleCard.vue:195", res);
             if (res.code === 200) {
               articleInfo.value.concern_be = 1;
-              ArticleFun.setArticleCardUpdate(data.article_user_id, null, 1);
+              ArticleFun.setArticleCardUpdate(data.article_user_id, null, { concern_be: 1 });
               plus.nativeUI.toast(`关注成功`);
             }
           });
@@ -2731,15 +2765,15 @@ if (uni.restoreGlobal) {
           setUserRemoveConcern({ "u_id": data.article_user_id }).then((res) => {
             if (res.code === 200) {
               articleInfo.value.concern_be = 0;
-              ArticleFun.setArticleCardUpdate(data.article_user_id, null, 0);
+              ArticleFun.setArticleCardUpdate(data.article_user_id, null, { concern_be: 0 });
               plus.nativeUI.toast(`取关成功`);
             }
           });
         }
-        formatAppLog("log", "at components/article/ArticleCard.vue:196", "点击了关注");
+        formatAppLog("log", "at components/article/ArticleCard.vue:215", "点击了关注");
       };
       const tapHandCard = (data) => {
-        formatAppLog("log", "at components/article/ArticleCard.vue:200", "点击了点赞");
+        formatAppLog("log", "at components/article/ArticleCard.vue:219", "点击了点赞");
       };
       return {
         articleInfo,
@@ -3181,9 +3215,12 @@ if (uni.restoreGlobal) {
         }
       };
       const sendLoadingLogo = () => {
-        uni.showLoading({
+        uni.showToast({
+          icon: "loading",
           title: "加载中",
-          mask: true
+          duration: 350,
+          mask: false
+          // position:'bottom'
         });
       };
       const aroundMove = vue.ref(true);
@@ -6987,6 +7024,13 @@ if (uni.restoreGlobal) {
     }
   };
   const App = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/App.vue"]]);
+  function addWatchByArticleId(id) {
+    return request({
+      url: "act/watch",
+      method: "POST",
+      data: { "article_id": id }
+    });
+  }
   const _sfc_main$2 = {
     props: {
       needFollowModel: Boolean
@@ -7030,13 +7074,21 @@ if (uni.restoreGlobal) {
           代码：${error}`, { duration: "long" });
         }
       };
+      const setWatchByArticleId = async (id) => {
+        try {
+          await addWatchByArticleId(id);
+          ArticleFun.setArticleCardUpdate(null, id, { watch: ++articleInfo.value.article_watch_num });
+        } catch (e) {
+          formatAppLog("log", "at components/article/ArticleDetailPage.vue:154", "添加历史观看记录失败");
+        }
+      };
       let html = vue.ref(`<div style='color:red' class='classTest'>文章加载失败</div>`);
       let articleId = vue.ref("1");
       onLoad(async (option) => {
         let id = option.id;
         articleId.value = id;
         await getArticleByID(articleId.value).then((res) => {
-          formatAppLog("log", "at components/article/ArticleDetailPage.vue:161", res);
+          formatAppLog("log", "at components/article/ArticleDetailPage.vue:166", res);
           if (res.code === 200) {
             articleInfo.value = res.data[0];
             html.value = articleInfo.value.article_content;
@@ -7046,17 +7098,27 @@ if (uni.restoreGlobal) {
         html.value = html.value.replace(regex, `<img style="max-width:100% !important;height:auto;display:block;margin: 0 auto;width:98%;border-radius: 8px;"`);
         authorInfo.value = await getAuthorInfo(articleInfo.value.article_user_id);
         concern_be.value = await getUserConcern(selfId, articleInfo.value.article_user_id);
+        await setWatchByArticleId(articleInfo.value.article_id);
       });
       const tapAuthorCard = (data) => {
-        formatAppLog("log", "at components/article/ArticleDetailPage.vue:181", "点击了作者栏");
+        formatAppLog("log", "at components/article/ArticleDetailPage.vue:187", "点击了作者栏");
       };
+      let canTapFollow = true;
       const tapFollowCard = (data) => {
+        if (!canTapFollow) {
+          plus.nativeUI.toast(`点的太快啦~`);
+          return;
+        }
+        canTapFollow = false;
+        setTimeout(() => {
+          canTapFollow = true;
+        }, 1e3);
         if (concern_be.value === false) {
           setUserAddConcern({ "u_id": data.u_id }).then((res) => {
-            formatAppLog("log", "at components/article/ArticleDetailPage.vue:187", res);
+            formatAppLog("log", "at components/article/ArticleDetailPage.vue:202", res);
             if (res.code === 200) {
               concern_be.value = true;
-              ArticleFun.setArticleCardUpdate(data.u_id, null, 1);
+              ArticleFun.setArticleCardUpdate(data.u_id, null, { concern_be: 1 });
               plus.nativeUI.toast(`关注成功`);
             }
           });
@@ -7064,12 +7126,12 @@ if (uni.restoreGlobal) {
           setUserRemoveConcern({ "u_id": data.u_id }).then((res) => {
             if (res.code === 200) {
               concern_be.value = false;
-              ArticleFun.setArticleCardUpdate(data.u_id, null, 0);
+              ArticleFun.setArticleCardUpdate(data.u_id, null, { concern_be: 0 });
               plus.nativeUI.toast(`取关成功`);
             }
           });
         }
-        formatAppLog("log", "at components/article/ArticleDetailPage.vue:207", "点击了关注");
+        formatAppLog("log", "at components/article/ArticleDetailPage.vue:222", "点击了关注");
       };
       return {
         articleId,

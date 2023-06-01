@@ -299,17 +299,17 @@ export default {
     }
     //发送加载
     const sendLoadingLogo = () => {
-      // uni.showToast({
-      //   icon:'loading',
-      //   title:'加载中',
-      //   duration:350,
-      //   mask:false,
-      //   position:'bottom'
-      // });
-      uni.showLoading({
-        title: '加载中',
-        mask:true
+      uni.showToast({
+        icon:'loading',
+        title:'加载中',
+        duration:350,
+        mask:false,
+        // position:'bottom'
       });
+      // uni.showLoading({
+      //   title: '加载中',
+      //   mask:true
+      // });
     }
     //--------------------------上拉---刷新- end------------------------------------------------------------------------------------------
 
