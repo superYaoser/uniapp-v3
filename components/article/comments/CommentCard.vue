@@ -51,7 +51,10 @@
               ：你说的对1
             </view>
             <view class="commentCard__container__body__container__content--reply--common">
-              太阳：你说的对2
+              <view class="commentCard__container__body__container__content--reply--common--user">
+                太阳
+              </view>
+              ：你说的对2
             </view>
             <view class="commentCard__container__body__container__content--reply--more">全部5条评论</view>
           </view>
@@ -182,6 +185,12 @@ export default {
           &--common{
             display: flex;
             align-items: center;
+            &--user{
+              display: flex;
+              align-items: center;
+              font-weight: inherit;
+              color: #6da7cc;
+            }
             &--author{
               display: flex;
               align-items: center;
@@ -216,7 +225,7 @@ export default {
         font-size: 0.75rem;
         color: silver;
         margin-top: 0.3125rem;
-        border-bottom: 1px #d5d5d5 solid;
+        border-bottom: 0.025rem #d5d5d5 solid;
         padding-bottom: 0.2125rem;
 
         &--time{
