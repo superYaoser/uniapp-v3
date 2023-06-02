@@ -1,11 +1,11 @@
 <template>
-<view style="height: 100vh;width: 100vw;background: rgba(232,22,22,0.3);position: absolute;z-index: 99;top: 0;left: 0;overflow: hidden" @tap="windowClose">
+<view style="height: 100vh;width: 100vw;background: rgba(0,0,0,0.15);position: absolute;z-index: 99;top: 0;left: 0;overflow: hidden" @tap="windowClose">
 
   <view class="replyWindow" :style="'margin-top:calc(100vh - 175px - '+ keyHeight +')'">
     <view class="replyWindow__container" @tap.stop>
       <view class="replyWindow__container__header">
         <view style="color: silver;font-size: 0.8125rem">
-          {{'回复：'}}{{getUserNameByUid(commentObj.comment_id)}}
+          {{'回复：'}}{{reply_user_name}}
         </view>
       </view>
       <view class="replyWindow__container__body">
@@ -14,13 +14,14 @@
           <textarea  class="replyWindow__container__body__input--sub"
                      focus="true"
                  placeholder-class="replyWindow__container__body__input--sub"
-                 :adjust-position="false" placeholder="我有话想说..."/>
+                 :adjust-position="false" placeholder="我有话想说..."
+          @input="inputComment"/>
         </view>
         <view class="replyWindow__container__body__option">
           <view class="replyWindow__container__body__option--other">
 
           </view>
-          <view class="replyWindow__container__body__option--send">发布</view>
+          <view class="replyWindow__container__body__option--send" @tap.stop="sendComment()">发布</view>
         </view>
 
       </view>
@@ -37,8 +38,10 @@ import {
 } from "@dcloudio/uni-app";
 import {getUserInfoById} from '@/static/api/users'
 import {getUserNameByUid} from '@/static/utils/globalConifg'
+import {addComment, getCommentPosterityById} from "@/static/api/act";
 export default {
   props: {
+    article_id: String,
     commentObj: Object,
   },
   setup(props){
@@ -47,9 +50,11 @@ export default {
     //评论对象
     let commentObj = ref()
     commentObj.value = props.commentObj
+    //回复的用户名
+    let reply_user_name = ref()
 
     onMounted(async () => {
-
+      reply_user_name.value = await getUserNameByUid(commentObj.value.comment_user_id)
     })
 
     //关闭事件
@@ -57,6 +62,25 @@ export default {
       console.log('用户在评论回复窗口界面 触发关闭')
       uni.$emit('comment_reply_window_close', {data: true})
     }
+
+    //接收输入
+    let input_value = ref()
+    //输入的时候 @input
+    const inputComment = (e)=>{
+      input_value.value = e.detail.value
+    }
+
+    //点击发布
+    const sendComment = async ()=>{
+
+      let res = await addComment(props.article_id,commentObj.value.comment_id,input_value.value)
+      console.log(res)
+      if (res.code===200){
+        plus.nativeUI.toast(`评论完成`)
+      }
+    }
+
+
     //监听用户触发返回后处理请求 返回改为触发关闭事件
     onBackPress((e) => {
 //backbutton 是点击物理按键返回，navigateBack是uniapp中的返回（比如左上角的返回箭头）
@@ -78,7 +102,8 @@ export default {
       keyHeight.value = (_diff > 0 ? _diff : 0) - 2 + "px";
     })
     return{
-      keyHeight,windowClose,getUserNameByUid,commentObj
+      keyHeight,windowClose,getUserNameByUid,reply_user_name
+      ,inputComment,input_value,sendComment
     }
   }
 }

@@ -20,7 +20,7 @@
                 </view>
               </view>
               <view class="commentCard__container__header--author--head--info--from">
-                {{floor_num}}F 来自佛罗里达州
+                <view v-if="floor_num">{{floor_num}}F</view> 来自佛罗里达州
               </view>
             </view>
           </view>
@@ -31,17 +31,20 @@
         <view class="commentCard__container__body__container">
           <view></view>
           <view class="commentCard__container__body__container__content">
-            <view class="commentCard__container__body__container__content--main">
+            <view class="commentCard__container__body__container__content--main" @tap.stop="iReplyYourComment()">
               <view class="commentCard__container__body__container__content--main--reply" v-if="commentObj.comment_father_id!=null">
                 回复
                 <text class="commentCard__container__body__container__content--main--reply--user">
-                  龟龟：
+                  {{ father_user.u_name }}：
                 </text>
               </view>
               作者写的文章太棒了吧！
             </view>
-            <view class="commentCard__container__body__container__content--reply" v-if="comment_list[0].comment_list_user_id!=null&&need_small_window">
-              <view class="commentCard__container__body__container__content--reply--common" v-for="(item1, index1) in comment_list" :key="index1">
+            <view class="commentCard__container__body__container__content--reply" v-if="comment_list[0].comment_list_user_id!=null&&need_small_window"
+                  style="margin-right: 10px"
+                  @tap.stop="showExpand(floor_num)">
+              <view v-for="(item1, index1) in comment_list" :key="index1">
+              <view class="commentCard__container__body__container__content--reply--common" v-if="item1.comment_list_user_name">
                 <view class="commentCard__container__body__container__content--reply--common--author">
                   {{ item1.comment_list_user_name }}
                   <view class="commentCard__container__body__container__content--reply--common--author--self" v-if="item1.comment_list_user_id===user.u_id">
@@ -50,7 +53,8 @@
                 </view>
                 ：{{ item1.comment_list_user_content }}
               </view>
-              <view class="commentCard__container__body__container__content--reply--more">全部5条评论</view>
+              </view>
+              <view class="commentCard__container__body__container__content--reply--more">全部{{ commentObj.comment_reply_num }}条评论 >></view>
             </view>
           </view>
           <view class="commentCard__container__body__container__interaction">
@@ -99,7 +103,8 @@ export default {
     //评论对象
     let commentObj = ref()
     commentObj.value = props.commentObj
-    console.log(commentObj.value)
+    //其评论 的父亲评论的 用户主体
+    let father_user = ref()
     //楼层
     let floor_num = ref(0)
     floor_num.value = props.floor_num
@@ -118,6 +123,19 @@ export default {
         {comment_list_user_id: null,comment_list_user_name:null,comment_list_user_content:null},
         {comment_list_user_id: null,comment_list_user_name:null,comment_list_user_content:null},
     ])
+    //点击 展开更多 评论
+    const showExpand = (floor_num)=>{
+      uni.$emit('commentCard_showExpand', {
+        data: commentObj.value,
+        floor_num:floor_num
+      })
+    }
+    //用户点击回复主体 回复评论
+    const iReplyYourComment = ()=>{
+      uni.$emit('commentCard_replyComment', {
+        data: commentObj.value,
+      })
+    }
 
     //通过评论id 获取儿子评论 并赋值给comment_list
     const getSonComment = async (id) => {
@@ -137,14 +155,15 @@ export default {
       }
     }
     onMounted(async () => {
-      // user.value = await getUserObjByUid(commentObj.value.comment_user_id)
       user.value = await getUserObjByUid(commentObj.value.comment_user_id)
       await getSonComment(commentObj.value.comment_id)
       loading.value = false
+      father_user.value =await getUserObjByUid(commentObj.value.comment_father_id)
     })
 
     return {
-      commentObj, floor_num, province, user,comment_list,defaultHeadImgPath,loading,formatDate
+      commentObj, floor_num, province, user,comment_list,defaultHeadImgPath,loading,formatDate,showExpand
+      ,father_user,iReplyYourComment
     }
   }
 }
@@ -203,6 +222,8 @@ export default {
           }
 
           &--from {
+            display: flex;
+            align-items: center;
             color: #7f7f7f;
             font-size: 0.675rem;
           }
@@ -288,6 +309,9 @@ export default {
 
           &--more {
 
+            margin-top: 10px;
+            font-size: 0.7625rem;
+            color: silver;
           }
         }
       }

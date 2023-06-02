@@ -1,12 +1,24 @@
+import {getUserInfoById} from "@/static/api/users";
 //全局的Url
 // const baseUrl = 'http://114.115.220.47:3000/api/'
 // const baseUrl = 'http://192.168.85.1:3000/api/'
 // const baseUrl = 'http://192.168.0.122:3000/api/'
 // const baseUrl = 'http://192.168.43.50:3000/api/'
-import {getUserInfoById} from "@/static/api/users";
 
-const baseUrl = 'http://192.168.5.95:3000/api/'
 
+const baseUrl = 'http://192.168.0.106:3000/api/'
+// const baseUrl = 'http://192.168.5.95:3000/api/'
+
+//提取192.168.0.106:3000
+function extractIP(url) {
+    let pattern = /http:\/\/([\d\.]+):(\d+)/;
+    let result = url.match(pattern);
+    if (result && result.length >= 3) {
+        return result[1] + ":" + result[2];
+    } else {
+        return null;
+    }
+}
 //用户的默认头像
 const defaultHeadImgPath = 'https://i2.hdslb.com/bfs/face/544c89e68f2b1f12ffcbb8b3c062a3328e8692d9.jpg@96w_96h.webp'
 
@@ -69,11 +81,16 @@ const getUserObjByUid= async (uid) => {
     }
     return 'err'
 }
+//替换 服务器返回的图片路径
+const replaceUrlIP = (url) => {
+    let pattern = /http:\/\/([\d\.]+):(\d+)/;
+    return url.replace(pattern, `http://${extractIP(baseUrl)}`);
+}
 export{
     baseUrl,
     defaultHeadImgPath,
     enterWord,
     sendMessageToScreen,
     formatDate,
-    getUserNameByUid,getUserObjByUid
+    getUserNameByUid,getUserObjByUid,replaceUrlIP
 }

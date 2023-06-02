@@ -43,8 +43,8 @@
           <view class="active__cart__container__text__container__cover" >
             <view class="active__cart__container__text__container__cover__img"
                   v-if="articleInfo.article_preview1_path"
-                  :style="'background-image: url('+ articleInfo.article_preview1_path +');margin-right: 1%;width:' + (!articleInfo.article_preview2_path ? '98%' : '49%')"></view>
-            <view class="active__cart__container__text__container__cover__img" :style="'background-image: url('+articleInfo.article_preview2_path+')'" v-if="articleInfo.article_preview2_path"></view>
+                  :style="'background-image: url('+ replaceUrlIP(articleInfo.article_preview1_path) +');margin-right: 1%;width:' + (!articleInfo.article_preview2_path ? '98%' : '49%')"></view>
+            <view class="active__cart__container__text__container__cover__img" :style="'background-image: url('+replaceUrlIP(articleInfo.article_preview2_path)+')'" v-if="articleInfo.article_preview2_path"></view>
           </view>
 
           <!--                          点赞 评论 观看数量-->
@@ -78,7 +78,7 @@
 
 <script>
 import {onMounted, reactive, ref, watch, watchEffect,computed} from "vue";
-import {defaultHeadImgPath,formatDate} from '@/static/utils/globalConifg'
+import {defaultHeadImgPath,formatDate,replaceUrlIP} from '@/static/utils/globalConifg'
 import {setUserAddConcern,setUserRemoveConcern} from '@/static/api/users'
 import {useStore} from 'vuex';
 import Loading from "@/components/loading/Loading";
@@ -220,7 +220,7 @@ export default {
     }
     return{
       articleInfo,defaultHeadImgPath,needFollowModel,
-      tapArticleCard,tapAuthorCard,tapFollowCard,tapHandCard,isSelf,formatDate,articleLoading
+      tapArticleCard,tapAuthorCard,tapFollowCard,tapHandCard,isSelf,formatDate,articleLoading,replaceUrlIP
     }
   }
 }

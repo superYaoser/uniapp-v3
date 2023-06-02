@@ -64,6 +64,7 @@
 
       </view>
     </view>
+    <CommentList :article_id="articleInfo.article_id"></CommentList>
 
   </scroll-view>
   <view></view>
@@ -82,15 +83,16 @@ import App from "@/App";
 import {getUserInfoById, getUser1AndUser2Concern, setUserAddConcern, setUserRemoveConcern} from '@/static/api/users'
 import {sendMessageToScreen} from'@/static/utils/globalConifg'
 import Loading from "@/components/loading/Loading";
-import {defaultHeadImgPath} from '@/static/utils/globalConifg'
+import {defaultHeadImgPath,replaceUrlIP} from '@/static/utils/globalConifg'
 import {useStore} from 'vuex';
 import {formatDate} from '@/static/utils/globalConifg'
 import {addWatchByArticleId} from "@/static/api/act";
+import CommentList from "@/components/article/comments/CommentList";
 export default {
   props: {
     needFollowModel:Boolean,
   },
-  components: {Loading, App},
+  components: {CommentList, Loading, App},
   emits: ['update:item'],
   setup(props,{emit}) {
     //是不是需要关注模型
@@ -167,7 +169,7 @@ export default {
         if (res.code === 200) {
           //赋值文章信息
           articleInfo.value = res.data[0]
-          html.value = articleInfo.value.article_content
+          html.value = replaceImgSrc(articleInfo.value.article_content)
         }else {
         }
       })
@@ -223,6 +225,16 @@ export default {
     }
     //---------------互动 end--------------------------------
 
+    // 替换html内容中所有src
+    const replaceImgSrc = ()=> {
+      console.log(html)
+      // 匹配所有img标签的src属性
+      const imgSrcReg = /<img.*?src=[\"|\']?(.*?)[\"|\']?\s.*?>/gi;
+      // 将每个匹配到的img标签的src属性替换为新值
+      const newHtml = html.replace(imgSrcReg, `<img src="${replaceUrlIP(imgSrcReg)}" />`);
+      console.log(newHtml)
+      return newHtml;
+    }
     return{
       articleId,html,authorInfo,defaultHeadImgPath,articleInfo,needFollowModel,concern_be
       ,tapAuthorCard,tapFollowCard,selfId,formatDate

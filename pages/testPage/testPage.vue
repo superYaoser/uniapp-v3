@@ -16,7 +16,6 @@ import CommentReplyWindow from "@/components/article/comments/CommentReplyWindow
 	export default {
     components:{
       CommentReplyWindow,
-      CommentExpand,
       Comment
     },
 		data() {

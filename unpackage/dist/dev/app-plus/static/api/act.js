@@ -50,9 +50,34 @@ function addComment(comment_article_id,comment_father_id,comment_content) {
         }
     });
 }
+/* get /api/act/comment/:id 获取该评论信息
+权限：1
+参数：:id
+说明：
+*/
+function getCommentById(id) {
+    return R({
+        url: 'act/comment/'+id,
+        method:'GET',
+    });
+}
+
+/* •	get /api/act/comment/posterity/:id 获取所有后代评论
+权限：1
+参数：:id
+说明：
+*/
+function getCommentPosterityById(id) {
+    return R({
+        url: 'act/comment/posterity/'+id,
+        method:'GET',
+    });
+}
 export {
     addWatchByArticleId,
     getCommentSonById,
     getCommentByArticleId,
-    addComment
+    addComment,
+    getCommentById,
+    getCommentPosterityById
 }
