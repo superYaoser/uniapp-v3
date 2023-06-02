@@ -3,6 +3,8 @@
 // const baseUrl = 'http://192.168.85.1:3000/api/'
 // const baseUrl = 'http://192.168.0.122:3000/api/'
 // const baseUrl = 'http://192.168.43.50:3000/api/'
+import {getUserInfoById} from "@/static/api/users";
+
 const baseUrl = 'http://192.168.5.95:3000/api/'
 
 //用户的默认头像
@@ -47,11 +49,31 @@ const formatDate =(dateString)=> {
         return `${month}-${day}`;
     }
 }
-
+/**通过用户ID获取用户名
+ @param {number} uid - 用户ID
+ @returns {Promise<string>} - 返回一个Promise，包含字符串类型的用户名（如果请求成功），或错误提示字符串"err"（如果请求失败）*/
+const getUserNameByUid= async (uid) => {
+    let res = await getUserInfoById(uid)
+    if (res.code === 200) {
+        return res.data[0].u_name
+    }
+    return 'err'
+}
+/**通过用户ID 获取用户对象 单个
+ @param {number} uid - 用户ID
+ @returns {Promise<string>} - 返回一个Promise，包含字符串类型的用户名（如果请求成功），或错误提示字符串"err"（如果请求失败）*/
+const getUserObjByUid= async (uid) => {
+    let res = await getUserInfoById(uid)
+    if (res.code === 200) {
+        return res.data[0]
+    }
+    return 'err'
+}
 export{
     baseUrl,
     defaultHeadImgPath,
     enterWord,
     sendMessageToScreen,
-    formatDate
+    formatDate,
+    getUserNameByUid,getUserObjByUid
 }

@@ -1,106 +1,167 @@
 <template>
-<!--  这个 模板卡 需要传入 {是否需要关注按钮} {评论id}-->
-<view class="w100">
-  <view class="commentCard__container">
+  <!--  这个 模板卡 需要传入 {是否需要关注按钮} {评论id}-->
+  <view class="w100">
+    <Loading v-if="loading"></Loading>
+    <view class="commentCard__container" v-if="!loading">
+      <view class="commentCard__container__header">
 
-    <view class="commentCard__container__header">
+        <view class="commentCard__container__header--author">
+          <view class="commentCard__container__header--author--head">
+            <view class="commentCard__container__header--author--head--img" :style="user.u_head ? 'background-image: url(' + user.u_head + ')' : 'background-image: url(' + defaultHeadImgPath + ')'">
 
-      <view class="commentCard__container__header--author">
-        <view class="commentCard__container__header--author--head">
-          <view class="commentCard__container__header--author--head--img">
-
-          </view>
-          <view class="commentCard__container__header--author--head--info">
-            <view class="commentCard__container__header--author--head--info--top">
-              <view class="commentCard__container__header--author--head--info--top--name">
-                有心无心
-              </view>
-              <view class="commentCard__container__header--author--head--info--top--level">
-                11
-              </view>
             </view>
-            <view class="commentCard__container__header--author--head--info--from">
-              1F 来自佛罗里达州
-            </view>
-          </view>
-        </view>
-      </view>
-    </view>
-
-    <view class="commentCard__container__body">
-      <view class="commentCard__container__body__container">
-        <view></view>
-        <view class="commentCard__container__body__container__content">
-          <view class="commentCard__container__body__container__content--main">
-            <view class="commentCard__container__body__container__content--main--reply">
-              回复
-              <text class="commentCard__container__body__container__content--main--reply--user">
-                龟龟：
-              </text>
-            </view>
-            作者写的文章太棒了吧！
-          </view>
-          <view class="commentCard__container__body__container__content--reply">
-            <view class="commentCard__container__body__container__content--reply--common">
-              <view class="commentCard__container__body__container__content--reply--common--author">
-                太阳
-                <view class="commentCard__container__body__container__content--reply--common--author--self">
-                  作者
+            <view class="commentCard__container__header--author--head--info">
+              <view class="commentCard__container__header--author--head--info--top">
+                <view class="commentCard__container__header--author--head--info--top--name">
+                  {{ user.u_name }}
+                </view>
+                <view class="commentCard__container__header--author--head--info--top--level">
+                  11
                 </view>
               </view>
-              ：你说的对1
-            </view>
-            <view class="commentCard__container__body__container__content--reply--common">
-              <view class="commentCard__container__body__container__content--reply--common--user">
-                太阳
+              <view class="commentCard__container__header--author--head--info--from">
+                {{floor_num}}F 来自佛罗里达州
               </view>
-              ：你说的对2
-            </view>
-            <view class="commentCard__container__body__container__content--reply--more">全部5条评论</view>
-          </view>
-        </view>
-        <view class="commentCard__container__body__container__interaction">
-          <view class="commentCard__container__body__container__interaction--time">
-            16小时前
-          </view>
-          <view class="commentCard__container__body__container__interaction--act">
-            <view class="commentCard__container__body__container__interaction--act--comment">
-              <uni-icons color='#999999' type="chatbubble" size="16" ></uni-icons>
-<!--              <text>{{articleInfo.article_comment_num}}</text>-->
-              <text>0</text>
-            </view>
-
-            <view class="commentCard__container__body__container__interaction--act--hand">
-              <uni-icons color='#999999' type="hand-up" size="16"></uni-icons>
-<!--              <text>{{articleInfo.article_hand_support_num}}</text>-->
-              <text>0</text>
             </view>
           </view>
         </view>
       </view>
 
-    </view>
+      <view class="commentCard__container__body">
+        <view class="commentCard__container__body__container">
+          <view></view>
+          <view class="commentCard__container__body__container__content">
+            <view class="commentCard__container__body__container__content--main">
+              <view class="commentCard__container__body__container__content--main--reply" v-if="commentObj.comment_father_id!=null">
+                回复
+                <text class="commentCard__container__body__container__content--main--reply--user">
+                  龟龟：
+                </text>
+              </view>
+              作者写的文章太棒了吧！
+            </view>
+            <view class="commentCard__container__body__container__content--reply" v-if="comment_list[0].comment_list_user_id!=null&&need_small_window">
+              <view class="commentCard__container__body__container__content--reply--common" v-for="(item1, index1) in comment_list" :key="index1">
+                <view class="commentCard__container__body__container__content--reply--common--author">
+                  {{ item1.comment_list_user_name }}
+                  <view class="commentCard__container__body__container__content--reply--common--author--self" v-if="item1.comment_list_user_id===user.u_id">
+                    作者
+                  </view>
+                </view>
+                ：{{ item1.comment_list_user_content }}
+              </view>
+              <view class="commentCard__container__body__container__content--reply--more">全部5条评论</view>
+            </view>
+          </view>
+          <view class="commentCard__container__body__container__interaction">
+            <view class="commentCard__container__body__container__interaction--time">
+              {{ formatDate(commentObj.comment_create_time) }}
+            </view>
+            <view class="commentCard__container__body__container__interaction--act">
+              <view class="commentCard__container__body__container__interaction--act--comment">
+                <uni-icons color='#999999' type="chatbubble" size="16"></uni-icons>
+                <!--              <text>{{articleInfo.article_comment_num}}</text>-->
+                <text>{{ commentObj.comment_reply_num }}</text>
+              </view>
 
+              <view class="commentCard__container__body__container__interaction--act--hand">
+                <uni-icons color='#999999' type="hand-up" size="16"></uni-icons>
+                <!--              <text>{{articleInfo.article_hand_support_num}}</text>-->
+                <text>{{ commentObj.comment_hand_support_num }}</text>
+              </view>
+            </view>
+          </view>
+        </view>
+
+      </view>
+
+    </view>
   </view>
-</view>
 </template>
 
 <script>
-export default {
+import {onMounted, ref} from "vue";
+import {getUserNameByUid, getUserObjByUid,defaultHeadImgPath,formatDate} from '@/static/utils/globalConifg'
+import {getCommentByArticleId, getCommentSonById} from '@/static/api/act'
+import Loading from "@/components/loading/Loading";
 
+export default {
+  components: {Loading},
+  props: {
+    commentObj: Object,
+    floor_num: Number,
+    province: String,
+    need_small_window:Boolean,
+  },
+  setup(props) {
+    //加载情况
+    let loading = ref(true)
+    //评论对象
+    let commentObj = ref()
+    commentObj.value = props.commentObj
+    console.log(commentObj.value)
+    //楼层
+    let floor_num = ref(0)
+    floor_num.value = props.floor_num
+    //省份
+    let province = ref('')
+    province.value = props.province
+    //需要小窗口
+    let need_small_window = ref(true)
+    need_small_window.value = props.need_small_window
+
+    //评论本身用户对象
+    let user = ref()
+    //评论 该评论的 数组
+    let comment_list = ref([
+        {comment_list_user_id: null,comment_list_user_name:null,comment_list_user_content:null},
+        {comment_list_user_id: null,comment_list_user_name:null,comment_list_user_content:null},
+        {comment_list_user_id: null,comment_list_user_name:null,comment_list_user_content:null},
+    ])
+
+    //通过评论id 获取儿子评论 并赋值给comment_list
+    const getSonComment = async (id) => {
+      let res = await getCommentSonById(id)
+      if (res.code === 200) {
+        for (let i=0;i<res.data.length;i++){
+          if (!res.data[i].comment_user_id){
+            continue
+          }
+          if (i>=3){
+            break
+          }
+          comment_list.value[i].comment_list_user_id = res.data[i].comment_user_id
+          comment_list.value[i].comment_list_user_name = await getUserNameByUid(res.data[i].comment_user_id)
+          comment_list.value[i].comment_list_user_content = res.data[i].comment_content
+        }
+      }
+    }
+    onMounted(async () => {
+      // user.value = await getUserObjByUid(commentObj.value.comment_user_id)
+      user.value = await getUserObjByUid(commentObj.value.comment_user_id)
+      await getSonComment(commentObj.value.comment_id)
+      loading.value = false
+    })
+
+    return {
+      commentObj, floor_num, province, user,comment_list,defaultHeadImgPath,loading,formatDate
+    }
+  }
 }
 </script>
 
 <style scoped lang="less">
-.commentCard__container{
+.commentCard__container {
 
   padding: 10px 0 0.03125rem 10px;
-  &__header{
-    &--author{
-      &--head{
+
+  &__header {
+    &--author {
+      &--head {
         display: flex;
         align-items: center;
-        &--img{
+
+        &--img {
           width: 25px;
           height: 25px;
           background-repeat: no-repeat;
@@ -111,19 +172,22 @@ export default {
           background-size: cover;
           position: relative;
           background-position: center;
-          background: url("https://i0.hdslb.com/bfs/face/00be9d92f58e954a40573f56768fb5828658d148.jpg@240w_240h_1c_1s_!web-avatar-space-header.webp");
         }
-        &--info{
+
+        &--info {
           margin-left: 8px;
-          &--top{
+
+          &--top {
 
             display: flex;
             align-items: center;
             color: #7f7f7f;
-            &--name{
+
+            &--name {
               font-size: 0.775rem;
             }
-            &--level{
+
+            &--level {
               display: flex;
               align-items: center;
               justify-content: center;
@@ -138,7 +202,7 @@ export default {
             }
           }
 
-          &--from{
+          &--from {
             color: #7f7f7f;
             font-size: 0.675rem;
           }
@@ -147,26 +211,31 @@ export default {
     }
   }
 
-  &__body{
+  &__body {
     margin-top: 6px;
     width: 100%;
-    &__container{
+
+    &__container {
       display: flex;
       padding-left: 33px;
       flex-direction: column;
-      &__content{
+
+      &__content {
         font-size: 0.875rem;
 
         width: 100%;
         padding-right: 5px;
-        &--main{
+
+        &--main {
           display: flex;
           align-items: center;
           margin-bottom: 10px;
-          &--reply{
+
+          &--reply {
             display: flex;
             align-items: center;
-            &--user{
+
+            &--user {
               display: flex;
               align-items: center;
               font-weight: inherit;
@@ -176,27 +245,31 @@ export default {
           }
 
         }
-        &--reply{
+
+        &--reply {
           //width: 100%;
           background: #f4f4f4;
           border-radius: 5px;
           padding: 8px 6px;
 
-          &--common{
+          &--common {
             display: flex;
             align-items: center;
-            &--user{
+
+            &--user {
               display: flex;
               align-items: center;
               font-weight: inherit;
               color: #6da7cc;
             }
-            &--author{
+
+            &--author {
               display: flex;
               align-items: center;
               font-weight: inherit;
               color: #6da7cc;
-              &--self{
+
+              &--self {
                 display: flex;
                 align-items: center;
                 justify-content: center;
@@ -212,13 +285,14 @@ export default {
               }
             }
           }
-          &--more{
+
+          &--more {
 
           }
         }
       }
 
-      &__interaction{
+      &__interaction {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -228,21 +302,28 @@ export default {
         border-bottom: 0.025rem #d5d5d5 solid;
         padding-bottom: 0.2125rem;
 
-        &--time{
+        &--time {
 
 
         }
-        &--act{
+
+        &--act {
           display: flex;
           align-items: center;
           margin-right: 0.5rem;
-          view{
+
+          view {
             margin-right: 1rem;
+            display: flex;
+            align-items: center;
           }
-          &--comment{
+
+          &--comment {
+
 
           }
-          &--hand{
+
+          &--hand {
 
           }
 

@@ -11,6 +11,48 @@ function addWatchByArticleId(id) {
         data: {"article_id":id}
     });
 }
+/*•	get /api/act/comment/son/:id 获取评论的子评论（降序）
+权限：1
+参数：:id
+说明：
+*/
+function getCommentSonById(id) {
+    return R({
+        url: 'act/comment/son/'+id,
+        method:'GET',
+    });
+}
+
+/*•	get /api/act/comment/article/:id 获取某个文章的评论
+权限：1
+参数：:id
+说明：
+*/
+function getCommentByArticleId(id) {
+    return R({
+        url: 'act/comment/article/'+id,
+        method:'GET',
+    });
+}
+/*•	post /api/act/comment 添加用户评论的作品数据
+权限：2
+参数：jwt、comment_article_id、comment_father_id、comment_content
+说明：必须是已经登录的用户，所以权限设置了2，用户评论作品，如果有父评论，就是回复别人的评论，如果没有就按时间或者点赞数排序。回复别人的评论同理
+*/
+function addComment(comment_article_id,comment_father_id,comment_content) {
+    return R({
+        url: 'act/comment',
+        method:'POST',
+        data: {
+            "comment_article_id":comment_article_id,
+            "comment_father_id":comment_father_id,
+            "comment_content":comment_content,
+        }
+    });
+}
 export {
-    addWatchByArticleId
+    addWatchByArticleId,
+    getCommentSonById,
+    getCommentByArticleId,
+    addComment
 }

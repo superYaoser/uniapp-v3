@@ -19,8 +19,9 @@
       </view>
 
       <view class="comment__container__body">
-        <CommentCard></CommentCard>
-
+        <view v-for="(item1, index1) in article_comment_list" :key="index1">
+          <CommentCard :need_small_window="true" :comment-obj="item1" :floor_num="++index1"></CommentCard>
+        </view>
       </view>
 
 
@@ -32,9 +33,47 @@
 
 <script>
 import CommentCard from "@/components/article/comments/CommentCard";
+import {onMounted, ref} from "vue";
+import {getUserNameByUid, getUserObjByUid,defaultHeadImgPath,formatDate} from '@/static/utils/globalConifg'
+import {getCommentByArticleId, getCommentSonById} from '@/static/api/act'
 export default {
   components:{
     CommentCard
+  },
+  props: {
+    article_id: String,
+  },
+  setup(props){
+  //  文章id
+    let article_id = ref()
+    article_id = props.article_id
+    //评论列表
+    let article_comment_list =ref()
+    //空评论
+    let empty_comment = ref(false)
+
+    const initialize  = async () => {
+      let res = await getCommentByArticleId(1680405408104)
+      if (res.code ===200){
+        article_comment_list.value = res.data.filter((item) => item.comment_father_id === null)
+      }else if (res.code ===404){
+        empty_comment.value = true
+        plus.nativeUI.toast(`信息:${res.message}`)
+      }else{
+        plus.nativeUI.toast(`加载评论列表出错
+        代码：${res.code}
+        信息:${res.message}`)
+      }
+    }
+    onMounted(async () => {
+      await initialize()
+    })
+
+    return{
+      empty_comment,
+      article_comment_list,
+      formatDate
+    }
   }
 
 }

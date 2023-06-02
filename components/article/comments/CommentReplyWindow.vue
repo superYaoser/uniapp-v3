@@ -5,7 +5,7 @@
     <view class="replyWindow__container" @tap.stop>
       <view class="replyWindow__container__header">
         <view style="color: silver;font-size: 0.8125rem">
-          {{'回复：'}}{{u_name}}
+          {{'回复：'}}{{getUserNameByUid(commentObj.comment_id)}}
         </view>
       </view>
       <view class="replyWindow__container__body">
@@ -36,37 +36,20 @@ import {
   onBackPress,onShow,onLoad
 } from "@dcloudio/uni-app";
 import {getUserInfoById} from '@/static/api/users'
+import {getUserNameByUid} from '@/static/utils/globalConifg'
 export default {
   props: {
-    uid: String,
-    comment_id:String,
+    commentObj: Object,
   },
   setup(props){
     //键盘高度
     let keyHeight = ref()
-    //评论id
-    let comment_id = ref('')
-    comment_id = props.comment_id
-    //用户id
-    let uid = ref('')
-    uid = props.uid
-    //用户名
-    let u_name =ref('')
-
-    //监听数据
-    watchEffect(() => {
-      if (comment_id.value !== '' && uid.value !== '') {
-        loading.value = false
-      }
-    })
-
-    let loading = ref(true)
+    //评论对象
+    let commentObj = ref()
+    commentObj.value = props.commentObj
 
     onMounted(async () => {
-      let res = await getUserInfoById(1)
-      if (res.code===200){
-        u_name.value = res.data[0].u_name
-      }
+
     })
 
     //关闭事件
@@ -95,7 +78,7 @@ export default {
       keyHeight.value = (_diff > 0 ? _diff : 0) - 2 + "px";
     })
     return{
-      keyHeight,windowClose,u_name
+      keyHeight,windowClose,getUserNameByUid,commentObj
     }
   }
 }

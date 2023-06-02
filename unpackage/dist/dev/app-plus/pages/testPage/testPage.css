@@ -548,7 +548,6 @@
   background-size: cover;
   position: relative;
   background-position: center;
-  background: url("https://i0.hdslb.com/bfs/face/00be9d92f58e954a40573f56768fb5828658d148.jpg@240w_240h_1c_1s_!web-avatar-space-header.webp");
 }
 .commentCard__container__header--author--head--info[data-v-1acd372d] {
   margin-left: 8px;
@@ -660,6 +659,8 @@
 }
 .commentCard__container__body__container__interaction--act uni-view[data-v-1acd372d] {
   margin-right: 1rem;
+  display: flex;
+  align-items: center;
 }
 
 .comment[data-v-404a4e6d] {
