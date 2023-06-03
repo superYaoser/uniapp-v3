@@ -79,7 +79,7 @@
       "style": "dark",
       "background": "#F8F8F8"
     },
-    "arguments": "{\"path\":\"pages/MainApp\"}",
+    "arguments": "{\"name\":\"\",\"path\":\"pages/MainApp\",\"query\":\"\"}",
     "uniStatistics": {
       "enable": false
     },

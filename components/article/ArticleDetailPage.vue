@@ -43,7 +43,7 @@
           </view>
         </view>
 
-        <view class="articleInfo__container__footer">
+        <view class="articleInfo__container__footer" v-if="false">
           <view class="articleInfo__container__footer--comments">
             <view class="articleInfo__container__footer--comments--search">
 
@@ -226,14 +226,16 @@ export default {
     //---------------互动 end--------------------------------
 
     // 替换html内容中所有src
-    const replaceImgSrc = ()=> {
-      console.log(html)
-      // 匹配所有img标签的src属性
-      const imgSrcReg = /<img.*?src=[\"|\']?(.*?)[\"|\']?\s.*?>/gi;
-      // 将每个匹配到的img标签的src属性替换为新值
-      const newHtml = html.replace(imgSrcReg, `<img src="${replaceUrlIP(imgSrcReg)}" />`);
-      console.log(newHtml)
-      return newHtml;
+    const replaceImgSrc = (data)=> {
+        // 匹配所有img标签的src属性
+        const imgSrcReg = /<img.*?src=[\"|\']?(.*?)[\"|\']?\s.*?>/gi;
+        // 遍历所有匹配到的img标签
+        return data.replace(imgSrcReg, (match, src) => {
+          // 使用传入的函数替换IP地址
+          const newSrc = replaceUrlIP(src);
+          // 返回替换后的img标签
+          return match.replace(src, newSrc);
+        });
     }
     return{
       articleId,html,authorInfo,defaultHeadImgPath,articleInfo,needFollowModel,concern_be

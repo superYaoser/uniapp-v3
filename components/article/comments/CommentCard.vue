@@ -7,16 +7,16 @@
 
         <view class="commentCard__container__header--author">
           <view class="commentCard__container__header--author--head">
-            <view class="commentCard__container__header--author--head--img" :style="user.u_head ? 'background-image: url(' + user.u_head + ')' : 'background-image: url(' + defaultHeadImgPath + ')'">
+            <view class="commentCard__container__header--author--head--img" :style="commentObj.comment_user_u_head ? 'background-image: url(' + commentObj.comment_user_u_head + ')' : 'background-image: url(' + defaultHeadImgPath + ')'">
 
             </view>
             <view class="commentCard__container__header--author--head--info">
               <view class="commentCard__container__header--author--head--info--top">
                 <view class="commentCard__container__header--author--head--info--top--name">
-                  {{ user.u_name }}
+                  {{ commentObj.comment_user_u_name }}
                 </view>
                 <view class="commentCard__container__header--author--head--info--top--level">
-                  11
+                  {{ commentObj.comment_user_u_sgrade }}
                 </view>
               </view>
               <view class="commentCard__container__header--author--head--info--from">
@@ -35,10 +35,10 @@
               <view class="commentCard__container__body__container__content--main--reply" v-if="commentObj.comment_father_id!=null">
                 回复
                 <text class="commentCard__container__body__container__content--main--reply--user">
-                  {{ father_user.u_name }}：
+                  {{ commentObj.comment_user_father_name }}：
                 </text>
               </view>
-              作者写的文章太棒了吧！
+              {{ commentObj.comment_content }}
             </view>
             <view class="commentCard__container__body__container__content--reply" v-if="comment_list[0].comment_list_user_id!=null&&need_small_window"
                   style="margin-right: 10px"
@@ -47,14 +47,14 @@
               <view class="commentCard__container__body__container__content--reply--common" v-if="item1.comment_list_user_name">
                 <view class="commentCard__container__body__container__content--reply--common--author">
                   {{ item1.comment_list_user_name }}
-                  <view class="commentCard__container__body__container__content--reply--common--author--self" v-if="item1.comment_list_user_id===user.u_id">
+                  <view class="commentCard__container__body__container__content--reply--common--author--self" v-if="item1.comment_list_user_id===commentObj.comment_user_id">
                     作者
                   </view>
                 </view>
                 ：{{ item1.comment_list_user_content }}
               </view>
               </view>
-              <view class="commentCard__container__body__container__content--reply--more">全部{{ commentObj.comment_reply_num }}条评论 >></view>
+              <view class="commentCard__container__body__container__content--reply--more" v-if="comment_list[2].comment_list_user_content!=null">全部{{ commentObj.comment_reply_num }}条评论 >></view>
             </view>
           </view>
           <view class="commentCard__container__body__container__interaction">
@@ -115,8 +115,6 @@ export default {
     let need_small_window = ref(true)
     need_small_window.value = props.need_small_window
 
-    //评论本身用户对象
-    let user = ref()
     //评论 该评论的 数组
     let comment_list = ref([
         {comment_list_user_id: null,comment_list_user_name:null,comment_list_user_content:null},
@@ -149,20 +147,21 @@ export default {
             break
           }
           comment_list.value[i].comment_list_user_id = res.data[i].comment_user_id
-          comment_list.value[i].comment_list_user_name = await getUserNameByUid(res.data[i].comment_user_id)
+          comment_list.value[i].comment_list_user_name = res.data[i].comment_user_u_name
           comment_list.value[i].comment_list_user_content = res.data[i].comment_content
         }
       }
     }
     onMounted(async () => {
-      user.value = await getUserObjByUid(commentObj.value.comment_user_id)
       await getSonComment(commentObj.value.comment_id)
       loading.value = false
-      father_user.value =await getUserObjByUid(commentObj.value.comment_father_id)
+      if (commentObj.value.comment_father_id!=null){
+        father_user.value =await getUserObjByUid(commentObj.value.comment_father_id)
+      }
     })
 
     return {
-      commentObj, floor_num, province, user,comment_list,defaultHeadImgPath,loading,formatDate,showExpand
+      commentObj, floor_num, province,comment_list,defaultHeadImgPath,loading,formatDate,showExpand
       ,father_user,iReplyYourComment
     }
   }

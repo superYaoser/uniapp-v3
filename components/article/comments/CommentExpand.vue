@@ -1,5 +1,5 @@
 <template>
-<view style="height: 100vh;width: 100vw;background: rgba(0,0,0,0.07);position: absolute;z-index: 99;top: 0;left: 0;overflow: hidden" @tap="expandClose()">
+<view style="height: 100vh;width: 100vw;background: rgba(0,0,0,0.07);position: fixed;z-index: 99;top: 0;left: 0;overflow: hidden" @tap="expandClose()">
   <view class="commentExpand" style="position: relative">
     <view class="commentExpand__container">
       <view class="commentExpand__container__header" @tap.stop>

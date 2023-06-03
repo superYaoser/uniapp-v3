@@ -1,5 +1,5 @@
 <template>
-<view style="height: 100vh;width: 100vw;background: rgba(0,0,0,0.15);position: absolute;z-index: 99;top: 0;left: 0;overflow: hidden" @tap="windowClose">
+<view style="height: 100vh;width: 100vw;background: rgba(0,0,0,0.15);position: fixed;z-index: 999;top: 0;left: 0;overflow: hidden" @tap="windowClose">
 
   <view class="replyWindow" :style="'margin-top:calc(100vh - 175px - '+ keyHeight +')'">
     <view class="replyWindow__container" @tap.stop>
@@ -88,6 +88,8 @@ export default {
       if (e.from === 'backbutton') {
         console.log('用户在评论回复窗口界面按了返回键盘');
         windowClose()
+        return true;
+      }else if (e.from === 'navigateBack') {
         return true;
       }
     })

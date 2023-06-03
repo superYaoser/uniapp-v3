@@ -25,7 +25,24 @@
         </view>
       </view>
 
+      <view class="comment__container__footer" v-if="!isReply&&!isExpand">
+        <view class="comment__container__footer--comments">
+          <view class="comment__container__footer--comments--search" @tap.stop="iWantSpeak()">
 
+            <view>  我有话想说...</view>
+          </view>
+        </view>
+        <view class="comment__container__footer--util">
+          <view><uni-icons type="chatbubble" size="23"></uni-icons>
+            {{ articleInfo.article_comment_num }}</view>
+
+          <view><uni-icons type="fire" size="23"></uni-icons>{{ Number(articleInfo.article_hand_support_num) + Number(articleInfo.article_watch_num) + Number(articleInfo.article_comment_num)}}</view>
+
+
+          <view><uni-icons type="hand-up" size="23"></uni-icons>
+            {{ articleInfo.article_hand_support_num }}</view>
+        </view>
+      </view>
 
     </view>
   </view>
@@ -39,6 +56,7 @@ import {getUserNameByUid, getUserObjByUid,defaultHeadImgPath,formatDate} from '@
 import {getCommentByArticleId, getCommentSonById} from '@/static/api/act'
 import CommentExpand from "@/components/article/comments/CommentExpand";
 import CommentReplyWindow from "@/components/article/comments/CommentReplyWindow";
+import {getArticleByID} from "@/static/api/article";
 export default {
   components:{
     CommentReplyWindow,
@@ -58,6 +76,9 @@ export default {
     let expand_comment_obj = ref()
     //需要 回复的评论体
     let reply_comment_obj = ref()
+    //文章信息
+    let articleInfo = ref()
+
     //-----------------------------------------------------------------------------------
     uni.$on('commentCard_showExpand',function(e){
       let data = e.data
@@ -85,6 +106,7 @@ export default {
     //空评论
     let empty_comment = ref(false)
 
+    //初始化
     const initialize  = async () => {
 
       let res = await getCommentByArticleId(article_id)
@@ -99,6 +121,26 @@ export default {
         代码：${res.code}
         信息:${res.message}`)
       }
+
+      //获取文章信息
+      await getArticleByID(article_id).then(res => {
+        console.log(res)
+        if (res.code === 200) {
+          //赋值文章信息
+          articleInfo.value = res.data[0]
+        }else {
+        }
+      })
+    }
+    //点击我有话想说
+    const iWantSpeak=()=>{
+      let obj={
+        comment_id:null,
+        comment_user_id:articleInfo.value.article_user_id,
+      }
+      uni.$emit('commentCard_replyComment', {
+        data: obj
+      })
     }
     onMounted(async () => {
 
@@ -114,7 +156,7 @@ export default {
       expand_comment_obj,
       isReply,
       reply_comment_obj,
-      article_id
+      article_id,articleInfo,iWantSpeak
     }
   }
 
@@ -143,6 +185,52 @@ export default {
         }
       }
 
+    }
+    &__footer{
+      display: flex;
+      align-items: center;
+      background: #f3f3f3;
+      height: 40px;
+      width: 100%;
+      position: fixed;
+      z-index: 9;
+      bottom: 0;
+      left: 0;
+      &--comments{
+
+        &--search{
+
+          margin-left: 20px;
+          view{
+            width: 200px;
+            height: 25px;
+            background: #FFFFFF;
+            border: 1px #efefef solid;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            color: silver;
+          }
+        }
+      }
+      &--util{
+        display: flex;
+        align-items: center;
+
+        justify-content: space-around;
+        color: #9d9d9d;
+        font-size: 0.650rem;
+        width: calc(100% - 210px);
+        view{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        view:last-child{
+          margin-right: 0.9375rem;
+        }
+      }
     }
   }
 }
