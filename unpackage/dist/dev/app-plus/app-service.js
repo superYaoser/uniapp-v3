@@ -6664,7 +6664,7 @@ if (uni.restoreGlobal) {
                   width: "100%",
                   //设置宽度为100%防止宽度溢出手机屏幕
                   height: "auto",
-                  src: data.imageUrl,
+                  src: replaceUrlIP(data.imageUrl),
                   //服务端返回的url
                   alt: "图像",
                   success: function() {

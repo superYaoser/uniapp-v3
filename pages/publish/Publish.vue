@@ -72,11 +72,11 @@
 
 <script>
 import {onMounted, ref} from "vue";
-import {baseUrl} from '@/static/utils/globalConifg'
+import {baseUrl, replaceUrlIP} from '@/static/utils/globalConifg'
 import {getCategoryList} from '@/static/api/category'
 import {pushNewArticle} from '@/static/api/article'
 import TopBar from "@/components/MainApp/TopBar";
-import {enterWord} from "@/static/utils/globalConifg";
+import {enterWord,replaceImgSrc} from "@/static/utils/globalConifg";
 
 export default {
   components: {
@@ -108,7 +108,7 @@ export default {
       uni.$emit('currentRouterUpdate', {router: currentR.value})
     }
     //点击返回应该展示的界面
-    uni.$on('tabBarCurrentRvalue', function (data) { 
+    uni.$on('tabBarCurrentRvalue', function (data) {
       currentR.value = data.router;
     })
 
@@ -121,7 +121,7 @@ export default {
       }, res => {
         console.log(res);
 
-        editorCtx.value = res.context 
+        editorCtx.value = res.context
       }).exec()
     }
 
@@ -169,7 +169,7 @@ export default {
               editorCtx.value.insertImage({
                 width: '100%', //设置宽度为100%防止宽度溢出手机屏幕
                 height: 'auto',
-                src: data.imageUrl, //服务端返回的url
+                src: replaceUrlIP(data.imageUrl), //服务端返回的url
                 alt: '图像',
                 success: function () {
                   console.log('insert image success')

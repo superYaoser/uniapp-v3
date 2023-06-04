@@ -86,11 +86,23 @@ const replaceUrlIP = (url) => {
     let pattern = /http:\/\/([\d\.]+):(\d+)/;
     return url.replace(pattern, `http://${extractIP(baseUrl)}`);
 }
+// 替换html内容中所有src
+const replaceImgSrc = (data)=> {
+    // 匹配所有img标签的src属性
+    const imgSrcReg = /<img.*?src=[\"|\']?(.*?)[\"|\']?\s.*?>/gi;
+    // 遍历所有匹配到的img标签
+    return data.replace(imgSrcReg, (match, src) => {
+        // 使用传入的函数替换IP地址
+        const newSrc = replaceUrlIP(src);
+        // 返回替换后的img标签
+        return match.replace(src, newSrc);
+    });
+}
 export{
     baseUrl,
     defaultHeadImgPath,
     enterWord,
     sendMessageToScreen,
     formatDate,
-    getUserNameByUid,getUserObjByUid,replaceUrlIP
+    getUserNameByUid,getUserObjByUid,replaceUrlIP,replaceImgSrc
 }
