@@ -80,20 +80,6 @@ export default {
       }
     }
 
-
-    //监听用户触发返回后处理请求 返回改为触发关闭事件
-    onBackPress((e) => {
-//backbutton 是点击物理按键返回，navigateBack是uniapp中的返回（比如左上角的返回箭头）
-      // 触发返回就会调用此方法，这里实现的是禁用物理返回，顶部导航栏的自定义返回 uni.navigateBack 仍可使用
-      if (e.from === 'backbutton') {
-        console.log('用户在评论回复窗口界面按了返回键盘');
-        windowClose()
-        return true;
-      }else if (e.from === 'navigateBack') {
-        return true;
-      }
-    })
-
 //  监听键盘高度变化
     uni.onKeyboardHeightChange((obj)=>{
       // 获取系统信息

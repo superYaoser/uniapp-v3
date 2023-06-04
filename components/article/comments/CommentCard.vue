@@ -103,8 +103,6 @@ export default {
     //评论对象
     let commentObj = ref()
     commentObj.value = props.commentObj
-    //其评论 的父亲评论的 用户主体
-    let father_user = ref()
     //楼层
     let floor_num = ref(0)
     floor_num.value = props.floor_num
@@ -155,14 +153,11 @@ export default {
     onMounted(async () => {
       await getSonComment(commentObj.value.comment_id)
       loading.value = false
-      if (commentObj.value.comment_father_id!=null){
-        father_user.value =await getUserObjByUid(commentObj.value.comment_father_id)
-      }
     })
 
     return {
       commentObj, floor_num, province,comment_list,defaultHeadImgPath,loading,formatDate,showExpand
-      ,father_user,iReplyYourComment
+      ,iReplyYourComment
     }
   }
 }

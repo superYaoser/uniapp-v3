@@ -2556,13 +2556,6 @@ if (uni.restoreGlobal) {
     }
     return "err";
   };
-  const getUserObjByUid = async (uid) => {
-    let res = await getUserInfoById(uid);
-    if (res.code === 200) {
-      return res.data[0];
-    }
-    return "err";
-  };
   const replaceUrlIP = (url) => {
     let pattern = /http:\/\/([\d\.]+):(\d+)/;
     return url.replace(pattern, `http://${extractIP(baseUrl)}`);
@@ -7101,7 +7094,6 @@ if (uni.restoreGlobal) {
       let loading = vue.ref(true);
       let commentObj = vue.ref();
       commentObj.value = props.commentObj;
-      let father_user = vue.ref();
       let floor_num = vue.ref(0);
       floor_num.value = props.floor_num;
       let province = vue.ref("");
@@ -7143,9 +7135,6 @@ if (uni.restoreGlobal) {
       vue.onMounted(async () => {
         await getSonComment(commentObj.value.comment_id);
         loading.value = false;
-        if (commentObj.value.comment_father_id != null) {
-          father_user.value = await getUserObjByUid(commentObj.value.comment_father_id);
-        }
       });
       return {
         commentObj,
@@ -7156,7 +7145,6 @@ if (uni.restoreGlobal) {
         loading,
         formatDate,
         showExpand,
-        father_user,
         iReplyYourComment
       };
     }
@@ -7476,15 +7464,6 @@ if (uni.restoreGlobal) {
           plus.nativeUI.toast(`评论完成`);
         }
       };
-      onBackPress((e) => {
-        if (e.from === "backbutton") {
-          formatAppLog("log", "at components/article/comments/CommentReplyWindow.vue:89", "用户在评论回复窗口界面按了返回键盘");
-          windowClose();
-          return true;
-        } else if (e.from === "navigateBack") {
-          return true;
-        }
-      });
       uni.onKeyboardHeightChange((obj) => {
         let _sysInfo = uni.getSystemInfoSync();
         let _heightDiff = _sysInfo.screenHeight - _sysInfo.windowHeight;
@@ -7600,7 +7579,7 @@ if (uni.restoreGlobal) {
       let empty_comment = vue.ref(false);
       const initialize = async () => {
         let res = await getCommentByArticleId(article_id);
-        formatAppLog("log", "at components/article/comments/CommentList.vue:113", res);
+        formatAppLog("log", "at components/article/comments/CommentList.vue:116", res);
         if (res.code === 200) {
           article_comment_list.value = res.data.filter((item) => item.comment_father_id === null);
         } else if (res.code === 404) {
@@ -7612,7 +7591,7 @@ if (uni.restoreGlobal) {
         信息:${res.message}`);
         }
         await getArticleByID(article_id).then((res2) => {
-          formatAppLog("log", "at components/article/comments/CommentList.vue:127", res2);
+          formatAppLog("log", "at components/article/comments/CommentList.vue:130", res2);
           if (res2.code === 200) {
             articleInfo.value = res2.data[0];
           }
@@ -7629,6 +7608,31 @@ if (uni.restoreGlobal) {
       };
       vue.onMounted(async () => {
         await initialize();
+      });
+      const pageBack = () => {
+        uni.navigateBack({
+          delta: 1
+          //返回的页面数，如果 delta 大于现有页面数，则返回到首页。
+        });
+      };
+      onBackPress((e) => {
+        formatAppLog("log", "at components/article/comments/CommentList.vue:161", e);
+        formatAppLog("log", "at components/article/comments/CommentList.vue:162", "用户在详细文章界面按了返回键盘");
+        if (e.from === "backbutton") {
+          formatAppLog("log", "at components/article/comments/CommentList.vue:166", isReply.value);
+          if (isReply.value) {
+            uni.$emit("comment_reply_window_close", { data: true });
+            return true;
+          }
+          if (isExpand.value) {
+            uni.$emit("commentExpand_close");
+            return true;
+          }
+          pageBack();
+          return true;
+        } else if (e.from === "navigateBack") {
+          return false;
+        }
       });
       return {
         empty_comment,
@@ -8009,16 +8013,6 @@ if (uni.restoreGlobal) {
           //返回的页面数，如果 delta 大于现有页面数，则返回到首页。
         });
       };
-      onBackPress((e) => {
-        formatAppLog("log", "at pages/article/detail/ArticleDetailPage.vue:63", e);
-        formatAppLog("log", "at pages/article/detail/ArticleDetailPage.vue:64", "用户在详细文章界面按了返回键盘");
-        if (e.from === "backbutton") {
-          pageBack();
-          return true;
-        } else if (e.from === "navigateBack") {
-          return false;
-        }
-      });
       return {
         pageBack,
         headerTitle
