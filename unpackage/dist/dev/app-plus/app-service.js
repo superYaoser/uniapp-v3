@@ -6909,8 +6909,8 @@ if (uni.restoreGlobal) {
       vue.onMounted(() => {
         const store2 = useStore();
         loginUseUser({
-          email: "1@qq.com",
-          password: "1"
+          email: "111@qq.com",
+          password: "12312321"
         }).then((res) => {
           formatAppLog("log", "at pages/MainApp.vue:50", res);
           if (res.code == 200) {
@@ -7207,7 +7207,7 @@ if (uni.restoreGlobal) {
                       $setup.floor_num ? (vue.openBlock(), vue.createElementBlock(
                         "view",
                         { key: 0 },
-                        vue.toDisplayString($setup.floor_num) + "F",
+                        vue.toDisplayString($setup.floor_num) + "F ",
                         1
                         /* TEXT */
                       )) : vue.createCommentVNode("v-if", true),
@@ -7357,14 +7357,14 @@ if (uni.restoreGlobal) {
       const initializeCommentList = async (id) => {
         let res = await getCommentPosterityById(id);
         if (res.code === 200) {
-          formatAppLog("log", "at components/article/comments/CommentExpand.vue:51", res);
+          formatAppLog("log", "at components/article/comments/CommentExpand.vue:52", res);
           commentList.value = res.data;
         }
       };
       let floor_num = vue.ref(0);
       floor_num.value = props.floor_num;
       const expandClose = () => {
-        formatAppLog("log", "at components/article/comments/CommentExpand.vue:61", "用户在评论回复窗口界面 触发关闭");
+        formatAppLog("log", "at components/article/comments/CommentExpand.vue:62", "用户在评论回复窗口界面 触发关闭");
         uni.$emit("commentExpand_close");
       };
       vue.onMounted(async () => {
@@ -7442,7 +7442,8 @@ if (uni.restoreGlobal) {
                 }),
                 128
                 /* KEYED_FRAGMENT */
-              ))
+              )),
+              vue.createElementVNode("view", { style: { "color": "#a0a0a0", "width": "100px", "font-size": "0.875rem", "margin": "25px auto" } }, "已经到底了...")
             ])
           ])
         ])
@@ -7480,7 +7481,11 @@ if (uni.restoreGlobal) {
         if (res.code === 200) {
           await setCommentByArticleId(props.article_id);
           uni.$emit("CommentCard_update", { id: commentObj.value.comment_id });
-          uni.$emit("CommentExpand_update", { id: commentObj.value.comment_id });
+          if (res.data === commentObj.value.comment_id) {
+            uni.$emit("CommentExpand_update", { id: commentObj.value.comment_id });
+          } else {
+            uni.$emit("CommentCard_update", { id: res.data });
+          }
           uni.$emit("CommentList_update", { id: commentObj.value.comment_id });
           plus.nativeUI.toast(`评论完成`);
         }
@@ -7495,7 +7500,7 @@ if (uni.restoreGlobal) {
         try {
           ArticleFun.setArticleCardUpdate(null, id, { comment: ++articleObj.value.article_comment_num });
         } catch (e) {
-          formatAppLog("log", "at components/article/comments/CommentReplyWindow.vue:107", "向文章卡 添加回复数 信息 记录失败");
+          formatAppLog("log", "at components/article/comments/CommentReplyWindow.vue:113", "向文章卡 添加回复数 信息 记录失败");
         }
       };
       return {
@@ -7607,9 +7612,10 @@ if (uni.restoreGlobal) {
       let empty_comment = vue.ref(false);
       const initialize = async () => {
         let res = await getCommentByArticleId(article_id);
-        formatAppLog("log", "at components/article/comments/CommentList.vue:120", res);
+        formatAppLog("log", "at components/article/comments/CommentList.vue:121", res);
         if (res.code === 200) {
           article_comment_list.value = res.data.filter((item) => item.comment_father_id === null);
+          empty_comment.value = false;
         } else if (res.code === 404) {
           empty_comment.value = true;
           plus.nativeUI.toast(`信息:${res.message}<评论>`);
@@ -7619,7 +7625,7 @@ if (uni.restoreGlobal) {
         信息:${res.message}`);
         }
         await getArticleByID(article_id).then((res2) => {
-          formatAppLog("log", "at components/article/comments/CommentList.vue:134", res2);
+          formatAppLog("log", "at components/article/comments/CommentList.vue:136", res2);
           if (res2.code === 200) {
             articleInfo.value = res2.data[0];
           }
@@ -7644,10 +7650,10 @@ if (uni.restoreGlobal) {
         });
       };
       onBackPress((e) => {
-        formatAppLog("log", "at components/article/comments/CommentList.vue:165", e);
-        formatAppLog("log", "at components/article/comments/CommentList.vue:166", "用户在详细文章界面按了返回键盘");
+        formatAppLog("log", "at components/article/comments/CommentList.vue:167", e);
+        formatAppLog("log", "at components/article/comments/CommentList.vue:168", "用户在详细文章界面按了返回键盘");
         if (e.from === "backbutton") {
-          formatAppLog("log", "at components/article/comments/CommentList.vue:170", isReply.value);
+          formatAppLog("log", "at components/article/comments/CommentList.vue:172", isReply.value);
           if (isReply.value) {
             uni.$emit("comment_reply_window_close", { data: true });
             return true;
@@ -7697,11 +7703,11 @@ if (uni.restoreGlobal) {
             }, [
               vue.createElementVNode("view", { class: "comment__container__header__option--left disF-center" }, [
                 vue.createElementVNode("view", { style: { "margin": "0 5px", "margin-left": "10px" } }, "全部评论"),
-                vue.createElementVNode("view", { style: { "margin": "0 5px" } }, "只看作者")
+                vue.createElementVNode("view", { style: { "margin": "0 5px", "color": "silver" } }, "只看作者")
               ]),
               vue.createElementVNode("view", { class: "comment__container__header__option--right disF-center" }, [
                 vue.createElementVNode("view", { style: { "margin": "0 5px" } }, "热门"),
-                vue.createElementVNode("view", { style: { "margin": "0 5px" } }, "最早"),
+                vue.createElementVNode("view", { style: { "margin": "0 5px", "color": "#1f1f1f" } }, "最早"),
                 vue.createElementVNode("view", { style: { "margin": "0 5px", "margin-right": "10px" } }, "最热")
               ])
             ])
@@ -7743,7 +7749,11 @@ if (uni.restoreGlobal) {
               }),
               128
               /* KEYED_FRAGMENT */
-            ))
+            )),
+            !$setup.empty_comment ? (vue.openBlock(), vue.createElementBlock("view", {
+              key: 3,
+              style: { "color": "#a0a0a0", "width": "100px", "font-size": "0.875rem", "margin": "25px auto" }
+            }, "已经到底了...")) : vue.createCommentVNode("v-if", true)
           ]),
           !$setup.isReply && !$setup.isExpand ? (vue.openBlock(), vue.createElementBlock("view", {
             key: 0,

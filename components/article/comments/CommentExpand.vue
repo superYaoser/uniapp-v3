@@ -18,6 +18,7 @@
           <view v-for="(item1, index1) in commentList" :key="index1">
             <CommentCard :need_small_window="false" :comment-obj="item1"></CommentCard>
           </view>
+          <view style="color: #a0a0a0;width: 100px;font-size: 0.875rem;margin: 25px auto">已经到底了...</view>
 
         </scroll-view>
       </view>

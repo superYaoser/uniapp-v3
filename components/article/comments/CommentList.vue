@@ -7,11 +7,11 @@
         <view class="comment__container__header__option disF-center" style="justify-content: space-between;">
           <view class="comment__container__header__option--left disF-center">
             <view style="margin: 0 5px;margin-left: 10px">全部评论</view>
-            <view style="margin: 0 5px">只看作者</view>
+            <view style="margin: 0 5px;color: silver">只看作者</view>
           </view>
           <view class="comment__container__header__option--right disF-center">
             <view style="margin: 0 5px">热门</view>
-            <view style="margin: 0 5px">最早</view>
+            <view style="margin: 0 5px;color: #1f1f1f">最早</view>
             <view style="margin: 0 5px;margin-right: 10px">最热</view>
           </view>
         </view>
@@ -27,6 +27,7 @@
         <view v-for="(item1, index1) in article_comment_list" :key="index1">
           <CommentCard :need_small_window="true" :comment-obj="item1" :floor_num="++index1"></CommentCard>
         </view>
+        <view style="color: #a0a0a0;width: 100px;font-size: 0.875rem;margin: 25px auto" v-if="!empty_comment" >已经到底了...</view>
       </view>
 
       <view class="comment__container__footer" v-if="!isReply&&!isExpand">
@@ -120,9 +121,9 @@ export default {
       console.log(res)
       if (res.code ===200){
         article_comment_list.value = res.data.filter((item) => item.comment_father_id === null)
+        empty_comment.value = false
       }else if (res.code ===404){
         empty_comment.value = true
-        plus.nativeUI.toast(`信息:${res.message}<评论>`)
       }else{
         plus.nativeUI.toast(`加载评论列表出错
         代码：${res.code}

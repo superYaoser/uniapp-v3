@@ -83,7 +83,13 @@ export default {
       if (res.code===200){
         await setCommentByArticleId(props.article_id)
         uni.$emit('CommentCard_update', {id: commentObj.value.comment_id})
-        uni.$emit('CommentExpand_update', {id: commentObj.value.comment_id})
+
+        if (res.data===commentObj.value.comment_id){
+          uni.$emit('CommentExpand_update', {id: commentObj.value.comment_id})
+        }else {
+          uni.$emit('CommentCard_update', {id: res.data})
+        }
+
         uni.$emit('CommentList_update', {id: commentObj.value.comment_id})
         plus.nativeUI.toast(`评论完成`)
       }

@@ -11,7 +11,7 @@ const baseUrl = 'http://192.168.0.106:3000/api/'
 
 //提取192.168.0.106:3000
 function extractIP(url) {
-    let pattern = /http:\/\/([\d\.]+):(\d+)/;
+    let pattern = /http:\/\/([\d\.]+):(\d+)/; 
     let result = url.match(pattern);
     if (result && result.length >= 3) {
         return result[1] + ":" + result[2];

@@ -20,7 +20,7 @@
                 </view>
               </view>
               <view class="commentCard__container__header--author--head--info--from">
-                <view v-if="floor_num">{{floor_num}}F</view> 来自佛罗里达州
+                <view v-if="floor_num">{{floor_num}}F </view> 来自佛罗里达州
               </view>
             </view>
           </view>
