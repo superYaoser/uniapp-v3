@@ -48,6 +48,7 @@ export default {
     const initializeCommentList =async (id) => {
       let res = await getCommentPosterityById(id)
       if (res.code === 200){
+        console.log(res)
         commentList.value = res.data
       }
     }
@@ -63,6 +64,12 @@ export default {
     onMounted(async () => {
       await initializeCommentList(commentObj.value.comment_id)
     })
+    //-------------------------监听--------------------------------------------------------------------------------------------------------------------------------------------
+    uni.$on('CommentExpand_update',async function (e) {
+        await initializeCommentList(commentObj.value.comment_id)
+
+    })
+//-------------------------监听 end --------------------------------------------------------------------------------------------------------------------------------------------
     return{
       expandClose,
       floor_num,

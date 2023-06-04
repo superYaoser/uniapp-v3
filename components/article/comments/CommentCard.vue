@@ -54,7 +54,7 @@
                 ：{{ item1.comment_list_user_content }}
               </view>
               </view>
-              <view class="commentCard__container__body__container__content--reply--more" v-if="comment_list[2].comment_list_user_content!=null">全部{{ commentObj.comment_reply_num }}条评论 >></view>
+              <view class="commentCard__container__body__container__content--reply--more" v-if="comment_list[0].comment_list_user_content!=null">全部{{ commentObj.comment_reply_num }}条评论 >></view>
             </view>
           </view>
           <view class="commentCard__container__body__container__interaction">
@@ -113,6 +113,9 @@ export default {
     let need_small_window = ref(true)
     need_small_window.value = props.need_small_window
 
+    //其评论 的父亲评论的 用户主体
+    let father_user = ref()
+
     //评论 该评论的 数组
     let comment_list = ref([
         {comment_list_user_id: null,comment_list_user_name:null,comment_list_user_content:null},
@@ -136,6 +139,7 @@ export default {
     //通过评论id 获取儿子评论 并赋值给comment_list
     const getSonComment = async (id) => {
       let res = await getCommentSonById(id)
+      console.log(res)
       if (res.code === 200) {
         for (let i=0;i<res.data.length;i++){
           if (!res.data[i].comment_user_id){
@@ -154,9 +158,19 @@ export default {
       await getSonComment(commentObj.value.comment_id)
       loading.value = false
     })
+//-------------------------监听--------------------------------------------------------------------------------------------------------------------------------------------
+    uni.$on('CommentCard_update',async function (e) {
+      if (commentObj.value.comment_id === e.id && e.id!=null){
+        console.log("更新"+e.id)
+        await getSonComment(commentObj.value.comment_id)
+        commentObj.value.comment_reply_num = ++commentObj.value.comment_reply_num
+      }
+    })
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
     return {
-      commentObj, floor_num, province,comment_list,defaultHeadImgPath,loading,formatDate,showExpand
+      commentObj, floor_num, province,comment_list,defaultHeadImgPath,loading,formatDate,showExpand,father_user
       ,iReplyYourComment
     }
   }

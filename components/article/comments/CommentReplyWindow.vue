@@ -38,11 +38,13 @@ import {
 } from "@dcloudio/uni-app";
 import {getUserInfoById} from '@/static/api/users'
 import {getUserNameByUid} from '@/static/utils/globalConifg'
-import {addComment, getCommentPosterityById} from "@/static/api/act";
+import {addComment, addWatchByArticleId, getCommentPosterityById} from "@/static/api/act";
+import ArticleFun from "@/components/article/articleFun";
 export default {
   props: {
     article_id: String,
     commentObj: Object,
+    articleObj:Object,
   },
   setup(props){
     //键盘高度
@@ -50,6 +52,9 @@ export default {
     //评论对象
     let commentObj = ref()
     commentObj.value = props.commentObj
+    //文章对象
+    let articleObj = ref()
+    articleObj.value = props.articleObj
     //回复的用户名
     let reply_user_name = ref()
 
@@ -76,6 +81,10 @@ export default {
       let res = await addComment(props.article_id,commentObj.value.comment_id,input_value.value)
       console.log(res)
       if (res.code===200){
+        await setCommentByArticleId(props.article_id)
+        uni.$emit('CommentCard_update', {id: commentObj.value.comment_id})
+        uni.$emit('CommentExpand_update', {id: commentObj.value.comment_id})
+        uni.$emit('CommentList_update', {id: commentObj.value.comment_id})
         plus.nativeUI.toast(`评论完成`)
       }
     }
@@ -89,6 +98,15 @@ export default {
       // 键盘高度
       keyHeight.value = (_diff > 0 ? _diff : 0) - 2 + "px";
     })
+
+    //向文章卡 添加回复数 信息，后台已经添加，前台刷新一下，相当于
+    const setCommentByArticleId= async (id)=>{
+      try {
+        ArticleFun.setArticleCardUpdate(null,id,{comment:++articleObj.value.article_comment_num})
+      }catch (e){
+        console.log('向文章卡 添加回复数 信息 记录失败')
+      }
+    }
     return{
       keyHeight,windowClose,getUserNameByUid,reply_user_name
       ,inputComment,input_value,sendComment

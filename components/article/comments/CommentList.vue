@@ -18,7 +18,11 @@
       </view>
 
       <view class="comment__container__body">
-        <CommentReplyWindow v-if="isReply" :comment-obj="reply_comment_obj" :article_id="article_id"></CommentReplyWindow>
+        <view class="articleList__container__body__concern--blank disF-center" v-if="empty_comment" style="flex-direction: column;">
+          <image src="./static/images/utils/blank_page.png" style="height: 150px"></image>
+          <view style="color: #a0a0a0">目前无人评论...</view>
+        </view>
+        <CommentReplyWindow v-if="isReply" :comment-obj="reply_comment_obj" :article_id="article_id" :article-obj="articleInfo"></CommentReplyWindow>
         <CommentExpand v-if="isExpand" :floor_num="expand_floor_num" :comment-obj="expand_comment_obj"></CommentExpand>
         <view v-for="(item1, index1) in article_comment_list" :key="index1">
           <CommentCard :need_small_window="true" :comment-obj="item1" :floor_num="++index1"></CommentCard>
@@ -178,7 +182,13 @@ export default {
         return false;
       }
     })
-
+//-------------------------监听--------------------------------------------------------------------------------------------------------------------------------------------
+    uni.$on('CommentList_update',async function (e) {
+      if (e.id==null){
+        await initialize()
+      }
+    })
+//-------------------------监听 end --------------------------------------------------------------------------------------------------------------------------------------------
     return{
       empty_comment,
       article_comment_list,

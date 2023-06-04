@@ -7100,6 +7100,7 @@ if (uni.restoreGlobal) {
       province.value = props.province;
       let need_small_window = vue.ref(true);
       need_small_window.value = props.need_small_window;
+      let father_user = vue.ref();
       let comment_list = vue.ref([
         { comment_list_user_id: null, comment_list_user_name: null, comment_list_user_content: null },
         { comment_list_user_id: null, comment_list_user_name: null, comment_list_user_content: null },
@@ -7118,6 +7119,7 @@ if (uni.restoreGlobal) {
       };
       const getSonComment = async (id) => {
         let res = await getCommentSonById(id);
+        formatAppLog("log", "at components/article/comments/CommentCard.vue:142", res);
         if (res.code === 200) {
           for (let i2 = 0; i2 < res.data.length; i2++) {
             if (!res.data[i2].comment_user_id) {
@@ -7136,6 +7138,13 @@ if (uni.restoreGlobal) {
         await getSonComment(commentObj.value.comment_id);
         loading.value = false;
       });
+      uni.$on("CommentCard_update", async function(e) {
+        if (commentObj.value.comment_id === e.id && e.id != null) {
+          formatAppLog("log", "at components/article/comments/CommentCard.vue:164", "更新" + e.id);
+          await getSonComment(commentObj.value.comment_id);
+          commentObj.value.comment_reply_num = ++commentObj.value.comment_reply_num;
+        }
+      });
       return {
         commentObj,
         floor_num,
@@ -7145,6 +7154,7 @@ if (uni.restoreGlobal) {
         loading,
         formatDate,
         showExpand,
+        father_user,
         iReplyYourComment
       };
     }
@@ -7271,7 +7281,7 @@ if (uni.restoreGlobal) {
                       128
                       /* KEYED_FRAGMENT */
                     )),
-                    $setup.comment_list[2].comment_list_user_content != null ? (vue.openBlock(), vue.createElementBlock(
+                    $setup.comment_list[0].comment_list_user_content != null ? (vue.openBlock(), vue.createElementBlock(
                       "view",
                       {
                         key: 0,
@@ -7347,16 +7357,20 @@ if (uni.restoreGlobal) {
       const initializeCommentList = async (id) => {
         let res = await getCommentPosterityById(id);
         if (res.code === 200) {
+          formatAppLog("log", "at components/article/comments/CommentExpand.vue:51", res);
           commentList.value = res.data;
         }
       };
       let floor_num = vue.ref(0);
       floor_num.value = props.floor_num;
       const expandClose = () => {
-        formatAppLog("log", "at components/article/comments/CommentExpand.vue:60", "用户在评论回复窗口界面 触发关闭");
+        formatAppLog("log", "at components/article/comments/CommentExpand.vue:61", "用户在评论回复窗口界面 触发关闭");
         uni.$emit("commentExpand_close");
       };
       vue.onMounted(async () => {
+        await initializeCommentList(commentObj.value.comment_id);
+      });
+      uni.$on("CommentExpand_update", async function(e) {
         await initializeCommentList(commentObj.value.comment_id);
       });
       return {
@@ -7439,18 +7453,21 @@ if (uni.restoreGlobal) {
   const _sfc_main$5 = {
     props: {
       article_id: String,
-      commentObj: Object
+      commentObj: Object,
+      articleObj: Object
     },
     setup(props) {
       let keyHeight = vue.ref();
       let commentObj = vue.ref();
       commentObj.value = props.commentObj;
+      let articleObj = vue.ref();
+      articleObj.value = props.articleObj;
       let reply_user_name = vue.ref();
       vue.onMounted(async () => {
         reply_user_name.value = await getUserNameByUid(commentObj.value.comment_user_id);
       });
       const windowClose = () => {
-        formatAppLog("log", "at components/article/comments/CommentReplyWindow.vue:62", "用户在评论回复窗口界面 触发关闭");
+        formatAppLog("log", "at components/article/comments/CommentReplyWindow.vue:67", "用户在评论回复窗口界面 触发关闭");
         uni.$emit("comment_reply_window_close", { data: true });
       };
       let input_value = vue.ref();
@@ -7459,8 +7476,12 @@ if (uni.restoreGlobal) {
       };
       const sendComment = async () => {
         let res = await addComment(props.article_id, commentObj.value.comment_id, input_value.value);
-        formatAppLog("log", "at components/article/comments/CommentReplyWindow.vue:77", res);
+        formatAppLog("log", "at components/article/comments/CommentReplyWindow.vue:82", res);
         if (res.code === 200) {
+          await setCommentByArticleId(props.article_id);
+          uni.$emit("CommentCard_update", { id: commentObj.value.comment_id });
+          uni.$emit("CommentExpand_update", { id: commentObj.value.comment_id });
+          uni.$emit("CommentList_update", { id: commentObj.value.comment_id });
           plus.nativeUI.toast(`评论完成`);
         }
       };
@@ -7470,6 +7491,13 @@ if (uni.restoreGlobal) {
         let _diff = obj.height - _heightDiff;
         keyHeight.value = (_diff > 0 ? _diff : 0) - 2 + "px";
       });
+      const setCommentByArticleId = async (id) => {
+        try {
+          ArticleFun.setArticleCardUpdate(null, id, { comment: ++articleObj.value.article_comment_num });
+        } catch (e) {
+          formatAppLog("log", "at components/article/comments/CommentReplyWindow.vue:107", "向文章卡 添加回复数 信息 记录失败");
+        }
+      };
       return {
         keyHeight,
         windowClose,
@@ -7579,7 +7607,7 @@ if (uni.restoreGlobal) {
       let empty_comment = vue.ref(false);
       const initialize = async () => {
         let res = await getCommentByArticleId(article_id);
-        formatAppLog("log", "at components/article/comments/CommentList.vue:116", res);
+        formatAppLog("log", "at components/article/comments/CommentList.vue:120", res);
         if (res.code === 200) {
           article_comment_list.value = res.data.filter((item) => item.comment_father_id === null);
         } else if (res.code === 404) {
@@ -7591,7 +7619,7 @@ if (uni.restoreGlobal) {
         信息:${res.message}`);
         }
         await getArticleByID(article_id).then((res2) => {
-          formatAppLog("log", "at components/article/comments/CommentList.vue:130", res2);
+          formatAppLog("log", "at components/article/comments/CommentList.vue:134", res2);
           if (res2.code === 200) {
             articleInfo.value = res2.data[0];
           }
@@ -7616,10 +7644,10 @@ if (uni.restoreGlobal) {
         });
       };
       onBackPress((e) => {
-        formatAppLog("log", "at components/article/comments/CommentList.vue:161", e);
-        formatAppLog("log", "at components/article/comments/CommentList.vue:162", "用户在详细文章界面按了返回键盘");
+        formatAppLog("log", "at components/article/comments/CommentList.vue:165", e);
+        formatAppLog("log", "at components/article/comments/CommentList.vue:166", "用户在详细文章界面按了返回键盘");
         if (e.from === "backbutton") {
-          formatAppLog("log", "at components/article/comments/CommentList.vue:166", isReply.value);
+          formatAppLog("log", "at components/article/comments/CommentList.vue:170", isReply.value);
           if (isReply.value) {
             uni.$emit("comment_reply_window_close", { data: true });
             return true;
@@ -7632,6 +7660,11 @@ if (uni.restoreGlobal) {
           return true;
         } else if (e.from === "navigateBack") {
           return false;
+        }
+      });
+      uni.$on("CommentList_update", async function(e) {
+        if (e.id == null) {
+          await initialize();
         }
       });
       return {
@@ -7674,13 +7707,25 @@ if (uni.restoreGlobal) {
             ])
           ]),
           vue.createElementVNode("view", { class: "comment__container__body" }, [
-            $setup.isReply ? (vue.openBlock(), vue.createBlock(_component_CommentReplyWindow, {
+            $setup.empty_comment ? (vue.openBlock(), vue.createElementBlock("view", {
               key: 0,
-              "comment-obj": $setup.reply_comment_obj,
-              article_id: $setup.article_id
-            }, null, 8, ["comment-obj", "article_id"])) : vue.createCommentVNode("v-if", true),
-            $setup.isExpand ? (vue.openBlock(), vue.createBlock(_component_CommentExpand, {
+              class: "articleList__container__body__concern--blank disF-center",
+              style: { "flex-direction": "column" }
+            }, [
+              vue.createElementVNode("image", {
+                src: "/static/images/utils/blank_page.png",
+                style: { "height": "150px" }
+              }),
+              vue.createElementVNode("view", { style: { "color": "#a0a0a0" } }, "目前无人评论...")
+            ])) : vue.createCommentVNode("v-if", true),
+            $setup.isReply ? (vue.openBlock(), vue.createBlock(_component_CommentReplyWindow, {
               key: 1,
+              "comment-obj": $setup.reply_comment_obj,
+              article_id: $setup.article_id,
+              "article-obj": $setup.articleInfo
+            }, null, 8, ["comment-obj", "article_id", "article-obj"])) : vue.createCommentVNode("v-if", true),
+            $setup.isExpand ? (vue.openBlock(), vue.createBlock(_component_CommentExpand, {
+              key: 2,
               floor_num: $setup.expand_floor_num,
               "comment-obj": $setup.expand_comment_obj
             }, null, 8, ["floor_num", "comment-obj"])) : vue.createCommentVNode("v-if", true),
