@@ -353,7 +353,7 @@ export default {
           overflow: hidden;
           &__img {
             width: 49%;
-            height: 160px;
+            height: 350rpx;
             background-repeat: no-repeat;
             border-radius: 8px;
             /*把背景图扩展至足够大，直至完全覆盖背景区域，

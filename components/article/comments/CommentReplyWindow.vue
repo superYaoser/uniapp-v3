@@ -58,12 +58,17 @@ export default {
     //回复的用户名
     let reply_user_name = ref()
 
+    //判断是否发送中
+    let sending = ref(false)
+
     onMounted(async () => {
       reply_user_name.value = await getUserNameByUid(commentObj.value.comment_user_id)
     })
 
     //关闭事件
     const windowClose=()=>{
+      if (sending.value===true)
+        return
       console.log('用户在评论回复窗口界面 触发关闭')
       uni.$emit('comment_reply_window_close', {data: true})
     }
@@ -77,22 +82,33 @@ export default {
 
     //点击发布
     const sendComment = async ()=>{
+      sending.value=true
 
       let res = await addComment(props.article_id,commentObj.value.comment_id,input_value.value)
       console.log(res)
       if (res.code===200){
         await setCommentByArticleId(props.article_id)
-        uni.$emit('CommentCard_update', {id: commentObj.value.comment_id})
-
         if (res.data===commentObj.value.comment_id){
+          uni.$emit('CommentCard_update', {id: res.data})
           uni.$emit('CommentExpand_update', {id: commentObj.value.comment_id})
         }else {
+          uni.$emit('CommentCard_update', {id: commentObj.value.comment_id})
           uni.$emit('CommentCard_update', {id: res.data})
+          uni.$emit('CommentExpand_update', {id: commentObj.value.comment_id})
         }
 
         uni.$emit('CommentList_update', {id: commentObj.value.comment_id})
-        plus.nativeUI.toast(`评论完成`)
+        plus.nativeUI.toast(`评论成功`)
+        sending.value=false
+        windowClose()
+      }else {
+        plus.nativeUI.toast(`评论失败
+        错误代码：${res.code}
+        message:${res.message}`)
+        sending.value=false
+        windowClose()
       }
+      sending.value=false
     }
 
 //  监听键盘高度变化

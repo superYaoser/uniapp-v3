@@ -110,7 +110,7 @@ export default {
 
     &__body{
       width: 100%;
-      height: calc(100% - 41px - 45px - var(--status-bar-height));
+      height: calc(100% - 41px - 40px - var(--status-bar-height));
       margin-top: calc(41px + var(--status-bar-height));
     }
     &__footer{

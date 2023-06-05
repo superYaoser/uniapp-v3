@@ -2512,7 +2512,7 @@ if (uni.restoreGlobal) {
       data
     });
   }
-  const baseUrl = "http://192.168.0.106:3000/api/";
+  const baseUrl = "http://192.168.85.1:3000/api/";
   function extractIP(url) {
     let pattern = /http:\/\/([\d\.]+):(\d+)/;
     let result = url.match(pattern);
@@ -7204,14 +7204,14 @@ if (uni.restoreGlobal) {
                       )
                     ]),
                     vue.createElementVNode("view", { class: "commentCard__container__header--author--head--info--from" }, [
-                      $setup.floor_num ? (vue.openBlock(), vue.createElementBlock(
-                        "view",
-                        { key: 0 },
-                        vue.toDisplayString($setup.floor_num) + "F ",
-                        1
-                        /* TEXT */
-                      )) : vue.createCommentVNode("v-if", true),
-                      vue.createTextVNode(" 来自佛罗里达州 ")
+                      $setup.floor_num ? (vue.openBlock(), vue.createElementBlock("view", { key: 0 }, [
+                        vue.createTextVNode(
+                          vue.toDisplayString($setup.floor_num) + "F",
+                          1
+                          /* TEXT */
+                        ),
+                        vue.createElementVNode("text", { space: "nbsp" }, " 来自 佛罗里达州")
+                      ])) : vue.createCommentVNode("v-if", true)
                     ])
                   ])
                 ])
@@ -7464,11 +7464,14 @@ if (uni.restoreGlobal) {
       let articleObj = vue.ref();
       articleObj.value = props.articleObj;
       let reply_user_name = vue.ref();
+      let sending = vue.ref(false);
       vue.onMounted(async () => {
         reply_user_name.value = await getUserNameByUid(commentObj.value.comment_user_id);
       });
       const windowClose = () => {
-        formatAppLog("log", "at components/article/comments/CommentReplyWindow.vue:67", "用户在评论回复窗口界面 触发关闭");
+        if (sending.value === true)
+          return;
+        formatAppLog("log", "at components/article/comments/CommentReplyWindow.vue:72", "用户在评论回复窗口界面 触发关闭");
         uni.$emit("comment_reply_window_close", { data: true });
       };
       let input_value = vue.ref();
@@ -7476,19 +7479,31 @@ if (uni.restoreGlobal) {
         input_value.value = e.detail.value;
       };
       const sendComment = async () => {
+        sending.value = true;
         let res = await addComment(props.article_id, commentObj.value.comment_id, input_value.value);
-        formatAppLog("log", "at components/article/comments/CommentReplyWindow.vue:82", res);
+        formatAppLog("log", "at components/article/comments/CommentReplyWindow.vue:88", res);
         if (res.code === 200) {
           await setCommentByArticleId(props.article_id);
-          uni.$emit("CommentCard_update", { id: commentObj.value.comment_id });
           if (res.data === commentObj.value.comment_id) {
+            uni.$emit("CommentCard_update", { id: res.data });
             uni.$emit("CommentExpand_update", { id: commentObj.value.comment_id });
           } else {
+            uni.$emit("CommentCard_update", { id: commentObj.value.comment_id });
             uni.$emit("CommentCard_update", { id: res.data });
+            uni.$emit("CommentExpand_update", { id: commentObj.value.comment_id });
           }
           uni.$emit("CommentList_update", { id: commentObj.value.comment_id });
-          plus.nativeUI.toast(`评论完成`);
+          plus.nativeUI.toast(`评论成功`);
+          sending.value = false;
+          windowClose();
+        } else {
+          plus.nativeUI.toast(`评论失败
+        错误代码：${res.code}
+        message:${res.message}`);
+          sending.value = false;
+          windowClose();
         }
+        sending.value = false;
       };
       uni.onKeyboardHeightChange((obj) => {
         let _sysInfo = uni.getSystemInfoSync();
@@ -7500,7 +7515,7 @@ if (uni.restoreGlobal) {
         try {
           ArticleFun.setArticleCardUpdate(null, id, { comment: ++articleObj.value.article_comment_num });
         } catch (e) {
-          formatAppLog("log", "at components/article/comments/CommentReplyWindow.vue:113", "向文章卡 添加回复数 信息 记录失败");
+          formatAppLog("log", "at components/article/comments/CommentReplyWindow.vue:129", "向文章卡 添加回复数 信息 记录失败");
         }
       };
       return {
@@ -7618,14 +7633,13 @@ if (uni.restoreGlobal) {
           empty_comment.value = false;
         } else if (res.code === 404) {
           empty_comment.value = true;
-          plus.nativeUI.toast(`信息:${res.message}<评论>`);
         } else {
           plus.nativeUI.toast(`加载评论列表出错
         代码：${res.code}
         信息:${res.message}`);
         }
         await getArticleByID(article_id).then((res2) => {
-          formatAppLog("log", "at components/article/comments/CommentList.vue:136", res2);
+          formatAppLog("log", "at components/article/comments/CommentList.vue:135", res2);
           if (res2.code === 200) {
             articleInfo.value = res2.data[0];
           }
@@ -7650,10 +7664,10 @@ if (uni.restoreGlobal) {
         });
       };
       onBackPress((e) => {
-        formatAppLog("log", "at components/article/comments/CommentList.vue:167", e);
-        formatAppLog("log", "at components/article/comments/CommentList.vue:168", "用户在详细文章界面按了返回键盘");
+        formatAppLog("log", "at components/article/comments/CommentList.vue:166", e);
+        formatAppLog("log", "at components/article/comments/CommentList.vue:167", "用户在详细文章界面按了返回键盘");
         if (e.from === "backbutton") {
-          formatAppLog("log", "at components/article/comments/CommentList.vue:172", isReply.value);
+          formatAppLog("log", "at components/article/comments/CommentList.vue:171", isReply.value);
           if (isReply.value) {
             uni.$emit("comment_reply_window_close", { data: true });
             return true;
