@@ -64,8 +64,8 @@ import {getConcernDetailedArticle} from "@/static/api/article";
 .pyq__container__body{
   background: #FFFFFF;
   width: 100%;
-  height: calc(100% - 9% - @My-TabBar-H + var(--status-bar-height));
-  margin-top: calc(10% + var(--status-bar-height));
+  height: calc(100% - 5vh - @My-TabBar-H - var(--status-bar-height));
+  margin-top: calc(5vh + var(--status-bar-height));
   position: static;
 }
 
