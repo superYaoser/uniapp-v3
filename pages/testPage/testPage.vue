@@ -2,7 +2,7 @@
 
 	<view style="background: #bebebe;padding: 5px">
     <view class="status-bar-height"></view>
-    <Comment></Comment>
+<!--    <Comment></Comment>-->
 <!--驱蚊器问问去为额为邱琦雯顷刻间哈科进士第三空间活动空间哈后快-->
 <!--    <CommentExpand></CommentExpand>-->
 <!--    <CommentReplyWindow></CommentReplyWindow>-->

@@ -717,6 +717,25 @@
   background: #016fce;
   height: calc((100% - var(--status-bar-height)) * 0.53);
 }
+.home__container .container__header .header__search__container[data-v-a0df4f3d] {
+  margin: 0 auto;
+  height: 100%;
+  width: 95vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-direction: row;
+}
+.home__container .container__header .header__search__container__input[data-v-a0df4f3d] {
+  width: 88%;
+  height: 65%;
+  display: flex;
+  align-items: center;
+  border-radius: 0.625rem;
+  background: #fbfbfb;
+  font-size: 0.78125rem;
+  color: #5b5b5b;
+}
 .home__container .container__header .header__nav[data-v-a0df4f3d] {
   background: #FFFFFF;
   border-bottom: 1px solid #f1f1f1;

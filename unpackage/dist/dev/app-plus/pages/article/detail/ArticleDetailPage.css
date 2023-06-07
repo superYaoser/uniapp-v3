@@ -605,6 +605,9 @@ body{
     font-size: 1.125rem;
     font-weight: bold;
 }
+.bgWhite{
+    background: #FFFFFF;
+}
 /* 发布页需要的素材1 */
 @font-face {
   font-family: "iconfont"; /* Project id 4064600 */

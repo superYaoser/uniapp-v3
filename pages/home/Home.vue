@@ -7,7 +7,10 @@
           <view class="status-bar-height" style="background: #016fce;"></view>
 <!--          搜索-->
           <view class="header__search">
-            搜索区域
+            <view class="header__search__container">
+              <view class="header__search__container__input"  @tap.stop="tapSearch()"><uni-icons type="search" style="margin-left: 10rpx" size="25rpx"></uni-icons><text space="ensp"> 搜点什么...</text></view>
+              <uni-icons type="scan" size="55rpx" color="#002c52"></uni-icons>
+            </view>
           </view>
 <!--          导航-->
           <view class="header__nav">
@@ -35,6 +38,7 @@
 import {onMounted, ref} from "vue";
 import TopBar from "@/components/MainApp/TopBar";
 import ArticlesList from "@/components/home/articlesList/ArticlesList";
+import {useStore} from 'vuex';
   export default {
 		components: {
       TopBar,
@@ -52,6 +56,26 @@ import ArticlesList from "@/components/home/articlesList/ArticlesList";
       const changeCurrentNavPage = (page)=>{
         uni.$emit('home_article_follow_nav_change', {page: page})
       }
+      //查看是否登录
+      const store = useStore()
+      // 点击搜索
+      const tapSearch=()=>{
+        let login_user = store.getters.getUser
+        if (login_user){
+
+        //  说明登录了
+          uni.navigateTo({
+            url: '/pages/search/search',
+            animationType:'fade-in',
+            animationDuration: 100
+          })
+          console.log("用户已经登录 跳转搜索页")
+        }else {
+          console.log("用户没有登录 无法搜索")
+          plus.nativeUI.toast(`请先登录`)
+        }
+      }
+
 
       //页面渲染完毕
       onMounted(()=>{
@@ -59,7 +83,7 @@ import ArticlesList from "@/components/home/articlesList/ArticlesList";
       })
 
       return{
-        articleNavIndex,articleNavColor,unArticleNavColor,changeCurrentNavPage
+        articleNavIndex,articleNavColor,unArticleNavColor,changeCurrentNavPage,tapSearch
       }
     },
 		data() {
@@ -91,6 +115,25 @@ import ArticlesList from "@/components/home/articlesList/ArticlesList";
       .header__search{
         background: #016fce;
         height: calc((100% - var(--status-bar-height)) * 0.53);
+        &__container{
+          margin: 0 auto;
+          height: 100%;
+          width: 95vw;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          flex-direction: row;
+          &__input{
+            width: 88%;
+            height: 65%;
+            display: flex;
+            align-items: center;
+            border-radius: 20rpx;
+            background: #fbfbfb;
+            font-size: 25rpx;
+            color: #5b5b5b;
+          }
+        }
       }
       .header__nav{
         background: #FFFFFF;
