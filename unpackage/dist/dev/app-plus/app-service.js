@@ -2512,7 +2512,7 @@ if (uni.restoreGlobal) {
       data
     });
   }
-  const baseUrl = "http://114.115.220.47:3000/api/";
+  const baseUrl = "http://192.168.85.1:3000/api/";
   function extractIP(url) {
     let pattern = /http:\/\/([\d\.]+):(\d+)/;
     let result = url.match(pattern);
