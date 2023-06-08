@@ -8583,7 +8583,7 @@ if (uni.restoreGlobal) {
           plus.nativeUI.toast(`获取系统热搜失败`);
         }
         let res2 = await getSearchUser(u_id);
-        formatAppLog("log", "at components/home/search/SearchHistory.vue:68", res2);
+        formatAppLog("log", "at components/home/search/SearchHistory.vue:72", res2);
         if (res2.code === 200) {
           userSearchList.value = res2.data;
         } else {
@@ -8591,7 +8591,7 @@ if (uni.restoreGlobal) {
         }
       };
       const tapSearchTerms = (search_terms) => {
-        formatAppLog("log", "at components/home/search/SearchHistory.vue:78", "点击了搜索栏");
+        formatAppLog("log", "at components/home/search/SearchHistory.vue:82", "点击了搜索栏" + search_terms);
       };
       vue.onMounted(async () => {
         await initialize();
@@ -8606,15 +8606,16 @@ if (uni.restoreGlobal) {
   function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_grid_item = resolveEasycom(vue.resolveDynamicComponent("uni-grid-item"), __easycom_0);
     const _component_uni_grid = resolveEasycom(vue.resolveDynamicComponent("uni-grid"), __easycom_1);
-    return vue.openBlock(), vue.createElementBlock("view", { style: { "height": "15vh", "width": "100vw" } }, [
+    const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$1);
+    return vue.openBlock(), vue.createElementBlock("view", { style: { "height": "20vh", "width": "100vw", "padding": "15rpx" } }, [
       vue.createElementVNode("view", { class: "searchHistory__container" }, [
         vue.createElementVNode("view", { class: "searchHistory__container__body" }, [
           vue.createElementVNode("view", { class: "searchHistory__container__body__history" }, [
             vue.createElementVNode("view", { class: "searchHistory__container__body__history__user" }, [
-              vue.createElementVNode("view", { class: "searchHistory__container__body__history__user--header" }, [
+              vue.createElementVNode("view", { class: "searchHistory__container__body__history__user--header searchHistory__container__body__history--header" }, [
                 vue.createElementVNode("text", null, "历史搜索")
               ]),
-              vue.createElementVNode("view", { class: "searchHistory__container__body__history__user--body" }, [
+              vue.createElementVNode("view", { class: "searchHistory__container__body__history__user--body searchHistory__container__body__history--body" }, [
                 vue.createVNode(_component_uni_grid, {
                   column: 3,
                   showBorder: false,
@@ -8632,8 +8633,18 @@ if (uni.restoreGlobal) {
                           {
                             default: vue.withCtx(() => [
                               vue.createElementVNode("view", {
-                                onClick: vue.withModifiers(($event) => $setup.tapSearchTerms(item.search_terms), ["stop"])
-                              }, vue.toDisplayString(item.search_terms), 9, ["onClick"])
+                                onClick: vue.withModifiers(($event) => $setup.tapSearchTerms(item.search_terms), ["stop"]),
+                                class: "searchHistory__container__body__history--word bg-efefef",
+                                style: { "width": "50%", "border-radius": "5rpx", "height": "1.3rem", "display": "flex", "align-items": "center", "justify-content": "center", "justify-items": "center", "margin-left": "20rpx" }
+                              }, [
+                                vue.createElementVNode(
+                                  "text",
+                                  { class: "uni-text-truncation" },
+                                  vue.toDisplayString(item.search_terms),
+                                  1
+                                  /* TEXT */
+                                )
+                              ], 8, ["onClick"])
                             ]),
                             _: 2
                             /* DYNAMIC */
@@ -8652,10 +8663,10 @@ if (uni.restoreGlobal) {
               ])
             ]),
             vue.createElementVNode("view", { class: "searchHistory__container__body__history__system" }, [
-              vue.createElementVNode("view", { class: "searchHistory__container__body__history__system--header" }, [
+              vue.createElementVNode("view", { class: "searchHistory__container__body__history__system--header searchHistory__container__body__history--header" }, [
                 vue.createElementVNode("text", null, "系统热搜")
               ]),
-              vue.createElementVNode("view", { class: "searchHistory__container__body__history__system--body" }, [
+              vue.createElementVNode("view", { class: "searchHistory__container__body__history__system--body searchHistory__container__body__history--body" }, [
                 vue.createVNode(_component_uni_grid, {
                   column: 3,
                   showBorder: false,
@@ -8672,9 +8683,26 @@ if (uni.restoreGlobal) {
                           { key: index },
                           {
                             default: vue.withCtx(() => [
-                              vue.createElementVNode("view", {
-                                onClick: vue.withModifiers(($event) => $setup.tapSearchTerms(item.search_terms), ["stop"])
-                              }, vue.toDisplayString(item.search_terms), 9, ["onClick"])
+                              vue.createElementVNode("view", { style: { "display": "flex", "align-items": "center" } }, [
+                                vue.createElementVNode("view", {
+                                  onClick: vue.withModifiers(($event) => $setup.tapSearchTerms(item.search_terms), ["stop"]),
+                                  class: "searchHistory__container__body__history--word"
+                                }, [
+                                  vue.createElementVNode(
+                                    "text",
+                                    { class: "uni-text-truncation" },
+                                    vue.toDisplayString(item.search_terms),
+                                    1
+                                    /* TEXT */
+                                  ),
+                                  vue.createVNode(_component_uni_icons, {
+                                    type: "fire-filled",
+                                    size: "0.8125rem",
+                                    color: "red",
+                                    style: { "margin-left": "10rpx" }
+                                  })
+                                ], 8, ["onClick"])
+                              ])
                             ]),
                             _: 2
                             /* DYNAMIC */

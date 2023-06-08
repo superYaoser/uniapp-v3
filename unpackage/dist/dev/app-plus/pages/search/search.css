@@ -620,6 +620,27 @@
   z-index: 1;
   border-left: 1px #D2D2D2 solid;
 }
+.searchHistory__container__body__history--word[data-v-54a2f8a1] {
+  font-size: 0.8125rem;
+  color: #2C405A;
+  margin-bottom: 0.46875rem;
+  display: flex;
+  align-items: center;
+}
+.searchHistory__container__body__history--header[data-v-54a2f8a1] {
+  font-size: 0.9125rem;
+  margin-bottom: 0.46875rem;
+}
+.searchHistory__container__body__history--body[data-v-54a2f8a1] {
+  margin-bottom: 0.9375rem;
+}
+.uni-text-truncation[data-v-54a2f8a1] {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
 
 .search__container__header__input[data-v-c10c040c] {
   height: 5vh;
