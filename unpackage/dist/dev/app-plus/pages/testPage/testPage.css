@@ -799,3 +799,64 @@
 .comment__container__footer--util uni-view[data-v-404a4e6d]:last-child {
   margin-right: 0.9375rem;
 }
+
+.userCard__container[data-v-c99219be] {
+  padding: 0.3125rem;
+}
+.userCard__container__body[data-v-c99219be] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.userCard__container__body__left[data-v-c99219be] {
+  display: flex;
+  align-items: center;
+}
+.userCard__container__body__left__head--img[data-v-c99219be] {
+  width: 3.125rem;
+  height: 3.125rem;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  border: 0.0375rem silver solid;
+  /*把背景图扩展至足够大，直至完全覆盖背景区域，
+图片比例保持不变且不会失真，但某些部分被切割无法显示完整背景图像*/
+  background-size: cover;
+  position: relative;
+  background-position: center;
+  background-image: url('https://i2.hdslb.com/bfs/face/544c89e68f2b1f12ffcbb8b3c062a3328e8692d9.jpg@96w_96h.webp');
+}
+.userCard__container__body__left__info[data-v-c99219be] {
+  max-width: 40vw;
+  font-size: 0.84375rem;
+  margin-left: 0.78125rem;
+}
+.userCard__container__body__left__info--signature[data-v-c99219be] {
+  font-size: 0.59375rem;
+}
+.userCard__container__body__left__info--from[data-v-c99219be] {
+  margin-top: 0.40625rem;
+  font-size: 0.53125rem;
+}
+.userCard__container__body__right__follow[data-v-c99219be] {
+  width: 2.8125rem;
+  height: 1.46875rem;
+  font-size: 0.8125rem;
+  margin-right: 0.9375rem;
+}
+.userCard__container__body__right__follow--be[data-v-c99219be],
+.userCard__container__body__right__follow--no[data-v-c99219be] {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+}
+.userCard__container__body__right__follow--be[data-v-c99219be] {
+  border: 1px solid #bcbcbc;
+  color: #bcbcbc;
+}
+.userCard__container__body__right__follow--no[data-v-c99219be] {
+  border: 1px solid #46a7ff;
+  color: #46a7ff;
+}
