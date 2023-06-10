@@ -75,8 +75,21 @@ function getUser1AndUser2Concern(data){
 		data:data,
 	});
 }
+/*•	GET /api/user/detail/:id 获取用户详情(更细)
+可以返回jwt与:id的关注状态
+过滤用户不存在和用户被限制的情况
+权限：2
+参数：jwt、:id（用户id）
+说明：这是根据查找结果显示用的
+*/
+function getUserDetailBy(id){
+	return R({
+		url: 'user/detail/'+id,
+		method:'GET',
+	});
+}
 export {
 	loginUseUser,
 	getUserInfoById,
-	getUserInfoPageJson,setUserAddConcern,setUserRemoveConcern,getUser1AndUser2Concern
+	getUserInfoPageJson,setUserAddConcern,setUserRemoveConcern,getUser1AndUser2Concern,getUserDetailBy
 }

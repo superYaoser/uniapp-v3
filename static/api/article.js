@@ -55,10 +55,23 @@ function getArticleByID(id) {
         url: 'article/'+id,
     });
 }
+/*•	GET /api/article/detail/:id 获取文章详情(更细)
+可以返回用户的头像，文章的封面，还有用户名和等级
+可以返回jwt与文章作者的关注状态
+过滤用户不存在或者是文章禁止显示
+权限：2
+参数：jwt、:id（文章）
+说明：这是根据查找结果显示用的
+*/
+function getArticleDetailByID(id) {
+    return R({
+        url: 'article/detail/'+id,
+    });
+}
 export {
     pushNewArticle,
     getDetailedArticle,
     getArticleByID,
-    getConcernDetailedArticle
+    getConcernDetailedArticle,getArticleDetailByID
 
 }

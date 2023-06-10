@@ -823,12 +823,14 @@
   background-size: cover;
   position: relative;
   background-position: center;
-  background-image: url('https://i2.hdslb.com/bfs/face/544c89e68f2b1f12ffcbb8b3c062a3328e8692d9.jpg@96w_96h.webp');
 }
 .userCard__container__body__left__info[data-v-c99219be] {
   max-width: 40vw;
-  font-size: 0.84375rem;
   margin-left: 0.78125rem;
+}
+.userCard__container__body__left__info--name[data-v-c99219be] {
+  font-size: 0.9375rem;
+  font-weight: inherit;
 }
 .userCard__container__body__left__info--signature[data-v-c99219be] {
   font-size: 0.59375rem;

@@ -29,7 +29,7 @@ function getSearchSystem() {
 */
 function getSearchByTerm(search_term) {
     return R({
-        url: 'search/word:'+search_term,
+        url: 'search/word/'+search_term,
         method: 'GET',
     });
 }

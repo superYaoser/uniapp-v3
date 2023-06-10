@@ -53,8 +53,7 @@ setup(props) {
   const store = useStore()
   // 用户id
   let login_u_id = store.getters.getUser
-  // let u_id = login_u_id.u_id
-  let u_id = 1
+  let u_id = login_u_id.u_id
 
   //  系统热搜
   let systemHotList = ref()
@@ -80,6 +79,7 @@ setup(props) {
   //点击搜索词
   const tapSearchTerms=(search_terms)=>{
     console.log("点击了搜索栏"+search_terms)
+    uni.$emit('searchHistory_tap', {word: search_terms})
   }
   onMounted(async ()=>{
     await initialize()
