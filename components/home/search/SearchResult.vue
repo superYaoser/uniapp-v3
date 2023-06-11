@@ -1,8 +1,12 @@
 <template>
   <view class="w100 h100">
-    <view class="actives__container w100 h100">
+    <view class="disF-center" v-if="searchResult===' '" style="flex-direction: column;margin-top: 40%">
+      <image src="./static/images/utils/blank_page.png"></image>
+      <view style="color: #a0a0a0">没有任何搜索结果~...</view>
+    </view>
+    <view class="actives__container w100 h100" v-if="searchResult!==' '">
       <!--          导航-->
-      <view class="header__nav">
+      <view class="header__nav bg-efefef">
         <view class="header__nav__container">
           <view class="header__nav__container--option" @tap="changeCurrentNavPage(0)"
                 :style="articleNavIndex===0?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">
@@ -20,9 +24,14 @@
         <swiper-item>
           <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: 100%;background: #f5f5f5;`">
             <view class="articleList__container__body w100" :style="'padding-top: 2px;padding-bottom: 5px;'">
+              <view class="disF-center" v-if="articleList.length<1" style="flex-direction: column;margin-top: 40%">
+                <image src="./static/images/utils/blank_page.png"></image>
+                <view style="color: #a0a0a0">没有任何文章搜索结果~...</view>
+              </view>
               <view v-for="(item, index) in articleList" :key="index" style="margin-bottom: 5px;">
                 <ArticleCard :need-follow-model="true" :article-data="item"></ArticleCard>
               </view>
+              <view class="disF-center" style="color: #a0a0a0;flex-direction: column;"><view>已经到底了...</view></view>
             </view>
           </scroll-view>
         </swiper-item>
@@ -30,9 +39,14 @@
         <swiper-item>
           <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: 100%;background: #f5f5f5;`">
             <view class="articleList__container__body w100" :style="'padding-top: 2px;padding-bottom: 5px;'">
+              <view class="disF-center" v-if="userList.length<1" style="flex-direction: column;margin-top: 40%">
+                <image src="./static/images/utils/blank_page.png"></image>
+                <view style="color: #a0a0a0">没有任何用户搜索结果~...</view>
+              </view>
               <view v-for="(item, index) in userList" :key="index" style="margin-bottom: 5px;">
                 <UserCard :user-obj="item"></UserCard>
               </view>
+              <view class="disF-center" style="color: #a0a0a0;flex-direction: column;"><view>已经到底了...</view></view>
             </view>
           </scroll-view>
         </swiper-item>
@@ -85,6 +99,15 @@ export default {
     })
 
 
+    //监听用户是否再次发起搜索
+    uni.$on('search_change', async function (e) {
+      loading.value = true
+      searchResult.value = e.searchResult;
+      await initialize()
+      loading.value = false
+    })
+
+
 
     //监听 导航栏的 index变化 的功能
     let articleNavIndex = ref(0)
@@ -122,6 +145,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 10rpx 0;
 
   .header__nav__container {
     display: flex;

@@ -21,7 +21,7 @@
       <view class="search__container__body">
         <SearchHistory v-if="!searchResult"></SearchHistory>
         <view class="search__container__body__result" v-if="searchResult">
-          <SearchResult :search-result="searchResult"></SearchResult>
+          <SearchResult :search-result="searchResult" v-if="searching"></SearchResult>
         </view>
       </view>
     </view>
@@ -49,6 +49,8 @@ export default {
 2: {article_id: 1680405408110}
 ]
 user: []*/
+    // 判断是否处于搜索中
+    let searching =ref(true)
     let searchResult = ref()
 
     // 接收用户输入的搜索词
@@ -70,12 +72,15 @@ user: []*/
       } else {
         console.log('用户搜索'+inputSearchDAta.value)
         try {
+          searching.value = false
           let res = await getSearchByTerm(inputSearchDAta.value)
           if (res.code ===200){
             searchResult.value = res.data
             if (!searchResult.value){
               searchResult.value = ' '
             }
+            searching.value = true
+            uni.$emit('search_change', {searchResult: searchResult.value})
           }else {
             plus.nativeUI.toast(`搜索错误：${res.message}`)
           }
@@ -108,7 +113,7 @@ user: []*/
       }
     })
     return{
-      pageBack,inputSearch,sendSearch,inputSearchDAta,searchResult
+      pageBack,inputSearch,sendSearch,inputSearchDAta,searchResult,searching
     }
   }
 }

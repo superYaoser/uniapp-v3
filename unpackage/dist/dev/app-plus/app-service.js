@@ -8395,12 +8395,43 @@ if (uni.restoreGlobal) {
       const store2 = useStore();
       let isSelf = store2.getters.getUser;
       isSelf = isSelf.u_id;
+      let canTapFollow = true;
+      const tapFollowCard = (data) => {
+        if (!canTapFollow) {
+          plus.nativeUI.toast(`点的太快啦~`);
+          return;
+        }
+        canTapFollow = false;
+        setTimeout(() => {
+          canTapFollow = true;
+        }, 1e3);
+        if (data.concern_be === 0) {
+          setUserAddConcern({ "u_id": data.u_id }).then((res) => {
+            formatAppLog("log", "at components/user/UserCard.vue:70", res);
+            if (res.code === 200) {
+              userObj.value.concern_be = 1;
+              ArticleFun.setArticleCardUpdate(data.u_id, null, { concern_be: 1 });
+              plus.nativeUI.toast(`关注成功`);
+            }
+          });
+        } else {
+          setUserRemoveConcern({ "u_id": data.u_id }).then((res) => {
+            if (res.code === 200) {
+              userObj.value.concern_be = 0;
+              ArticleFun.setArticleCardUpdate(data.u_id, null, { concern_be: 0 });
+              plus.nativeUI.toast(`取关成功`);
+            }
+          });
+        }
+        formatAppLog("log", "at components/user/UserCard.vue:90", "点击了关注");
+      };
       let userObj = vue.ref();
       userObj.value = props.userObj;
       return {
         userObj,
         isSelf,
-        defaultHeadImgPath
+        defaultHeadImgPath,
+        tapFollowCard
       };
     }
   };
@@ -8450,8 +8481,7 @@ if (uni.restoreGlobal) {
               "view",
               {
                 class: "userCard__container__body__right__follow",
-                onClick: _cache[0] || (_cache[0] = vue.withModifiers(() => {
-                }, ["stop"]))
+                onClick: _cache[0] || (_cache[0] = vue.withModifiers(($event) => $setup.tapFollowCard($setup.userObj), ["stop"]))
               },
               [
                 vue.createElementVNode("view", { style: { "width": "100%", "height": "100%" } }, [
@@ -8868,11 +8898,17 @@ if (uni.restoreGlobal) {
           let res = await getArticleDetailByID(searchResult.value.article[i2].article_id);
           articleList.value.push(res.data);
         }
-        formatAppLog("log", "at components/home/search/SearchResult.vue:78", userList.value);
-        formatAppLog("log", "at components/home/search/SearchResult.vue:79", articleList.value);
+        formatAppLog("log", "at components/home/search/SearchResult.vue:92", userList.value);
+        formatAppLog("log", "at components/home/search/SearchResult.vue:93", articleList.value);
       };
       let loading = vue.ref(true);
       vue.onMounted(async () => {
+        await initialize();
+        loading.value = false;
+      });
+      uni.$on("search_change", async function(e) {
+        loading.value = true;
+        searchResult.value = e.searchResult;
         await initialize();
         loading.value = false;
       });
@@ -8888,7 +8924,7 @@ if (uni.restoreGlobal) {
       let clickNavIndex = vue.ref();
       uni.$on("searchResult_nav_change", function(e) {
         clickNavIndex.value = e.page;
-        formatAppLog("log", "at components/home/search/SearchResult.vue:103", clickNavIndex.value);
+        formatAppLog("log", "at components/home/search/SearchResult.vue:126", clickNavIndex.value);
       });
       let currentIndex = vue.ref();
       const swiperItemChange = (e) => {
@@ -8913,9 +8949,20 @@ if (uni.restoreGlobal) {
     const _component_ArticleCard = vue.resolveComponent("ArticleCard");
     const _component_UserCard = vue.resolveComponent("UserCard");
     return vue.openBlock(), vue.createElementBlock("view", { class: "w100 h100" }, [
-      vue.createElementVNode("view", { class: "actives__container w100 h100" }, [
+      $setup.searchResult === " " ? (vue.openBlock(), vue.createElementBlock("view", {
+        key: 0,
+        class: "disF-center",
+        style: { "flex-direction": "column", "margin-top": "40%" }
+      }, [
+        vue.createElementVNode("image", { src: "/static/images/utils/blank_page.png" }),
+        vue.createElementVNode("view", { style: { "color": "#a0a0a0" } }, "没有任何搜索结果~...")
+      ])) : vue.createCommentVNode("v-if", true),
+      $setup.searchResult !== " " ? (vue.openBlock(), vue.createElementBlock("view", {
+        key: 1,
+        class: "actives__container w100 h100"
+      }, [
         vue.createCommentVNode("          导航"),
-        vue.createElementVNode("view", { class: "header__nav" }, [
+        vue.createElementVNode("view", { class: "header__nav bg-efefef" }, [
           vue.createElementVNode("view", { class: "header__nav__container" }, [
             vue.createElementVNode(
               "view",
@@ -8958,6 +9005,14 @@ if (uni.restoreGlobal) {
                 class: "articleList__container__body w100",
                 style: "padding-top: 2px;padding-bottom: 5px;"
               }, [
+                $setup.articleList.length < 1 ? (vue.openBlock(), vue.createElementBlock("view", {
+                  key: 0,
+                  class: "disF-center",
+                  style: { "flex-direction": "column", "margin-top": "40%" }
+                }, [
+                  vue.createElementVNode("image", { src: "/static/images/utils/blank_page.png" }),
+                  vue.createElementVNode("view", { style: { "color": "#a0a0a0" } }, "没有任何文章搜索结果~...")
+                ])) : vue.createCommentVNode("v-if", true),
                 (vue.openBlock(true), vue.createElementBlock(
                   vue.Fragment,
                   null,
@@ -8974,7 +9029,13 @@ if (uni.restoreGlobal) {
                   }),
                   128
                   /* KEYED_FRAGMENT */
-                ))
+                )),
+                vue.createElementVNode("view", {
+                  class: "disF-center",
+                  style: { "color": "#a0a0a0", "flex-direction": "column" }
+                }, [
+                  vue.createElementVNode("view", null, "已经到底了...")
+                ])
               ])
             ])
           ]),
@@ -8988,6 +9049,14 @@ if (uni.restoreGlobal) {
                 class: "articleList__container__body w100",
                 style: "padding-top: 2px;padding-bottom: 5px;"
               }, [
+                $setup.userList.length < 1 ? (vue.openBlock(), vue.createElementBlock("view", {
+                  key: 0,
+                  class: "disF-center",
+                  style: { "flex-direction": "column", "margin-top": "40%" }
+                }, [
+                  vue.createElementVNode("image", { src: "/static/images/utils/blank_page.png" }),
+                  vue.createElementVNode("view", { style: { "color": "#a0a0a0" } }, "没有任何用户搜索结果~...")
+                ])) : vue.createCommentVNode("v-if", true),
                 (vue.openBlock(true), vue.createElementBlock(
                   vue.Fragment,
                   null,
@@ -9001,12 +9070,18 @@ if (uni.restoreGlobal) {
                   }),
                   128
                   /* KEYED_FRAGMENT */
-                ))
+                )),
+                vue.createElementVNode("view", {
+                  class: "disF-center",
+                  style: { "color": "#a0a0a0", "flex-direction": "column" }
+                }, [
+                  vue.createElementVNode("view", null, "已经到底了...")
+                ])
               ])
             ])
           ])
         ], 40, ["current"])) : vue.createCommentVNode("v-if", true)
-      ])
+      ])) : vue.createCommentVNode("v-if", true)
     ]);
   }
   const SearchResult = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["__scopeId", "data-v-7411b02c"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/home/search/SearchResult.vue"]]);
@@ -9016,6 +9091,7 @@ if (uni.restoreGlobal) {
       SearchResult
     },
     setup() {
+      let searching = vue.ref(true);
       let searchResult = vue.ref();
       let inputSearchDAta = vue.ref();
       const inputSearch = (e) => {
@@ -9029,14 +9105,17 @@ if (uni.restoreGlobal) {
         if (!inputSearchDAta.value) {
           pageBack();
         } else {
-          formatAppLog("log", "at pages/search/search.vue:71", "用户搜索" + inputSearchDAta.value);
+          formatAppLog("log", "at pages/search/search.vue:73", "用户搜索" + inputSearchDAta.value);
           try {
+            searching.value = false;
             let res = await getSearchByTerm(inputSearchDAta.value);
             if (res.code === 200) {
               searchResult.value = res.data;
               if (!searchResult.value) {
                 searchResult.value = " ";
               }
+              searching.value = true;
+              uni.$emit("search_change", { searchResult: searchResult.value });
             } else {
               plus.nativeUI.toast(`搜索错误：${res.message}`);
             }
@@ -9054,7 +9133,7 @@ if (uni.restoreGlobal) {
         });
       };
       onBackPress((e) => {
-        formatAppLog("log", "at pages/search/search.vue:100", "用户在搜索界面按了返回键盘");
+        formatAppLog("log", "at pages/search/search.vue:105", "用户在搜索界面按了返回键盘");
         if (e.from === "backbutton") {
           pageBack();
           return true;
@@ -9067,7 +9146,8 @@ if (uni.restoreGlobal) {
         inputSearch,
         sendSearch,
         inputSearchDAta,
-        searchResult
+        searchResult,
+        searching
       };
     }
   };
@@ -9125,7 +9205,10 @@ if (uni.restoreGlobal) {
             key: 1,
             class: "search__container__body__result"
           }, [
-            vue.createVNode(_component_SearchResult, { "search-result": $setup.searchResult }, null, 8, ["search-result"])
+            $setup.searching ? (vue.openBlock(), vue.createBlock(_component_SearchResult, {
+              key: 0,
+              "search-result": $setup.searchResult
+            }, null, 8, ["search-result"])) : vue.createCommentVNode("v-if", true)
           ])) : vue.createCommentVNode("v-if", true)
         ])
       ])

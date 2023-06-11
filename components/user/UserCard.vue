@@ -24,7 +24,7 @@
         </view>
 
         <view class="userCard__container__body__right">
-          <view class="userCard__container__body__right__follow" v-show="isSelf!=userObj.u_id" @tap.stop="">
+          <view class="userCard__container__body__right__follow" v-show="isSelf!=userObj.u_id" @tap.stop="tapFollowCard(userObj)">
             <view style="width: 100%;height: 100%;">
               <view class="userCard__container__body__right__follow--be" v-show="userObj.concern_be===1">已关注</view>
               <view class="userCard__container__body__right__follow--no" v-show="userObj.concern_be===0||!userObj.concern_be">+关注</view>
@@ -43,6 +43,8 @@
 import {ref} from "vue";
 import {useStore} from 'vuex';
 import {defaultHeadImgPath,formatDate,replaceUrlIP} from '@/static/utils/globalConifg'
+import {setUserAddConcern, setUserRemoveConcern} from "@/static/api/users";
+import ArticleFun from "@/components/article/articleFun";
 export default {
   props: {
     userObj: Object
@@ -52,10 +54,46 @@ export default {
     const store = useStore()
     let isSelf = store.getters.getUser
     isSelf = isSelf.u_id
+    //点击关注
+    let canTapFollow = true
+    const tapFollowCard=(data)=>{
+      if (!canTapFollow){
+        plus.nativeUI.toast(`点的太快啦~`)
+        return // 如果当前不能刷新，则直接返回
+      }
+      canTapFollow = false
+      //一秒只能点一次关注
+      setTimeout(() => { canTapFollow = true }, 1000)
+
+      if (data.concern_be===0){
+        setUserAddConcern({"u_id":data.u_id}).then(res=>{
+          console.log(res)
+          if (res.code===200){
+            userObj.value.concern_be=1
+            ArticleFun.setArticleCardUpdate(data.u_id,null,{concern_be:1})
+            plus.nativeUI.toast(`关注成功`)
+          }else {
+            //  关注失败
+          }
+        })
+      }else {
+        setUserRemoveConcern({"u_id":data.u_id}).then(res=>{
+          if (res.code===200){
+            userObj.value.concern_be=0
+            ArticleFun.setArticleCardUpdate(data.u_id,null,{concern_be:0})
+            plus.nativeUI.toast(`取关成功`)
+          }else {
+            //  取消关注失败
+          }
+        })
+      }
+      console.log('点击了关注')
+    }
+
     let userObj =ref()
     userObj.value = props.userObj
     return {
-      userObj,isSelf,defaultHeadImgPath
+      userObj,isSelf,defaultHeadImgPath,tapFollowCard
     }
   }
 }
