@@ -24,6 +24,7 @@
                    v-model="titleValue"
                    :adjust-position="false"/>
           </view>
+
         </view>
         <!--        编辑器-->
         <view class="content">
@@ -55,12 +56,13 @@
           </view>
           <!--          类别-->
           <view class="category__select">
-            <uni-data-select
-                v-model="categoryID"
-                :localdata="categoryList"
-                @change="categoryChange"
-                placeholder="请选择类别"
-            ></uni-data-select>
+<!--            <uni-data-select-->
+<!--                v-model="categoryID"-->
+<!--                :localdata="categoryList"-->
+<!--                @change="categoryChange"-->
+<!--                placeholder="请选择类别"-->
+<!--                position="top"-->
+<!--            ></uni-data-select>-->
           </view>
         </view>
 
@@ -355,6 +357,7 @@ export default {
   height: 20px;
   margin-right: 20px;
 }
+
 
 .style__follow {
   padding: 10px;
