@@ -69,10 +69,9 @@ export default {
     }
     //发布
     const goPublish = (router) => {
-      useUniEmitCurrentRouterUpdate(router)
-      uni.$emit('tabBarVisibilityUpdate', {tabBarVisibility: false})
-      //让头改变颜色
-      uni.$emit('topBarBackgroundColor', {bg: '#ffffff'})
+      uni.navigateTo({
+        url: '/pages/publish/Publish'
+      })
     }
     //消息
     const goMessage = (router) => {

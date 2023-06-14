@@ -3,7 +3,6 @@
 		<view class="main__container" style="width: 100%;height: 100%;overflow: hidden;">
       <Home v-show="currentR==='Home'"></Home>
       <Dynamic v-show="currentR==='Dynamic'"></Dynamic>
-      <Publish v-show="currentR==='Publish'"></Publish>
       <Message v-show="currentR==='Message'"></Message>
       <Mine v-show="currentR==='Mine'"></Mine>
     </view>
@@ -16,7 +15,6 @@ import {useStore} from 'vuex';
 	import TabBar from "@/components/common/TabBar.vue";
   import Home from "@/pages/home/Home";
   import Dynamic from "@/pages/pyq/Dynamic";
-  import Publish from "@/pages/publish/Publish";
   import Message from "@/pages/message/Message";
   import Mine from "@/pages/mine/Mine";
   import TopBar from "@/components/MainApp/TopBar";
@@ -27,7 +25,7 @@ import {onMounted, ref} from "vue";
   import {loginUseUser} from "@/static/api/users";
 	export default {
 		components: {
-			TabBar,Home,Dynamic,Publish,Message,Mine,TopBar
+			TabBar,Home,Dynamic,Message,Mine,TopBar
 		},
     setup(){
       //登录初始化
