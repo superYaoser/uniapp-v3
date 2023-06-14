@@ -2518,7 +2518,7 @@ if (uni.restoreGlobal) {
       method: "GET"
     });
   }
-  const baseUrl = "http://192.168.85.1:3000/api/";
+  const baseUrl = "http://192.168.0.108:3000/api/";
   function extractIP(url) {
     let pattern = /http:\/\/([\d\.]+):(\d+)/;
     let result = url.match(pattern);
@@ -2621,6 +2621,61 @@ if (uni.restoreGlobal) {
   function getArticleDetailByID(id) {
     return request({
       url: "article/detail/" + id
+    });
+  }
+  function getArticleUserHandStateById(id) {
+    return request({
+      url: "article/user-hand-state/" + id
+    });
+  }
+  function addWatchByArticleId(id) {
+    return request({
+      url: "act/watch",
+      method: "POST",
+      data: { "article_id": id }
+    });
+  }
+  function getCommentSonById(id) {
+    return request({
+      url: "act/comment/son/" + id,
+      method: "GET"
+    });
+  }
+  function getCommentByArticleId(id) {
+    return request({
+      url: "act/comment/article/" + id,
+      method: "GET"
+    });
+  }
+  function addComment(comment_article_id, comment_father_id, comment_content) {
+    return request({
+      url: "act/comment",
+      method: "POST",
+      data: {
+        "comment_article_id": comment_article_id,
+        "comment_father_id": comment_father_id,
+        "comment_content": comment_content
+      }
+    });
+  }
+  function getCommentPosterityById(id) {
+    return request({
+      url: "act/comment/posterity/" + id,
+      method: "GET"
+    });
+  }
+  function addHandArticleByArticleId(id) {
+    return request({
+      url: "act/hand/article/add",
+      data: { article_id: id },
+      method: "POST"
+    });
+  }
+  function removeHandArticleByArticleId(id) {
+    return request({
+      url: "act/hand/article/remove",
+      data: { article_id: id },
+      method: "POST"
     });
   }
   const _sfc_main$o = {
@@ -2734,7 +2789,7 @@ if (uni.restoreGlobal) {
         articleInfo.value.concern_be;
       });
       uni.$on("articleCard_concern_update", function(e) {
-        formatAppLog("log", "at components/article/ArticleCard.vue:133", "123123");
+        formatAppLog("log", "at components/article/ArticleCard.vue:135", "123123");
         let data = e.data;
         if (articleInfo.value.article_user_id == data.u_id) {
           articleInfo.value.concern_be = data.concern_be;
@@ -2743,9 +2798,12 @@ if (uni.restoreGlobal) {
       uni.$on("articleCard_interaction_hand_update", function(e) {
         let data = e.data;
         if (articleInfo.value.article_id == data.article_id) {
-          articleInfo.value.article_watch_num = data.watch;
-          articleInfo.value.article_comment_num = data.comment;
           articleInfo.value.article_hand_support_num = data.hand;
+          if (article_user_handBe.value === 0) {
+            article_user_handBe.value = 1;
+          } else {
+            article_user_handBe.value = 0;
+          }
         }
       });
       uni.$on("articleCard_interaction_watch_update", function(e) {
@@ -2760,18 +2818,28 @@ if (uni.restoreGlobal) {
           articleInfo.value.article_comment_num = data.comment;
         }
       });
-      vue.onMounted(() => {
+      let handStateLoading = vue.ref(true);
+      let article_user_handBe = vue.ref(0);
+      const initializeHand = async () => {
+        let res = await getArticleUserHandStateById(articleInfo.value.article_id);
+        if (res.code === 200) {
+          formatAppLog("log", "at components/article/ArticleCard.vue:177", res.data);
+          article_user_handBe.value = res.data.article_user_handBe;
+        }
+      };
+      vue.onMounted(async () => {
+        await initializeHand();
       });
       const needFollowModel = vue.ref(true);
       needFollowModel.value = props.needFollowModel;
       const tapArticleCard = (data) => {
-        formatAppLog("log", "at components/article/ArticleCard.vue:173", "点击了文章卡");
+        formatAppLog("log", "at components/article/ArticleCard.vue:195", "点击了文章卡");
         uni.navigateTo({
           url: "/pages/article/detail/ArticleDetailPage?id=" + data.article_id
         });
       };
       const tapAuthorCard = (data) => {
-        formatAppLog("log", "at components/article/ArticleCard.vue:180", "点击了作者栏");
+        formatAppLog("log", "at components/article/ArticleCard.vue:202", "点击了作者栏");
       };
       let canTapFollow = true;
       const tapFollowCard = (data) => {
@@ -2785,7 +2853,7 @@ if (uni.restoreGlobal) {
         }, 1e3);
         if (data.concern_be === 0) {
           setUserAddConcern({ "u_id": data.article_user_id }).then((res) => {
-            formatAppLog("log", "at components/article/ArticleCard.vue:195", res);
+            formatAppLog("log", "at components/article/ArticleCard.vue:217", res);
             if (res.code === 200) {
               articleInfo.value.concern_be = 1;
               ArticleFun.setArticleCardUpdate(data.article_user_id, null, { concern_be: 1 });
@@ -2801,10 +2869,35 @@ if (uni.restoreGlobal) {
             }
           });
         }
-        formatAppLog("log", "at components/article/ArticleCard.vue:215", "点击了关注");
+        formatAppLog("log", "at components/article/ArticleCard.vue:237", "点击了关注");
       };
       const tapHandCard = (data) => {
-        formatAppLog("log", "at components/article/ArticleCard.vue:219", "点击了点赞");
+        if (!canTapFollow) {
+          plus.nativeUI.toast(`点的太快啦~`);
+          return;
+        }
+        canTapFollow = false;
+        setTimeout(() => {
+          canTapFollow = true;
+        }, 1e3);
+        if (article_user_handBe.value === 0) {
+          addHandArticleByArticleId(data.article_id).then((res) => {
+            formatAppLog("log", "at components/article/ArticleCard.vue:251", res);
+            if (res.code === 200) {
+              ArticleFun.setArticleCardUpdate(null, data.article_id, { hand: ++articleInfo.value.article_hand_support_num });
+              plus.nativeUI.toast(`点赞成功`);
+            }
+          });
+        } else {
+          removeHandArticleByArticleId(data.article_id).then((res) => {
+            formatAppLog("log", "at components/article/ArticleCard.vue:262", res);
+            if (res.code === 200) {
+              ArticleFun.setArticleCardUpdate(null, data.article_id, { hand: --articleInfo.value.article_hand_support_num });
+              plus.nativeUI.toast(`取消点赞成功`);
+            }
+          });
+        }
+        formatAppLog("log", "at components/article/ArticleCard.vue:272", "点击了点赞");
       };
       return {
         articleInfo,
@@ -2817,7 +2910,9 @@ if (uni.restoreGlobal) {
         isSelf,
         formatDate,
         articleLoading,
-        replaceUrlIP
+        replaceUrlIP,
+        article_user_handBe,
+        handStateLoading
       };
     }
   };
@@ -2827,7 +2922,7 @@ if (uni.restoreGlobal) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "ArticleCard__container w100 h100" }, [
       vue.createCommentVNode("        单个       文章卡片"),
       vue.createElementVNode("view", { class: "active__cart w100 h100" }, [
-        $setup.articleLoading ? (vue.openBlock(), vue.createBlock(_component_Loading, { key: 0 })) : (vue.openBlock(), vue.createElementBlock("view", {
+        $setup.articleLoading && $setup.handStateLoading ? (vue.openBlock(), vue.createBlock(_component_Loading, { key: 0 })) : (vue.openBlock(), vue.createElementBlock("view", {
           key: 1,
           class: "active__cart__container",
           onClick: _cache[3] || (_cache[3] = ($event) => $setup.tapArticleCard($setup.articleInfo))
@@ -2999,13 +3094,13 @@ if (uni.restoreGlobal) {
                   ]),
                   vue.createElementVNode("view", {
                     class: "active__cart__container__text__container__interactInfo__container--hand",
-                    onClick: _cache[2] || (_cache[2] = vue.withModifiers(($event) => $setup.tapHandCard(), ["stop"]))
+                    onClick: _cache[2] || (_cache[2] = vue.withModifiers(($event) => $setup.tapHandCard($setup.articleInfo), ["stop"]))
                   }, [
                     vue.createVNode(_component_uni_icons, {
-                      color: "#999999",
+                      color: $setup.article_user_handBe === 0 ? "#999999" : "#0091ff",
                       type: "hand-up",
                       size: "18"
-                    }),
+                    }, null, 8, ["color"]),
                     vue.createElementVNode(
                       "text",
                       null,
@@ -6963,8 +7058,8 @@ if (uni.restoreGlobal) {
       vue.onMounted(() => {
         const store2 = useStore();
         loginUseUser({
-          email: "111@qq.com",
-          password: "12312321"
+          email: "1@qq.com",
+          password: "1"
         }).then((res) => {
           formatAppLog("log", "at pages/MainApp.vue:50", res);
           if (res.code == 200) {
@@ -7100,42 +7195,6 @@ if (uni.restoreGlobal) {
     }
   };
   const App = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/App.vue"]]);
-  function addWatchByArticleId(id) {
-    return request({
-      url: "act/watch",
-      method: "POST",
-      data: { "article_id": id }
-    });
-  }
-  function getCommentSonById(id) {
-    return request({
-      url: "act/comment/son/" + id,
-      method: "GET"
-    });
-  }
-  function getCommentByArticleId(id) {
-    return request({
-      url: "act/comment/article/" + id,
-      method: "GET"
-    });
-  }
-  function addComment(comment_article_id, comment_father_id, comment_content) {
-    return request({
-      url: "act/comment",
-      method: "POST",
-      data: {
-        "comment_article_id": comment_article_id,
-        "comment_father_id": comment_father_id,
-        "comment_content": comment_content
-      }
-    });
-  }
-  function getCommentPosterityById(id) {
-    return request({
-      url: "act/comment/posterity/" + id,
-      method: "GET"
-    });
-  }
   const _sfc_main$d = {
     components: { Loading },
     props: {

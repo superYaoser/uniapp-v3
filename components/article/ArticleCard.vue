@@ -2,7 +2,7 @@
 <view class="ArticleCard__container w100 h100">
   <!--        单个       文章卡片-->
   <view class="active__cart w100 h100">
-    <Loading v-if="articleLoading"></Loading>
+    <Loading v-if="articleLoading&&handStateLoading"></Loading>
     <view  class="active__cart__container" @tap="tapArticleCard(articleInfo)" v-else>
       <!---------------------------作者栏-->
       <view class="active__cart__container__title" @tap.stop="tapAuthorCard()">
@@ -60,8 +60,8 @@
                 <text>{{articleInfo.article_comment_num}}</text>
               </view>
 
-              <view class="active__cart__container__text__container__interactInfo__container--hand" @tap.stop="tapHandCard()">
-                <uni-icons color='#999999' type="hand-up" size="18"></uni-icons>
+              <view class="active__cart__container__text__container__interactInfo__container--hand" @tap.stop="tapHandCard(articleInfo)">
+                <uni-icons :color="article_user_handBe===0?'#999999':'#0091ff'" type="hand-up" size="18"></uni-icons>
                 <text>{{articleInfo.article_hand_support_num}}</text>
               </view>
 
@@ -141,9 +141,12 @@ export default {
     uni.$on('articleCard_interaction_hand_update',function(e){
       let data = e.data
       if(articleInfo.value.article_id == data.article_id){
-        articleInfo.value.article_watch_num=data.watch
-        articleInfo.value.article_comment_num=data.comment
         articleInfo.value.article_hand_support_num=data.hand
+        if (article_user_handBe.value===0){
+          article_user_handBe.value=1
+        }else {
+          article_user_handBe.value=0
+        }
       }
     })
     uni.$on('articleCard_interaction_watch_update',function(e){
@@ -162,9 +165,26 @@ export default {
     //用于接收父组件数据后查找本篇文章- 替换---end-------------------
 
 
+    //------------获取获取点赞状态---------------------------------------------------------------------------------------------------
 
-    onMounted(()=>{
+    // 获取用户点赞 的 初始化加载状态
+    let handStateLoading =ref(true)
+    let article_user_handBe = ref(0)
+    // 初始化点赞
+    const initializeHand = async ()=>{
+      let res = await getArticleUserHandStateById(articleInfo.value.article_id)
+      if (res.code ===200){
+        console.log(res.data)
 
+        article_user_handBe.value = res.data.article_user_handBe
+      }
+    }
+
+    //------------获取获取点赞状态 end-----------------------------------------------------------------------------------------------
+
+
+    onMounted(async ()=>{
+      await initializeHand()
     })
     //是不是需要关注模型
     const needFollowModel=ref(true)
@@ -218,11 +238,42 @@ export default {
     }
     //点击点赞
     const tapHandCard=(data)=>{
+      if (!canTapFollow){
+        plus.nativeUI.toast(`点的太快啦~`)
+        return // 如果当前不能刷新，则直接返回
+      }
+      canTapFollow = false
+      //一秒只能点一次关注
+      setTimeout(() => { canTapFollow = true }, 1000)
+
+      if (article_user_handBe.value===0){
+        addHandArticleByArticleId(data.article_id).then(res=>{
+          console.log(res)
+          if (res.code===200){
+
+            ArticleFun.setArticleCardUpdate(null,data.article_id,{hand:++articleInfo.value.article_hand_support_num})
+            plus.nativeUI.toast(`点赞成功`)
+          }else {
+            //  点赞失败
+          }
+        })
+      }else {
+        removeHandArticleByArticleId(data.article_id).then(res=>{
+          console.log(res)
+          if (res.code===200){
+
+            ArticleFun.setArticleCardUpdate(null,data.article_id,{hand:--articleInfo.value.article_hand_support_num})
+            plus.nativeUI.toast(`取消点赞成功`)
+          }else {
+            //  点赞失败
+          }
+        })
+      }
       console.log('点击了点赞')
     }
     return{
       articleInfo,defaultHeadImgPath,needFollowModel,
-      tapArticleCard,tapAuthorCard,tapFollowCard,tapHandCard,isSelf,formatDate,articleLoading,replaceUrlIP
+      tapArticleCard,tapAuthorCard,tapFollowCard,tapHandCard,isSelf,formatDate,articleLoading,replaceUrlIP,article_user_handBe,handStateLoading
     }
   }
 }

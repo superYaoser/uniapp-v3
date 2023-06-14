@@ -68,10 +68,28 @@ function getArticleDetailByID(id) {
         url: 'article/detail/'+id,
     });
 }
+/*•	GET /api/article/user-hand-state/:id 查询登录用户与该文章id的点赞情况
+权限：2
+参数：jwt、id（文章）
+*/
+function getArticleUserHandStateById(id) {
+    return R({
+        url: 'article/user-hand-state/'+id,
+    });
+}
+/*•	GET /api/article/user-hand-list/user/:id 查询该用户点赞的全部文章列表
+权限：1
+参数：jwt、id（用户）
+*/
+function getArticleUserHandListByUserId(id) {
+    return R({
+        url: 'article/user-hand-list/user/'+id,
+    });
+}
 export {
     pushNewArticle,
     getDetailedArticle,
     getArticleByID,
-    getConcernDetailedArticle,getArticleDetailByID
+    getConcernDetailedArticle,getArticleDetailByID,getArticleUserHandStateById,getArticleUserHandListByUserId
 
 }

@@ -44,8 +44,8 @@ import {onMounted, ref} from "vue";
         const store = useStore()
         // 登录成功后跳转到主页，然后将token保存到本地
         loginUseUser({
-          email: '111@qq.com',
-          password: '12312321'
+          email: '1@qq.com',
+          password: '1'
         }).then(res => {
           console.log(res)
           if (res.code == 200) {

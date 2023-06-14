@@ -79,7 +79,8 @@ function getCommentPosterityById(id) {
 */
 function addHandArticleByArticleId(id) {
     return R({
-        url: 'act/hand/article/add/'+id,
+        url: 'act/hand/article/add',
+        data:{ article_id: id},
         method:'POST',
     });
 }
@@ -89,7 +90,8 @@ function addHandArticleByArticleId(id) {
 */
 function removeHandArticleByArticleId(id) {
     return R({
-        url: 'act/hand/article/remove/'+id,
+        url: 'act/hand/article/remove',
+        data:{ article_id: id},
         method:'POST',
     });
 }

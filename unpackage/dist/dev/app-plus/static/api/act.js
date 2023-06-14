@@ -73,11 +73,35 @@ function getCommentPosterityById(id) {
         method:'GET',
     });
 }
+/*•	post /api/act/hand/article/add 点赞文章
+权限：2
+参数：jwt、article_id（文章id
+*/
+function addHandArticleByArticleId(id) {
+    return R({
+        url: 'act/hand/article/add',
+        data:{ article_id: id},
+        method:'POST',
+    });
+}
+/*•	post /api/act/hand/article/remove 取消点赞文章
+权限：2
+参数：jwt、article_id（文章id
+*/
+function removeHandArticleByArticleId(id) {
+    return R({
+        url: 'act/hand/article/remove',
+        data:{ article_id: id},
+        method:'POST',
+    });
+}
 export {
     addWatchByArticleId,
     getCommentSonById,
     getCommentByArticleId,
     addComment,
     getCommentById,
-    getCommentPosterityById
+    getCommentPosterityById,
+    addHandArticleByArticleId,
+    removeHandArticleByArticleId
 }
