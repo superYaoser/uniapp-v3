@@ -80,6 +80,8 @@
 import {onMounted, reactive, ref, watch, watchEffect,computed} from "vue";
 import {defaultHeadImgPath,formatDate,replaceUrlIP} from '@/static/utils/globalConifg'
 import {setUserAddConcern,setUserRemoveConcern} from '@/static/api/users'
+import {addHandArticleByArticleId,removeHandArticleByArticleId} from '@/static/api/act'
+import {getArticleUserHandStateById,getArticleUserHandListByUserId} from '@/static/api/article'
 import {useStore} from 'vuex';
 import Loading from "@/components/loading/Loading";
 import ArticleFun from "@/components/article/articleFun";
