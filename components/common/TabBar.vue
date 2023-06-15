@@ -70,7 +70,9 @@ export default {
     //发布
     const goPublish = (router) => {
       uni.navigateTo({
-        url: '/pages/publish/Publish'
+        url: '/pages/publish/Publish',
+        animationType:'slide-in-bottom',
+        animationDuration: 150
       })
     }
     //消息
