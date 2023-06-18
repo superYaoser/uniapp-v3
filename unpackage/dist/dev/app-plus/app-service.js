@@ -5844,14 +5844,15 @@ if (uni.restoreGlobal) {
         inputSearchDAta.value = e.detail.value;
       };
       uni.$on("searchHistory_tap", async function(e) {
+        formatAppLog("log", "at pages/search/search.vue:66", "监听到用户点击了搜索历史");
         inputSearchDAta.value = e.word;
-        await sendSearch();
       });
       const sendSearch = async () => {
+        formatAppLog("log", "at pages/search/search.vue:72", "监听到用户点击了搜索历史");
         if (!inputSearchDAta.value) {
           pageBack();
         } else {
-          formatAppLog("log", "at pages/search/search.vue:73", "用户搜索" + inputSearchDAta.value);
+          formatAppLog("log", "at pages/search/search.vue:76", "用户搜索" + inputSearchDAta.value);
           try {
             searching.value = false;
             let res = await getSearchByTerm(inputSearchDAta.value);
@@ -5879,7 +5880,7 @@ if (uni.restoreGlobal) {
         });
       };
       onBackPress((e) => {
-        formatAppLog("log", "at pages/search/search.vue:105", "用户在搜索界面按了返回键盘");
+        formatAppLog("log", "at pages/search/search.vue:108", "用户在搜索界面按了返回键盘");
         if (e.from === "backbutton") {
           pageBack();
           return true;
@@ -5919,25 +5920,29 @@ if (uni.restoreGlobal) {
                 style: { "margin-left": "20rpx" }
               })
             ]),
-            vue.createElementVNode(
+            vue.withDirectives(vue.createElementVNode(
               "input",
               {
                 class: "search__container__header__input--sub",
+                "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.inputSearchDAta = $event),
                 focus: "true",
                 "placeholder-class": "search__container__header__input--sub",
                 "adjust-position": false,
                 placeholder: "搜点什么...",
-                onInput: _cache[0] || (_cache[0] = (...args) => $setup.inputSearch && $setup.inputSearch(...args))
+                onInput: _cache[1] || (_cache[1] = (...args) => $setup.inputSearch && $setup.inputSearch(...args)),
+                onConfirm: _cache[2] || (_cache[2] = ($event) => $setup.inputSearchDAta ? $setup.sendSearch : null)
               },
               null,
-              32
-              /* HYDRATE_EVENTS */
-            ),
+              544
+              /* HYDRATE_EVENTS, NEED_PATCH */
+            ), [
+              [vue.vModelText, $setup.inputSearchDAta]
+            ]),
             vue.createElementVNode(
               "view",
               {
                 class: "search__container__header__input--cancel",
-                onClick: _cache[1] || (_cache[1] = vue.withModifiers((...args) => $setup.sendSearch && $setup.sendSearch(...args), ["stop"]))
+                onClick: _cache[3] || (_cache[3] = vue.withModifiers((...args) => $setup.sendSearch && $setup.sendSearch(...args), ["stop"]))
               },
               vue.toDisplayString($setup.inputSearchDAta ? "搜索" : "取消"),
               1

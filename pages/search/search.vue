@@ -11,10 +11,12 @@
             <uni-icons type="search" size="30rpx" color="#808080" style="margin-left: 20rpx;"></uni-icons>
           </view>
           <input  class="search__container__header__input--sub"
+                  v-model="inputSearchDAta"
                      focus="true"
                      placeholder-class="search__container__header__input--sub"
                      :adjust-position="false" placeholder="搜点什么..."
-                     @input="inputSearch"/>
+                     @input="inputSearch"
+                  @confirm="inputSearchDAta?sendSearch:null"/>
           <view class="search__container__header__input--cancel" @tap.stop="sendSearch">{{ inputSearchDAta? '搜索':'取消' }}</view>
         </view>
       </view>
@@ -61,12 +63,13 @@ user: []*/
     }
     // 监听用户点击搜索历史
     uni.$on('searchHistory_tap',async function (e) {
+      console.log("监听到用户点击了搜索历史")
       inputSearchDAta.value = e.word
-      await sendSearch()
+      // await sendSearch()
     })
     //点击搜索
     const sendSearch = async () => {
-
+      console.log("监听到用户点击了搜索历史")
       if (!inputSearchDAta.value) {
         pageBack()
       } else {
