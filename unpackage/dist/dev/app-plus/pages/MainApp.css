@@ -806,7 +806,6 @@
   background-size: cover;
   position: relative;
   background-position: center;
-  background-image: url('https://i2.hdslb.com/bfs/face/544c89e68f2b1f12ffcbb8b3c062a3328e8692d9.jpg@96w_96h.webp');
 }
 .messageCard__body__info[data-v-4762ac38] {
   /* 样式规则 */
@@ -825,6 +824,8 @@
 .messageCard__body__right[data-v-4762ac38] {
   /* 样式规则 */
   margin-right: 1.25rem;
+  display: flex;
+  align-items: center;
 }
 .messageCard__body__right--num[data-v-4762ac38] {
   /* 样式规则 */
@@ -839,10 +840,8 @@
   font-size: 0.5625rem;
   border-radius: 50%;
   text-shadow: 0 0 5px #fb5f5f, 0 0 5px #ff1717;
-  margin-top: 0.625rem;
 }
 .messageCard__body__right--time[data-v-4762ac38] {
-  margin-top: 0.3125rem;
   /* 样式规则 */
   font-size: 0.78125rem;
   color: #9b9b9b;

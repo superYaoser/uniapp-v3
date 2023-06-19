@@ -54,6 +54,24 @@
             }
 
         }
+        ,{
+            "path" : "pages/message/ReactionMessage/ReactionMessage",
+            "style" :
+            {
+              "navigationBarTitleText": "",
+              "titleNView": false
+            }
+
+        }
+        ,{
+            "path" : "pages/message/PrivateMessage/PrivateMessage",
+            "style" :
+            {
+              "navigationBarTitleText": "",
+              "titleNView": false
+            }
+
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

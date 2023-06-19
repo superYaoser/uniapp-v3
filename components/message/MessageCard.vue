@@ -1,16 +1,16 @@
 <template>
-  <view style="width: 100%;height: 120rpx;background: #F5F5F5;padding: 10rpx;display: flex;align-items: center">
+  <view style="width: 100%;height: 120rpx;background: #F5F5F5;padding: 10rpx;display: flex;align-items: center" @tap.stop="tapMessageCard">
     <view class="messageCard__body">
       <view class="messageCard__body__left">
         <view class="messageCard__body__head">
-          <view class="messageCard__body__head--img"></view>
+          <view class="messageCard__body__head--img" :style="'background-image: url('+ messageCardInfo.headImg +')'"></view>
         </view>
         <view class="messageCard__body__info">
           <view class="messageCard__body__info__name">
-            <text>新朋友</text>
+            <text>{{ messageCardInfo.name }}</text>
           </view>
           <view class="messageCard__body__info__message">
-            <text>张三关注了你</text>
+            <text>{{ messageCardInfo.message }}</text>
           </view>
         </view>
       </view>
@@ -18,11 +18,11 @@
       <view class="messageCard__body__right">
 
         <view class="messageCard__body__right--time">
-          <text>5-9</text>
+          <text>{{ messageCardInfo.time }}</text>
         </view>
 
         <view class="messageCard__body__right--num">
-          <text>99</text>
+          <text>{{ messageCardInfo.num }}</text>
         </view>
 
       </view>
@@ -31,8 +31,43 @@
 </template>
 
 <script>
+import {ref} from "vue";
+import {formatDate} from '@/static/utils/globalConifg'
+
 export default {
-  name: "messageCard"
+  name: "messageCard",
+  props: {
+    data: Object,
+    id:String
+  },
+  setup(props){
+
+    //记录实体信息的信息
+    let messageCardInfo = ref(props.data);
+
+    //对话id
+    let id = ref(props.id);
+
+    const tapMessageCard =()=>{
+      console.log("用户点击信息卡")
+      if (id.value === 'action'){
+        console.log("打开互动消息")
+        uni.navigateTo({
+          url: '/pages/message/ReactionMessage/ReactionMessage'
+        })
+      }else {
+        uni.navigateTo({
+          url: '/pages/message/PrivateMessage/PrivateMessage'
+        })
+      }
+    }
+
+
+
+    return{
+      messageCardInfo,tapMessageCard
+    }
+  }
 }
 </script>
 
@@ -68,7 +103,7 @@ export default {
       background-size: cover;
       position: relative;
       background-position: center;
-      background-image: url('https://i2.hdslb.com/bfs/face/544c89e68f2b1f12ffcbb8b3c062a3328e8692d9.jpg@96w_96h.webp')
+      //background-image: url("@/static/images/message/action.png");
     }
   }
 
@@ -93,6 +128,8 @@ export default {
   &__right {
     /* 样式规则 */
     margin-right: 40rpx;
+    display: flex;
+    align-items: center;
 
     &--num {
       /* 样式规则 */
@@ -107,12 +144,10 @@ export default {
       font-size: 0.5625rem;
       border-radius: 50%;
       text-shadow: 0 0 5px #fb5f5f, 0 0 5px #ff1717;
-      margin-top: 20rpx;
     }
 
     &--time {
 
-      margin-top: 10rpx;
       /* 样式规则 */
       font-size: 25rpx;
       color: #9b9b9b;

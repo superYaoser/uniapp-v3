@@ -79,7 +79,7 @@
       "style": "dark",
       "background": "#F8F8F8"
     },
-    "arguments": "{\"path\":\"pages/testPage/testPage\"}",
+    "arguments": "{\"path\":\"pages/message/PrivateMessage/PrivateMessage\"}",
     "uniStatistics": {
       "enable": false
     },

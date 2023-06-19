@@ -16,7 +16,22 @@
           <view class="w100 h100">
             <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: 100%;background: #ffffff;`"
                          refresher-enabled="true" refresher-background="#ffffff">
-              <MessageCard></MessageCard>
+              <MessageCard :data="{
+                headImg:'http://114.115.220.47:3000/api/download/images/action.png',
+                name:'互动消息',
+                message:'xx关注了你',
+                time:'2023-6-19',
+                num:4
+              }"
+              :id="'action'"></MessageCard>
+              <MessageCard :data="{
+                headImg:'http://114.115.220.47:3000/api/download/images/action.png',
+                name:'气温',
+                message:'气温',
+                time:'2023-6-19',
+                num:4
+              }"
+              :id="'123'"></MessageCard>
             </scroll-view>
           </view>
         </view>
