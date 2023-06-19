@@ -11,7 +11,7 @@ const baseUrl = 'http://192.168.85.1:3000/api/'
 
 //提取192.168.0.106:3000
 function extractIP(url) {
-    let pattern = /http:\/\/([\d\.]+):(\d+)/; 
+    let pattern = /http:\/\/([\d\.]+):(\d+)/;
     let result = url.match(pattern);
     if (result && result.length >= 3) {
         return result[1] + ":" + result[2];
@@ -98,11 +98,33 @@ const replaceImgSrc = (data)=> {
         return match.replace(src, newSrc);
     });
 }
+
+/**
+ * 根据给定的时间戳，格式化时间并精确到毫秒。
+ * @param {number} timestamp - 时间戳，单位为毫秒。
+ * @returns {string} 格式化后的时间字符串，精确到毫秒。
+ */
+const formatTimestamp=(timestamp)=> {
+    const date = new Date(timestamp);
+
+    const year = date.getFullYear(); // 获取年份
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 获取月份，并补零
+    const day = date.getDate().toString().padStart(2, '0'); // 获取日期，并补零
+    const hour = date.getHours().toString().padStart(2, '0'); // 获取小时，并补零
+    const minute = date.getMinutes().toString().padStart(2, '0'); // 获取分钟，并补零
+    const second = date.getSeconds().toString().padStart(2, '0'); // 获取秒数，并补零
+    const millisecond = date.getMilliseconds().toString().padStart(3, '0'); // 获取毫秒数，并补零
+
+    const formattedTime = `${year}-${month}-${day} ${hour}:${minute}:${second}.${millisecond}`;
+    return formattedTime;
+}
+
 export{
     baseUrl,
     defaultHeadImgPath,
     enterWord,
     sendMessageToScreen,
     formatDate,
-    getUserNameByUid,getUserObjByUid,replaceUrlIP,replaceImgSrc
+    getUserNameByUid,getUserObjByUid,replaceUrlIP,replaceImgSrc,
+    formatTimestamp
 }
