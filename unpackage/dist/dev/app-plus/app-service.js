@@ -8952,34 +8952,54 @@ if (uni.restoreGlobal) {
   }
   const PagesMessageReactionMessageReactionMessage = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["__scopeId", "data-v-fa095b8d"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/message/ReactionMessage/ReactionMessage.vue"]]);
   const _sfc_main$1 = {
-    name: "PrivateWindow"
+    name: "PrivateWindow",
+    props: {
+      position: Number,
+      user: Object,
+      time: String
+    },
+    setup(props) {
+      let position = vue.ref(props.position);
+      return {
+        position
+      };
+    }
   };
   function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("view", { style: { "width": "100%" } }, [
+    return vue.openBlock(), vue.createElementBlock("view", { style: { "margin-top": "30rpx", "padding": "20rpx" } }, [
       vue.createElementVNode("view", { class: "privateWindow" }, [
         vue.createElementVNode("view", { class: "privateWindow__container" }, [
           vue.createElementVNode("view", { class: "privateWindow__container__header" }),
           vue.createElementVNode("view", { class: "privateWindow__container__body" }, [
             vue.createCommentVNode(" Left "),
-            vue.createElementVNode("view", { class: "User1" }, [
-              vue.createElementVNode("view", null, [
-                vue.createElementVNode("image", { src: "https://static.runoob.com/images/mix/img_avatar.png" })
-              ]),
-              vue.createElementVNode("view", null, [
-                vue.createElementVNode("view", { class: "left_triangle" }),
-                vue.createElementVNode("text", null, " hello, man! ")
-              ])
-            ]),
-            vue.createCommentVNode(" Right "),
-            vue.createElementVNode("view", { class: "User2" }, [
-              vue.createElementVNode("view", null, [
-                vue.createElementVNode("image", { src: "https://static.runoob.com/images/mix/img_avatar.png" })
-              ]),
-              vue.createElementVNode("view", null, [
-                vue.createElementVNode("view", { class: "right_triangle" }),
-                vue.createElementVNode("text", null, " hello world ")
-              ])
-            ])
+            vue.createElementVNode(
+              "view",
+              {
+                class: vue.normalizeClass($setup.position === 1 ? "User1" : "User2")
+              },
+              [
+                vue.createElementVNode("view", null, [
+                  vue.createElementVNode("view", {
+                    class: "privateWindow__container__body--img",
+                    style: { "background-image": "url('https://static.runoob.com/images/mix/img_avatar.png')" }
+                  })
+                ]),
+                vue.createElementVNode("view", null, [
+                  vue.createElementVNode(
+                    "view",
+                    {
+                      class: vue.normalizeClass($setup.position === 1 ? "left_triangle" : "right_triangle")
+                    },
+                    null,
+                    2
+                    /* CLASS */
+                  ),
+                  vue.createElementVNode("text", null, " hello, man! ")
+                ])
+              ],
+              2
+              /* CLASS */
+            )
           ])
         ])
       ])
@@ -9058,7 +9078,8 @@ if (uni.restoreGlobal) {
             "scroll-y": "true",
             style: { "width": "100%", "height": "100%" }
           }, [
-            vue.createVNode(_component_PrivateWindow)
+            vue.createVNode(_component_PrivateWindow, { position: 1 }),
+            vue.createVNode(_component_PrivateWindow, { position: 2 })
           ])
         ]),
         vue.createElementVNode("view", { class: "privateMessage__container__footer" })

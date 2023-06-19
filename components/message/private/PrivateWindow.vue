@@ -1,5 +1,5 @@
 <template>
-<view style="width: 100%;">
+<view style="margin-top: 30rpx;padding: 20rpx">
 <view class="privateWindow">
   <view class="privateWindow__container">
 
@@ -10,23 +10,13 @@
     <view class="privateWindow__container__body">
 
       <!-- Left -->
-      <view class="User1">
+      <view :class="position===1?'User1':'User2'">
         <view>
-          <image src="https://static.runoob.com/images/mix/img_avatar.png"/>
+          <view class="privateWindow__container__body--img" style="background-image: url('https://static.runoob.com/images/mix/img_avatar.png')"/>
         </view>
         <view>
-          <view class="left_triangle"></view>
+          <view :class="position===1?'left_triangle':'right_triangle'"></view>
           <text> hello, man! </text>
-        </view>
-      </view>
-      <!-- Right -->
-      <view class="User2">
-        <view>
-          <image src="https://static.runoob.com/images/mix/img_avatar.png"/>
-        </view>
-        <view>
-          <view class="right_triangle"></view>
-          <text> hello world </text>
         </view>
       </view>
 
@@ -38,13 +28,38 @@
 </template>
 
 <script>
+import {ref} from "vue";
+
 export default {
-  name: "PrivateWindow"
+  name: "PrivateWindow",
+  props: {
+    position: Number,
+    user:Object,
+    time:String,
+  },
+  setup(props){
+    let position = ref(props.position)
+
+    return{
+      position
+    }
+  }
 }
 </script>
 
 <style scoped>
-
+.privateWindow__container__body--img{
+  width: 70rpx;
+  height: 70rpx;
+  background-repeat: no-repeat;
+  border-radius: 50%;
+  border: 0.0375rem silver solid;
+  /*把背景图扩展至足够大，直至完全覆盖背景区域，
+图片比例保持不变且不会失真，但某些部分被切割无法显示完整背景图像*/
+  background-size: cover;
+  position: relative;
+  background-position: center;
+}
 
 .User1{
   clear:both;
@@ -53,17 +68,11 @@ export default {
   float: left;
 }
 .User1 view:nth-of-type(2){
-  background-color: aquamarine;
+  background-color: #f1f1f1;
   float: left;
   margin: 0 20px 10px 15px;
   padding: 10px 10px 10px 0px;
   border-radius:7px;
-}
-
-.User2 view:first-child image,
-.User1 view:first-child image{
-  width:50px;
-  height: 50px;
 }
 
 .User2{
@@ -74,7 +83,7 @@ export default {
 }
 .User2 view:nth-of-type(2){
   float:right;
-  background-color: gold;
+  background-color: #f1f1f1;
   margin: 0 10px 10px 20px;
   padding: 10px 0px 10px 10px;
   border-radius:7px;
@@ -85,7 +94,7 @@ export default {
   width:0px;
   border-width:8px;
   border-style:solid;
-  border-color:transparent aquamarine transparent transparent;
+  border-color:transparent #f1f1f1 transparent transparent;
   position: relative;
   left:-16px;
   top:3px;
@@ -96,7 +105,7 @@ export default {
   width:0px;
   border-width:8px;
   border-style:solid;
-  border-color:transparent transparent transparent gold;
+  border-color:transparent transparent transparent #f1f1f1;
   position: relative;
   right:-16px;
   top:3px;
