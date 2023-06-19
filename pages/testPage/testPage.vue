@@ -17,37 +17,24 @@ import CommentExpand from "@/components/article/comments/CommentExpand";
 import CommentReplyWindow from "@/components/article/comments/CommentReplyWindow";
 import UserCard from "@/components/user/UserCard";
 import {onMounted} from "vue";
+
 import socket from '@/static/socket/main.js'
 
 export default {
-  components: {
-    CommentReplyWindow,
-    Comment,
-    UserCard
-  },
   setup() {
     let socketTask
     onMounted(() => {
-
-      socket.emit('message', {id:'qweqwe',age:12})
-
+      socket.emit('message', '测试')
+    })
+    socket.on('allC',data=>{
+      console.log(data)
     })
 
       const a = () => {
 
 
         // 发送消息
-        socketTask.send({
-          data: 'ashdasjkdhadsjk',
-          success(res) {
-            console.log('发送成功')
-            console.log(res)
-          },
-          fail(res) {
-            console.log('发送失败')
-            console.log(res)
-          }
-        });
+socket.emit('message', {id:'qweqwe',age:12})
       }
       return {
         a

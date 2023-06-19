@@ -2577,8 +2577,8 @@ if (uni.restoreGlobal) {
     const minute = date.getMinutes().toString().padStart(2, "0");
     const second = date.getSeconds().toString().padStart(2, "0");
     const millisecond = date.getMilliseconds().toString().padStart(3, "0");
-    const formattedTime2 = `${year}-${month}-${day} ${hour}:${minute}:${second}.${millisecond}`;
-    return formattedTime2;
+    const formattedTime = `${year}-${month}-${day} ${hour}:${minute}:${second}.${millisecond}`;
+    return formattedTime;
   };
   const request = (req = "") => {
     formatAppLog("log", "at static/api/root/request.js:3", baseUrl);
@@ -4633,12 +4633,12 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const Comment = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$c], ["__scopeId", "data-v-404a4e6d"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/article/comments/CommentList.vue"]]);
+  const CommentList = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$c], ["__scopeId", "data-v-404a4e6d"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/article/comments/CommentList.vue"]]);
   const _sfc_main$b = {
     props: {
       needFollowModel: Boolean
     },
-    components: { CommentList: Comment, Loading, App },
+    components: { CommentList, Loading, App },
     emits: ["update:item"],
     setup(props, { emit }) {
       const needFollowModel = vue.ref(true);
@@ -7713,46 +7713,22 @@ if (uni.restoreGlobal) {
   })(uniSocket_io);
   const io = /* @__PURE__ */ getDefaultExportFromCjs(uniSocket_ioExports);
   const currentTimestamp = Date.now();
-  const formattedTime = formatTimestamp(currentTimestamp);
+  formatTimestamp(currentTimestamp);
   const socket = io("ws://192.168.85.1:3001", {
     query: {},
     transports: ["websocket", "polling"],
     timeout: 5e3
   });
-  socket.on("connect", () => {
-    formatAppLog("log", "at static/socket/main.js:14", "ws 已连接");
-    const { id } = socket;
-    socket.on(id, (message) => {
-      formatAppLog("log", "at static/socket/main.js:19", "ws 收到服务器消息：", message);
-    });
-    socket.emit("message", `当前时间：${formattedTime}`);
-  });
-  socket.on("error", (msg) => {
-    formatAppLog("log", "at static/socket/main.js:26", "ws error", msg);
-  });
   const _sfc_main$7 = {
-    components: {
-      CommentReplyWindow,
-      Comment,
-      UserCard
-    },
     setup() {
-      let socketTask;
       vue.onMounted(() => {
-        socket.emit("message", { id: "qweqwe", age: 12 });
+        socket.emit("message", "测试");
+      });
+      socket.on("allC", (data) => {
+        formatAppLog("log", "at pages/testPage/testPage.vue:30", data);
       });
       const a = () => {
-        socketTask.send({
-          data: "ashdasjkdhadsjk",
-          success(res) {
-            formatAppLog("log", "at pages/testPage/testPage.vue:43", "发送成功");
-            formatAppLog("log", "at pages/testPage/testPage.vue:44", res);
-          },
-          fail(res) {
-            formatAppLog("log", "at pages/testPage/testPage.vue:47", "发送失败");
-            formatAppLog("log", "at pages/testPage/testPage.vue:48", res);
-          }
-        });
+        socket.emit("message", { id: "qweqwe", age: 12 });
       };
       return {
         a
