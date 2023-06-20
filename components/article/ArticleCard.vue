@@ -114,6 +114,8 @@ export default {
     //查看是不是自己
     const store = useStore()
     let isSelf = store.getters.getUser
+    //登录用户
+    let userObj = store.getters.getUser
     isSelf = isSelf.u_id
 
     //用于接收父组件数据后查找本篇文章 替换-----------------------
@@ -219,6 +221,7 @@ export default {
             articleInfo.value.concern_be=1
             ArticleFun.setArticleCardUpdate(data.article_user_id,null,{concern_be:1})
             plus.nativeUI.toast(`关注成功`)
+            ArticleFun.addConcernMsg(userObj.u_id,userObj.u_name,data.article_user_id,data.u_name,data.article_id)
           }else {
           //  关注失败
           }
@@ -253,6 +256,8 @@ export default {
 
             ArticleFun.setArticleCardUpdate(null,data.article_id,{hand:++articleInfo.value.article_hand_support_num})
             plus.nativeUI.toast(`点赞成功`)
+
+            ArticleFun.addHandMsg(userObj.u_id,userObj.u_name,data.article_user_id,data.u_name,data.article_id)
           }else {
             //  点赞失败
           }

@@ -21,7 +21,7 @@
           <text>{{ messageCardInfo.time }}</text>
         </view>
 
-        <view class="messageCard__body__right--num">
+        <view class="messageCard__body__right--num" v-if="messageCardInfo.num!==null">
           <text>{{ messageCardInfo.num }}</text>
         </view>
 
@@ -32,13 +32,15 @@
 
 <script>
 import {ref} from "vue";
+import {useStore} from 'vuex';
 import {formatDate} from '@/static/utils/globalConifg'
 
 export default {
   name: "messageCard",
   props: {
     data: Object,
-    id:String
+    id:String,
+    u_id:String
   },
   setup(props){
 
@@ -47,13 +49,19 @@ export default {
 
     //对话id
     let id = ref(props.id);
+    //用户id
+    let store = useStore()
+   let login_u_id = store.getters.getUser
+    login_u_id = login_u_id.u_id
+
+
 
     const tapMessageCard =()=>{
       console.log("用户点击信息卡")
       if (id.value === 'action'){
         console.log("打开互动消息")
         uni.navigateTo({
-          url: '/pages/message/ReactionMessage/ReactionMessage'
+          url: '/pages/message/ReactionMessage/ReactionMessage?id='+login_u_id
         })
       }else {
         uni.navigateTo({

@@ -19,9 +19,9 @@
               <MessageCard :data="{
                 headImg:'http://114.115.220.47:3000/api/download/images/action.png',
                 name:'互动消息',
-                message:'xx关注了你',
-                time:'2023-6-19',
-                num:4
+                message:actionMessageList?actionMessageList[actionMessageList.length - 1].message_content:'没有最新的信息',
+                time:actionMessageList?formatDate(actionMessageList[actionMessageList.length - 1].create_time):'',
+                num:actionMessageList?actionMessageList.length:null
               }"
               :id="'action'"></MessageCard>
               <MessageCard :data="{
@@ -46,18 +46,55 @@
 import {useStore} from 'vuex';
 import {onMounted, ref, watch, computed} from "vue";
 import MessageCard from "@/components/message/MessageCard";
+import {addActionMessage,getNMessageByReceiveUid,updateReadMessageByReceiveId} from '@/static/api/message'
+import {formatDate, formatTimestamp} from '@/static/utils/globalConifg'
+import {
+  onBackPress,onShow
+} from "@dcloudio/uni-app";
 
 export default {
   components: {
     MessageCard
   },
   setup() {
-    onMounted(() => {
+    let store
+    let login_u_id
+//*********************互动消息************************************************
+    let actionMessageList = ref()
 
+
+    //初始化用户信息
+    const initializeUserStore =()=>{
+      store = useStore()
+      login_u_id = store.getters.getUser
+      login_u_id = login_u_id.u_id
+    }
+
+    //初始化 互动信息
+    const initializeInteractiveInformation = async (login_u_id)=>{
+      let res =  await getNMessageByReceiveUid(login_u_id)
+      console.log(res)
+      if (res.code ===200){
+        actionMessageList.value = res.data
+        console.log(actionMessageList)
+      }else {
+
+      }
+    }
+    onShow(()=>{
+      initializeInteractiveInformation(login_u_id)
+    })
+
+    onMounted(() => {
+      initializeUserStore()
+
+      initializeInteractiveInformation(login_u_id)
     })
 
 
-    return {}
+    return {
+      actionMessageList,formatDate,
+    }
   }
 }
 </script>

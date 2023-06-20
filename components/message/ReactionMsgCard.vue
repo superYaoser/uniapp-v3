@@ -3,26 +3,26 @@
     <view class="reactionMsgCard__body">
       <view class="reactionMsgCard__body__left">
         <view class="reactionMsgCard__body__head">
-          <view class="reactionMsgCard__body__head--img"></view>
+          <view class="reactionMsgCard__body__head--img" :style="'background-image: url('+ messageCardInfo.headImg +')'"></view>
         </view>
         <view class="reactionMsgCard__body__info">
           <view class="reactionMsgCard__body__info__name">
-            <text>阳光男孩</text>
+            <text>{{ messageCardInfo.name }}</text>
           </view>
           <view class="reactionMsgCard__body__info__message">
-            <text>关注了你</text>
+            <text>{{ messageCardInfo.message }}</text>
           </view>
         </view>
       </view>
 
-      <view class="reactionMsgCard__body__right">
+      <view class="reactionMsgCard__body__right" @tap.stop="tapArticleCard">
 
         <view class="reactionMsgCard__body__right--time">
-          <text>5-9</text>
+          <text>{{ messageCardInfo.time }}</text>
         </view>
 
-        <view class="reactionMsgCard__body__right--img">
-          <view class="reactionMsgCard__body__right--img--path" style="background-image: url('https://i2.hdslb.com/bfs/archive/38821fd5d4513d0626f99e328e424a3f15fb8118.jpg@672w_378h_1c_!web-home-common-cover.webp')"></view>
+        <view class="reactionMsgCard__body__right--img" v-if="messageCardInfo.article_path1">
+          <view class="reactionMsgCard__body__right--img--path" :style="'background-image: url('+ messageCardInfo.article_path1 +')'"></view>
         </view>
 
       </view>
@@ -31,10 +31,106 @@
 </template>
 
 <script>
+import {onMounted, ref} from "vue";
+import {formatDate, formatTimestamp,defaultHeadImgPath,replaceUrlIP} from '@/static/utils/globalConifg'
+import {getUserDetailBy} from '@/static/api/users'
+import {getArticleDetailByID, getDetailedArticle} from '@/static/api/article'
+
 export default {
-  name: "reactionMsgCard"
-}
+  name: "messageCard",
+  props: {
+    data: Object,
+    id: String,
+    u_id: String
+  },
+  setup(props) {
+    let data = props.data
+    let ex = {
+      article_id: 123,
+      comment_id: 789,
+      create_time: "2023-06-20T01:17:17.000Z",
+      hand_article_id: 456,
+      id: 1,
+      logic_del: 0,
+      message_content: "Hello, how are you?",
+      message_type: 1,
+      readed: 0,
+      receive_user_id: 1,
+      receive_user_name: "Jane",
+      send_user_id: 1,
+      send_user_name: "John"
+    }
+    //记录实体信息的信息
+    let messageCardInfo = ref({
+      name: data.send_user_name,
+      message: data.message_content,
+      time: formatDate(data.create_time),
+      headImg:defaultHeadImgPath,
+      article_path1:null
+    });
+    // 用户实体
+    let user = ref()
+    onMounted(async () => {
+
+      let res = await getUserDetailBy(data.send_user_id)
+      if (res.code===200){
+        user.value = res.data
+        if (user.value.u_head){
+          messageCardInfo.value.headImg = user.value.u_head
+        }
+      }
+      if(data.article_id){
+        let res =await getArticleDetailByID(data.article_id)
+        console.log(res)
+        if (res.code ===200){
+          console.log(res.data.article_preview1_path)
+          if (res.data.article_preview1_path){
+            messageCardInfo.value.article_path1 =replaceUrlIP(res.data.article_preview1_path)
+          }
+        }
+      }
+
+    })
+
+
+    //对话id
+    let id = ref(props.id);
+    //用户id
+    let u_id = ref(props.u_id);
+
+    //点击文章卡片
+    const tapArticleCard=()=>{
+      if (!data.article_id){
+        return
+      }
+      console.log('点击了文章卡')
+      uni.navigateTo({
+        url: '/pages/article/detail/ArticleDetailPage?id='+data.article_id
+      })
+    }
+
+    const tapMessageCard = () => {
+      console.log("用户点击信息卡")
+      if (id.value === 'action') {
+        console.log("打开互动消息")
+        uni.navigateTo({
+          // url: '/pages/message/ReactionMessage/ReactionMessage?id=' + u_id.value
+        })
+      } else {
+        uni.navigateTo({
+          // url: '/pages/message/PrivateMessage/PrivateMessage'
+        })
+      }
+    }
+
+
+    return {
+      messageCardInfo, tapMessageCard, u_id,tapArticleCard
+    }
+  }
+};
 </script>
+
 
 <style scoped lang="less">
 .reactionMsgCard__body {

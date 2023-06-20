@@ -2,9 +2,9 @@
 	<view id="Main" style="width: 100%;height: 100vh;overflow: hidden;">
 		<view class="main__container" style="width: 100%;height: 100%;overflow: hidden;">
       <Home v-show="currentR==='Home'"></Home>
-      <Dynamic v-show="currentR==='Dynamic'"></Dynamic>
-      <Message v-show="currentR==='Message'"></Message>
-      <Mine v-show="currentR==='Mine'"></Mine>
+      <Dynamic v-show="currentR==='Dynamic'" v-if="loading"></Dynamic>
+      <Message v-show="currentR==='Message'" v-if="loading"></Message>
+      <Mine v-show="currentR==='Mine'" v-if="loading"></Mine>
     </view>
 		<TabBar v-show="tabBarVisibility"></TabBar>
 	</view>
@@ -23,11 +23,14 @@ import {onMounted, ref} from "vue";
     onBackPress,onShow
   } from "@dcloudio/uni-app";
   import {loginUseUser} from "@/static/api/users";
+import {PushMessageNotificationBar} from "@/static/utils/globalConifg";
 	export default {
 		components: {
 			TabBar,Home,Dynamic,Message,Mine,TopBar
 		},
     setup(){
+      //初始化状态
+      let loading =ref(false)
       //登录初始化
       onShow(()=>{
         if (currentR.value==='Home'){
@@ -38,6 +41,7 @@ import {onMounted, ref} from "vue";
       })
       //初始化
       onMounted(()=>{
+
 
         const store = useStore()
         // 登录成功后跳转到主页，然后将token保存到本地
@@ -60,6 +64,7 @@ import {onMounted, ref} from "vue";
             }
           }else {
           }
+          loading.value = true
         })
       })
 
@@ -92,7 +97,7 @@ import {onMounted, ref} from "vue";
         return true;
       })
       return{
-        currentR,tabBarVisibility
+        currentR,tabBarVisibility,loading
       }
     },
 		data() {

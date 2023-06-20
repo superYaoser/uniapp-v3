@@ -1,3 +1,6 @@
+
+import {addActionMessage} from '@/static/api/message'
+
 class ArticleFun {
     /**
      修改文章卡片的交互信息和用户关注状态
@@ -46,6 +49,54 @@ class ArticleFun {
         } catch (e) {
             return false
         }
+    }
+
+    static addConcernMsg = async (send_user_id,send_user_name,receive_user_id,receive_user_name,article_id)=>{
+        if (send_user_id==receive_user_id){
+            return true
+        }
+        let data = {
+            send_user_id:send_user_id,
+            send_user_name:send_user_name,
+            receive_user_id:receive_user_id,
+            receive_user_name:receive_user_name,
+            message_content:`${send_user_name}关注了你`,
+            article_id:article_id
+        }
+        let res = await addActionMessage(data)
+        return res.code === 200;
+    }
+    //添加评论消息 无论是评论文章还是评论评论 通用
+    static addCommentMsg = async (send_user_id,send_user_name,receive_user_id,receive_user_name,message_content,article_id)=>{
+        if (send_user_id==receive_user_id){
+            return true
+        }
+        let data = {
+            send_user_id:send_user_id,
+            send_user_name:send_user_name,
+            receive_user_id:receive_user_id,
+            receive_user_name:receive_user_name,
+            message_content:`${send_user_name}评论了你:${message_content}`,
+            article_id:article_id
+        }
+        let res = await addActionMessage(data)
+        return res.code === 200;
+    }
+
+    static addHandMsg = async (send_user_id,send_user_name,receive_user_id,receive_user_name,article_id)=>{
+        if (send_user_id==receive_user_id){
+            return true
+        }
+        let data = {
+            send_user_id:send_user_id,
+            send_user_name:send_user_name,
+            receive_user_id:receive_user_id,
+            receive_user_name:receive_user_name,
+            message_content:`${send_user_name}赞了你的文章`,
+            article_id:article_id
+        }
+        let res = await addActionMessage(data)
+        return res.code === 200;
     }
 }
 

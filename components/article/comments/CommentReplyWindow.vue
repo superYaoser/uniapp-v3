@@ -40,6 +40,7 @@ import {getUserInfoById} from '@/static/api/users'
 import {getUserNameByUid} from '@/static/utils/globalConifg'
 import {addComment, addWatchByArticleId, getCommentPosterityById} from "@/static/api/act";
 import ArticleFun from "@/components/article/articleFun";
+import {useStore} from 'vuex';
 export default {
   props: {
     article_id: String,
@@ -57,6 +58,9 @@ export default {
     articleObj.value = props.articleObj
     //回复的用户名
     let reply_user_name = ref()
+    //登录账户
+    const store = useStore()
+    let userObj = store.getters.getUser
 
     //判断是否发送中
     let sending = ref(false)
@@ -99,8 +103,13 @@ export default {
 
         uni.$emit('CommentList_update', {id: commentObj.value.comment_id})
         plus.nativeUI.toast(`评论成功`)
+
         sending.value=false
         windowClose()
+
+        let u_name = await getUserNameByUid(commentObj.value.comment_user_id)
+        await ArticleFun.addCommentMsg(userObj.u_id, userObj.u_name, commentObj.value.comment_user_id, u_name, input_value.value,commentObj.value.comment_article_id)
+
       }else {
         plus.nativeUI.toast(`评论失败
         错误代码：${res.code}

@@ -22,9 +22,8 @@
         <!--        身体-->
         <view class="reactionMsg__container__body">
           <view class="w100 h100">
-            <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: 100%;background: #ffffff;`"
-                         refresher-enabled="true" refresher-background="#ffffff">
-              <ReactionMsgCard></ReactionMsgCard>
+            <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: 100%;background: #ffffff;`">
+              <ReactionMsgCard v-for="(item,index) in actionMessageList" :data="item" ></ReactionMsgCard>
             </scroll-view>
           </view>
         </view>
@@ -39,13 +38,44 @@
 import {useStore} from 'vuex';
 import {onMounted, ref, watch, computed} from "vue";
 import ReactionMsgCard from "@/components/message/ReactionMsgCard";
+import {addActionMessage,getNMessageByReceiveUid,updateReadMessageByReceiveId,getAllMessageByReceiveUid} from '@/static/api/message'
+import {
+  onBackPress,onShow,onLoad
+} from "@dcloudio/uni-app";
 
 export default {
   components: {
     ReactionMsgCard
   },
   setup() {
+    let u_id = ref()
+    let actionMessageList = ref()
     onMounted(() => {
+
+    })
+    onLoad(async (option) => {
+      let id = option.id;
+      console.log(id)
+      u_id.value = id
+      let res = await getAllMessageByReceiveUid(id)
+      console.log(res)
+      if (res.code ===200){
+        actionMessageList.value = res.data
+        console.log(actionMessageList)
+      }else {
+
+      //  获取失败
+
+      }
+      // let res1 = await updateReadMessageByReceiveId(id)
+      // if (res1.code ===200){
+
+      //  用户全部互动信息标记为 已读了
+
+      // }
+
+
+
 
     })
     //页面返回会触发的方法
@@ -57,7 +87,7 @@ export default {
     }
 
     return {
-      pageBack
+      pageBack,actionMessageList
     }
   }
 }
