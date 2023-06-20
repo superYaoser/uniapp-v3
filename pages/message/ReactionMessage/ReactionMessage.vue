@@ -99,7 +99,7 @@ export default {
 .reactionMsg__container__body {
   background: #FFFFFF;
   width: 100%;
-  height: calc(100% - 41px - 40px - var(--status-bar-height));
+  height: calc(100% - 41px - var(--status-bar-height));
   margin-top: calc(41px + var(--status-bar-height));
 }
 .reactionMsg__container__header{

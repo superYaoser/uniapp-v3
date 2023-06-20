@@ -15,6 +15,7 @@
                      focus="true"
                      placeholder-class="search__container__header__input--sub"
                      :adjust-position="false" placeholder="搜点什么..."
+                  :maxlength="20"
                      @input="inputSearch"
                   @confirm="inputSearchDAta?sendSearch:null"/>
           <view class="search__container__header__input--cancel" @tap.stop="sendSearch">{{ inputSearchDAta? '搜索':'取消' }}</view>

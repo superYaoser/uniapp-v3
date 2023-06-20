@@ -14,7 +14,7 @@
           <textarea  class="replyWindow__container__body__input--sub"
                      focus="true"
                  placeholder-class="replyWindow__container__body__input--sub"
-                 :adjust-position="false" placeholder="我有话想说..."
+                 :adjust-position="false" placeholder="我有话想说...(200字)" :maxlength="150"
           @input="inputComment"/>
         </view>
         <view class="replyWindow__container__body__option">

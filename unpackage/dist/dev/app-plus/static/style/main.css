@@ -47,3 +47,17 @@ page{
 .bgWhite{
     background: #FFFFFF;
 }
+.textExceedsOneLineHiddenReplacedDots{
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+}
+.textExceedsTwoLineHiddenReplacedDots{
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}

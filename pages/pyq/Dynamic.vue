@@ -14,7 +14,7 @@
         <!--        身体-->
         <view class="pyq__container__body">
           <Loading v-if="loading"></Loading>
-          <view class="w100 h100" v-else>
+          <view class="w100 h100">
             <ArticlesList :need-follow-model="false" :model_str_num="'pyq'"></ArticlesList>
           </view>
         </view>

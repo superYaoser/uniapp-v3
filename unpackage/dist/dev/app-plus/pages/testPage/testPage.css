@@ -595,7 +595,8 @@
 }
 .commentCard__container__body__container__content--main[data-v-1acd372d] {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   margin-bottom: 10px;
 }
 .commentCard__container__body__container__content--main--reply[data-v-1acd372d] {
@@ -616,7 +617,8 @@
 }
 .commentCard__container__body__container__content--reply--common[data-v-1acd372d] {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
 }
 .commentCard__container__body__container__content--reply--common--user[data-v-1acd372d] {
   display: flex;

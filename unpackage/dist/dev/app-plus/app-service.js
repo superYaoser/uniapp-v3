@@ -5583,7 +5583,7 @@ if (uni.restoreGlobal) {
             vue.createElementVNode("view", { class: "active__cart__container__text__container w100 h100" }, [
               vue.createElementVNode(
                 "view",
-                { class: "active__cart__container__text__container__title" },
+                { class: "active__cart__container__text__container__title textExceedsOneLineHiddenReplacedDots" },
                 vue.toDisplayString($setup.articleInfo.article_title),
                 1
                 /* TEXT */
@@ -6192,15 +6192,13 @@ if (uni.restoreGlobal) {
           ]),
           vue.createCommentVNode("        身体"),
           vue.createElementVNode("view", { class: "pyq__container__body" }, [
-            $setup.loading ? (vue.openBlock(), vue.createBlock(_component_Loading, { key: 0 })) : (vue.openBlock(), vue.createElementBlock("view", {
-              key: 1,
-              class: "w100 h100"
-            }, [
+            $setup.loading ? (vue.openBlock(), vue.createBlock(_component_Loading, { key: 0 })) : vue.createCommentVNode("v-if", true),
+            vue.createElementVNode("view", { class: "w100 h100" }, [
               vue.createVNode(_component_ArticlesList, {
                 "need-follow-model": false,
                 model_str_num: "pyq"
               })
-            ]))
+            ])
           ])
         ])
       ])
@@ -6725,13 +6723,16 @@ if (uni.restoreGlobal) {
                       vue.createElementVNode(
                         "text",
                         { class: "commentCard__container__body__container__content--main--reply--user" },
-                        vue.toDisplayString($setup.commentObj.comment_user_father_name) + "： ",
+                        vue.toDisplayString($setup.commentObj.comment_user_father_name),
                         1
                         /* TEXT */
-                      )
+                      ),
+                      vue.createTextVNode("： ")
                     ])) : vue.createCommentVNode("v-if", true),
-                    vue.createTextVNode(
-                      " " + vue.toDisplayString($setup.commentObj.comment_content),
+                    vue.createElementVNode(
+                      "text",
+                      { style: { "display": "inline-block", "white-space": "pre-wrap", "word-wrap": "break-word", "height": "auto", "overflow-wrap": "break-word", "word-break": "break-all" } },
+                      vue.toDisplayString($setup.commentObj.comment_content),
                       1
                       /* TEXT */
                     )
@@ -6760,10 +6761,13 @@ if (uni.restoreGlobal) {
                               item1.comment_list_user_id === $setup.commentObj.comment_user_id ? (vue.openBlock(), vue.createElementBlock("view", {
                                 key: 0,
                                 class: "commentCard__container__body__container__content--reply--common--author--self"
-                              }, " 作者 ")) : vue.createCommentVNode("v-if", true)
+                              }, " 作者 ")) : vue.createCommentVNode("v-if", true),
+                              vue.createTextVNode("： ")
                             ]),
-                            vue.createTextVNode(
-                              " ：" + vue.toDisplayString(item1.comment_list_user_content),
+                            vue.createElementVNode(
+                              "text",
+                              { style: { "display": "inline-block", "white-space": "pre-wrap", "word-wrap": "break-word", "height": "auto", "overflow-wrap": "break-word", "word-break": "break-all" } },
+                              vue.toDisplayString(item1.comment_list_user_content),
                               1
                               /* TEXT */
                             )
@@ -7060,7 +7064,8 @@ if (uni.restoreGlobal) {
                     focus: "true",
                     "placeholder-class": "replyWindow__container__body__input--sub",
                     "adjust-position": false,
-                    placeholder: "我有话想说...",
+                    placeholder: "我有话想说...(200字)",
+                    maxlength: 150,
                     onInput: _cache[0] || (_cache[0] = (...args) => $setup.inputComment && $setup.inputComment(...args))
                   },
                   null,
@@ -8563,15 +8568,15 @@ if (uni.restoreGlobal) {
         inputSearchDAta.value = e.detail.value;
       };
       uni.$on("searchHistory_tap", async function(e) {
-        formatAppLog("log", "at pages/search/search.vue:66", "监听到用户点击了搜索历史");
+        formatAppLog("log", "at pages/search/search.vue:67", "监听到用户点击了搜索历史");
         inputSearchDAta.value = e.word;
       });
       const sendSearch = async () => {
-        formatAppLog("log", "at pages/search/search.vue:72", "监听到用户点击了搜索历史");
+        formatAppLog("log", "at pages/search/search.vue:73", "监听到用户点击了搜索历史");
         if (!inputSearchDAta.value) {
           pageBack();
         } else {
-          formatAppLog("log", "at pages/search/search.vue:76", "用户搜索" + inputSearchDAta.value);
+          formatAppLog("log", "at pages/search/search.vue:77", "用户搜索" + inputSearchDAta.value);
           try {
             searching.value = false;
             let res = await getSearchByTerm(inputSearchDAta.value);
@@ -8599,7 +8604,7 @@ if (uni.restoreGlobal) {
         });
       };
       onBackPress((e) => {
-        formatAppLog("log", "at pages/search/search.vue:108", "用户在搜索界面按了返回键盘");
+        formatAppLog("log", "at pages/search/search.vue:109", "用户在搜索界面按了返回键盘");
         if (e.from === "backbutton") {
           pageBack();
           return true;
@@ -8648,6 +8653,7 @@ if (uni.restoreGlobal) {
                 "placeholder-class": "search__container__header__input--sub",
                 "adjust-position": false,
                 placeholder: "搜点什么...",
+                maxlength: 20,
                 onInput: _cache[1] || (_cache[1] = (...args) => $setup.inputSearch && $setup.inputSearch(...args)),
                 onConfirm: _cache[2] || (_cache[2] = ($event) => $setup.inputSearchDAta ? $setup.sendSearch : null)
               },
@@ -8705,7 +8711,7 @@ if (uni.restoreGlobal) {
       };
       let backButtonPress = vue.ref(0);
       onBackPress((e) => {
-        formatAppLog("log", "at components/publish/Publish.vue:113", "用户在搜索界面按了返回键盘");
+        formatAppLog("log", "at components/publish/Publish.vue:114", "用户在搜索界面按了返回键盘");
         if (e.from === "backbutton") {
           backButtonPress.value++;
           if (backButtonPress.value > 1) {
@@ -8722,7 +8728,7 @@ if (uni.restoreGlobal) {
         }
       });
       vue.onMounted(() => {
-        formatAppLog("log", "at components/publish/Publish.vue:136", "publish挂载完毕");
+        formatAppLog("log", "at components/publish/Publish.vue:137", "publish挂载完毕");
         getCategoryList().then((res) => {
           if (res.code == 200) {
             let tempList = res.data;
@@ -8730,7 +8736,7 @@ if (uni.restoreGlobal) {
               value: item.class_id,
               text: item.class_name
             }));
-            formatAppLog("log", "at components/publish/Publish.vue:145", categoryList.value);
+            formatAppLog("log", "at components/publish/Publish.vue:146", categoryList.value);
           }
         });
       });
@@ -8744,7 +8750,7 @@ if (uni.restoreGlobal) {
         uni.createSelectorQuery().in(this).select(".myEditor").fields({
           context: true
         }, (res) => {
-          formatAppLog("log", "at components/publish/Publish.vue:165", res);
+          formatAppLog("log", "at components/publish/Publish.vue:166", res);
           editorCtx.value = res.context;
         }).exec();
       };
@@ -8768,7 +8774,7 @@ if (uni.restoreGlobal) {
           sizeType: ["original", "compressed"],
           count: 1,
           success(res) {
-            formatAppLog("log", "at components/publish/Publish.vue:200", res.tempFilePaths[0]);
+            formatAppLog("log", "at components/publish/Publish.vue:201", res.tempFilePaths[0]);
             uni.uploadFile({
               url: baseUrl + "upload/image",
               //域名+上传文件的请求接口 (根据你实际的接口来)
@@ -8782,7 +8788,7 @@ if (uni.restoreGlobal) {
               },
               success(res2) {
                 let data = JSON.parse(res2.data);
-                formatAppLog("log", "at components/publish/Publish.vue:211", data);
+                formatAppLog("log", "at components/publish/Publish.vue:212", data);
                 editorCtx.value.insertImage({
                   width: "100%",
                   //设置宽度为100%防止宽度溢出手机屏幕
@@ -8791,10 +8797,10 @@ if (uni.restoreGlobal) {
                   //服务端返回的url
                   alt: "图像",
                   success: function() {
-                    formatAppLog("log", "at components/publish/Publish.vue:218", "insert image success");
+                    formatAppLog("log", "at components/publish/Publish.vue:219", "insert image success");
                   }
                 });
-                formatAppLog("log", "at components/publish/Publish.vue:221", editorCtx.value);
+                formatAppLog("log", "at components/publish/Publish.vue:222", editorCtx.value);
               }
             });
           }
@@ -8804,7 +8810,7 @@ if (uni.restoreGlobal) {
         editorCtx.value.getContents({
           success: function(data) {
             data.text = data.text.replace(/[\r\n]+/g, enterWord);
-            formatAppLog("log", "at components/publish/Publish.vue:234", data.text);
+            formatAppLog("log", "at components/publish/Publish.vue:235", data.text);
             let articleDataJson = {
               "title": titleValue.value,
               "text": data.text,
@@ -8812,7 +8818,7 @@ if (uni.restoreGlobal) {
               "category": categoryID.value
             };
             pushNewArticle(articleDataJson).then((res) => {
-              formatAppLog("log", "at components/publish/Publish.vue:242", res);
+              formatAppLog("log", "at components/publish/Publish.vue:243", res);
               if (res.code == 200) {
                 plus.nativeUI.toast(`发布成功`);
                 pageBack();
@@ -8827,14 +8833,14 @@ if (uni.restoreGlobal) {
             });
           },
           fail: function(err) {
-            formatAppLog("log", "at components/publish/Publish.vue:258", err);
+            formatAppLog("log", "at components/publish/Publish.vue:259", err);
           }
         });
       };
       let categoryID = vue.ref("1");
       let categoryList = vue.ref();
       const categoryChange = (e) => {
-        formatAppLog("log", "at components/publish/Publish.vue:267", "类别发生了改变");
+        formatAppLog("log", "at components/publish/Publish.vue:268", "类别发生了改变");
       };
       let titleValue = vue.ref();
       return {
@@ -8894,7 +8900,8 @@ if (uni.restoreGlobal) {
                   placeholder: "标题（必填）",
                   onInput: _cache[2] || (_cache[2] = (...args) => _ctx.clearInput && _ctx.clearInput(...args)),
                   "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.titleValue = $event),
-                  "adjust-position": false
+                  "adjust-position": false,
+                  maxlength: 30
                 },
                 null,
                 544

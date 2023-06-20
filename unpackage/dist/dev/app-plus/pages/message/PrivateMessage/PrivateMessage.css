@@ -608,6 +608,20 @@ body{
 .bgWhite{
     background: #FFFFFF;
 }
+.textExceedsOneLineHiddenReplacedDots{
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+}
+.textExceedsTwoLineHiddenReplacedDots{
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
 /* 发布页需要的素材1 */
 @font-face {
   font-family: "iconfont"; /* Project id 4064600 */
@@ -699,7 +713,8 @@ body{
 }
 .commentCard__container__body__container__content--main[data-v-1acd372d] {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
   margin-bottom: 10px;
 }
 .commentCard__container__body__container__content--main--reply[data-v-1acd372d] {
@@ -720,7 +735,8 @@ body{
 }
 .commentCard__container__body__container__content--reply--common[data-v-1acd372d] {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: flex-start;
 }
 .commentCard__container__body__container__content--reply--common--user[data-v-1acd372d] {
   display: flex;

@@ -22,7 +22,8 @@
             <input class="uni-input" style="height: 3.125rem;" placeholder="标题（必填）"
                    @input="clearInput"
                    v-model="titleValue"
-                   :adjust-position="false"/>
+                   :adjust-position="false"
+                   :maxlength="30"/>
           </view>
 
         </view>

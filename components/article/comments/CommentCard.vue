@@ -35,10 +35,10 @@
               <view class="commentCard__container__body__container__content--main--reply" v-if="commentObj.comment_father_id!=null">
                 回复
                 <text class="commentCard__container__body__container__content--main--reply--user">
-                  {{ commentObj.comment_user_father_name }}：
-                </text>
+                  {{ commentObj.comment_user_father_name }}
+                </text>：
               </view>
-              {{ commentObj.comment_content }}
+              <text style="display:inline-block;white-space: pre-wrap; word-wrap: break-word;height: auto;overflow-wrap: break-word;word-break: break-all;">{{ commentObj.comment_content }}</text>
             </view>
             <view class="commentCard__container__body__container__content--reply" v-if="comment_list[0].comment_list_user_id!=null&&need_small_window"
                   style="margin-right: 10px"
@@ -49,9 +49,9 @@
                   {{ item1.comment_list_user_name }}
                   <view class="commentCard__container__body__container__content--reply--common--author--self" v-if="item1.comment_list_user_id===commentObj.comment_user_id">
                     作者
-                  </view>
+                  </view>：
                 </view>
-                ：{{ item1.comment_list_user_content }}
+                <text style="display:inline-block;white-space: pre-wrap; word-wrap: break-word;height: auto;overflow-wrap: break-word;word-break: break-all;">{{ item1.comment_list_user_content }}</text>
               </view>
               </view>
               <view class="commentCard__container__body__container__content--reply--more" v-if="comment_list[0].comment_list_user_content!=null">全部{{ commentObj.comment_reply_num }}条评论 >></view>
@@ -257,7 +257,8 @@ export default {
 
         &--main {
           display: flex;
-          align-items: center;
+          flex-direction: column;
+          align-items: flex-start;
           margin-bottom: 10px;
 
           &--reply {
@@ -283,7 +284,8 @@ export default {
 
           &--common {
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            align-items: flex-start;
 
             &--user {
               display: flex;

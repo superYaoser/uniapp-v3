@@ -12,7 +12,7 @@
             <uni-grid :column="3" :showBorder="false"  :square="false" :highlight="false">
               <uni-grid-item v-for="(item, index) in userSearchList" :key="index">
                 <view @tap.stop="tapSearchTerms(item.search_terms)" class="searchHistory__container__body__history--word bg-efefef"
-                      style="width: 50%;border-radius: 5rpx;height: 1.3rem;display: flex;align-items: center;justify-content: center;justify-items: center;margin-left: 20rpx">
+                      style="width: 50%;border-radius: 5rpx;height: 1.3rem;display: flex;align-items: center;justify-content: center;justify-items: center;margin-left: 20rpx;">
                   <text class="uni-text-truncation">{{item.search_terms}}</text>
                 </view>
               </uni-grid-item>
@@ -140,6 +140,8 @@ setup(props) {
   overflow: hidden;
   text-overflow: ellipsis;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 1;
+  //white-space: nowrap;
+  //max-width: 100%;
 }
 </style>

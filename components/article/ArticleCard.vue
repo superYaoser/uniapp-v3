@@ -37,7 +37,7 @@
       <!--                    主体文本-->
       <view class="active__cart__container__text w100 h100">
         <view class="active__cart__container__text__container  w100 h100">
-          <view class="active__cart__container__text__container__title">{{ articleInfo.article_title }}</view>
+          <view class="active__cart__container__text__container__title textExceedsOneLineHiddenReplacedDots">{{ articleInfo.article_title }}</view>
           <view class="active__cart__container__text__container__text"><view>{{articleInfo.article_text}}</view></view>
           <!--                          封面-->
           <view class="active__cart__container__text__container__cover" >
