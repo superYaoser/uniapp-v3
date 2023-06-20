@@ -1,6 +1,6 @@
 
 import {addActionMessage} from '@/static/api/message'
-
+import {emitActionMessage} from '@/static/socket/emit'
 class ArticleFun {
     /**
      修改文章卡片的交互信息和用户关注状态
@@ -63,7 +63,9 @@ class ArticleFun {
             message_content:`${send_user_name}关注了你`,
             article_id:article_id
         }
+        emitActionMessage(send_user_id,data.message_content,receive_user_id)
         let res = await addActionMessage(data)
+
         return res.code === 200;
     }
     //添加评论消息 无论是评论文章还是评论评论 通用
@@ -79,6 +81,7 @@ class ArticleFun {
             message_content:`${send_user_name}评论了你:${message_content}`,
             article_id:article_id
         }
+        emitActionMessage(send_user_id,data.message_content,receive_user_id)
         let res = await addActionMessage(data)
         return res.code === 200;
     }
@@ -95,6 +98,7 @@ class ArticleFun {
             message_content:`${send_user_name}赞了你的文章`,
             article_id:article_id
         }
+        emitActionMessage(send_user_id,data.message_content,receive_user_id)
         let res = await addActionMessage(data)
         return res.code === 200;
     }

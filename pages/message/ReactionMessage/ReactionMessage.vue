@@ -67,12 +67,12 @@ export default {
       //  获取失败
 
       }
-      // let res1 = await updateReadMessageByReceiveId(id)
-      // if (res1.code ===200){
+      let res1 = await updateReadMessageByReceiveId(id)
+      if (res1.code ===200){
 
-      //  用户全部互动信息标记为 已读了
+       // 用户全部互动信息标记为 已读了
 
-      // }
+      }
 
 
 

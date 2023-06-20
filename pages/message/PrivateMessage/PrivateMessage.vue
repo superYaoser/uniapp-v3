@@ -11,7 +11,7 @@
           </view>
 
           <view class="privateMessage__container__header--title">
-            <view class="privateMessage__container__header--img" :style="'background-image: url('+ 'https://i0.hdslb.com/bfs/face/9827d2901925e8efaf27fbf077e13668f749798a.jpg@240w_240h_1c_1s_!web-avatar-space-header.webp' +');width: 30px;height: 30px;'"></view>
+            <view class="privateMessage__container__header--img" :style="'background-image: url('+ 'https://i0.hdslb.com/bfs/face/bd6d1a14ea10a3f7d2ca219544e03c929d2b823d.jpg@240w_240h_1c_1s_!web-avatar-space-header.webp' +');width: 30px;height: 30px;'"></view>
             {{headerTitle}}</view>
           <view class="privateMessage__container__header--more"><uni-icons type="more" size="20"></uni-icons></view>
         </view>

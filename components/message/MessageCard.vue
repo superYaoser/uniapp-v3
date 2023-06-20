@@ -1,5 +1,5 @@
 <template>
-  <view style="width: 100%;height: 120rpx;background: #F5F5F5;padding: 10rpx;display: flex;align-items: center" @tap.stop="tapMessageCard">
+  <view style="width: 100%;height: 120rpx;background: #F5F5F5;padding: 10rpx;display: flex;align-items: centerl;margin: 2rpx 0;" @tap.stop="tapMessageCard">
     <view class="messageCard__body">
       <view class="messageCard__body__left">
         <view class="messageCard__body__head">

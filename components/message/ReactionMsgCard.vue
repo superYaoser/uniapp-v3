@@ -1,5 +1,5 @@
 <template>
-  <view style="width: 100%;height: 120rpx;background: #F5F5F5;padding: 10rpx;display: flex;align-items: center">
+  <view style="width: 100%;height: 120rpx;background: #F5F5F5;padding: 10rpx;display: flex;align-items: center;margin: 2rpx 0">
     <view class="reactionMsgCard__body">
       <view class="reactionMsgCard__body__left">
         <view class="reactionMsgCard__body__head">

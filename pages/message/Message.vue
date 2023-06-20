@@ -23,13 +23,14 @@
                 time:actionMessageList?formatDate(actionMessageList[actionMessageList.length - 1].create_time):'',
                 num:actionMessageList?actionMessageList.length:null
               }"
-              :id="'action'"></MessageCard>
+              :id="'action'"
+              v-if="leading"></MessageCard>
               <MessageCard :data="{
-                headImg:'http://114.115.220.47:3000/api/download/images/action.png',
-                name:'气温',
-                message:'气温',
-                time:'2023-6-19',
-                num:4
+                headImg:'https://i0.hdslb.com/bfs/face/bd6d1a14ea10a3f7d2ca219544e03c929d2b823d.jpg@240w_240h_1c_1s_!web-avatar-space-header.webp',
+                name:'Yaoser',
+                message:'暂未开放私信功能',
+                time:'23-6-20',
+                num:1
               }"
               :id="'123'"></MessageCard>
             </scroll-view>
@@ -47,7 +48,7 @@ import {useStore} from 'vuex';
 import {onMounted, ref, watch, computed} from "vue";
 import MessageCard from "@/components/message/MessageCard";
 import {addActionMessage,getNMessageByReceiveUid,updateReadMessageByReceiveId} from '@/static/api/message'
-import {formatDate, formatTimestamp} from '@/static/utils/globalConifg'
+import {formatDate, formatTimestamp, PushMessageNotificationBar} from '@/static/utils/globalConifg'
 import {
   onBackPress,onShow
 } from "@dcloudio/uni-app";
@@ -58,20 +59,30 @@ export default {
   },
   setup() {
     let store
-    let login_u_id
+    store = useStore()
+    let login_u_id = store.getters.getUser
+    login_u_id = login_u_id.u_id
+
 //*********************互动消息************************************************
     let actionMessageList = ref()
 
+    //初始化状态
+    let leading = ref(false)
 
-    //初始化用户信息
-    const initializeUserStore =()=>{
-      store = useStore()
-      login_u_id = store.getters.getUser
-      login_u_id = login_u_id.u_id
-    }
+
+    uni.$on('message_action',function(e){
+      let data = e.data
+      console.log(data)
+      if (e.data.receive_user_id===login_u_id){
+        PushMessageNotificationBar('',data.content)
+        plus.nativeUI.toast(`${data.content}`)
+        initializeInteractiveInformation(login_u_id)
+      }
+    })
 
     //初始化 互动信息
     const initializeInteractiveInformation = async (login_u_id)=>{
+      leading.value = false
       let res =  await getNMessageByReceiveUid(login_u_id)
       console.log(res)
       if (res.code ===200){
@@ -80,20 +91,21 @@ export default {
       }else {
 
       }
+      leading.value = true
     }
     onShow(()=>{
+
       initializeInteractiveInformation(login_u_id)
     })
 
     onMounted(() => {
-      initializeUserStore()
 
       initializeInteractiveInformation(login_u_id)
     })
 
 
     return {
-      actionMessageList,formatDate,
+      actionMessageList,formatDate,leading
     }
   }
 }

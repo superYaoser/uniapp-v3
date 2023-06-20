@@ -48,6 +48,8 @@ import {PushMessageNotificationBar} from "@/static/utils/globalConifg";
         loginUseUser({
           email: '1@qq.com',
           password: '1'
+          // email: '111@qq.com',
+          // password: '12312321'
         }).then(res => {
           console.log(res)
           if (res.code == 200) {

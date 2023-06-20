@@ -1,9 +1,9 @@
 import io from '@hyoga/uni-socket.io';
-import { formatTimestamp} from '@/static/utils/globalConifg'
+import { formatTimestamp,IP} from '@/static/utils/globalConifg'
 const currentTimestamp = Date.now(); // 获取当前时间戳
 const formattedTime = formatTimestamp(currentTimestamp); // 格式化当前时间戳并精确到毫秒
 
-const socket = io('ws://192.168.85.1:3001', {
+const socket = io('ws://'+IP+':3001', {
     query: {},
     transports: [ 'websocket', 'polling' ],
     timeout: 5000,

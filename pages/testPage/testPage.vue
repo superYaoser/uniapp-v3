@@ -39,23 +39,23 @@ import CommentReplyWindow from "@/components/article/comments/CommentReplyWindow
 import UserCard from "@/components/user/UserCard";
 import {onMounted} from "vue";
 
-import socket from '@/static/socket/main.js'
+// import socket from '@/static/socket/main.js'
 
 export default {
   setup() {
     let socketTask
     onMounted(() => {
-      socket.emit('message', '测试')
+      // socket.emit('message', '测试')
     })
-    socket.on('allC',data=>{
-      console.log(data)
-    })
+    // socket.on('allC',data=>{
+    //   console.log(data)
+    // })
 
       const a = () => {
 
 
         // 发送消息
-socket.emit('message', {id:'qweqwe',age:12})
+// socket.emit('message', {id:'qweqwe',age:12})
       }
       return {
         a

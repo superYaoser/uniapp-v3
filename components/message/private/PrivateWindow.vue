@@ -12,11 +12,11 @@
       <!-- Left -->
       <view :class="position===1?'User1':'User2'">
         <view>
-          <view class="privateWindow__container__body--img" style="background-image: url('https://static.runoob.com/images/mix/img_avatar.png')"/>
+          <view class="privateWindow__container__body--img" style="background-image: url('https://i0.hdslb.com/bfs/face/bd6d1a14ea10a3f7d2ca219544e03c929d2b823d.jpg@240w_240h_1c_1s_!web-avatar-space-header.webp')"/>
         </view>
         <view>
           <view :class="position===1?'left_triangle':'right_triangle'"></view>
-          <text> hello, man! </text>
+          <text> 你好~ </text>
         </view>
       </view>
 

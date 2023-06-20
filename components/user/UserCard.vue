@@ -54,6 +54,8 @@ export default {
     const store = useStore()
     let isSelf = store.getters.getUser
     isSelf = isSelf.u_id
+    //登录用户
+    let userObj1 = store.getters.getUser
     //点击关注
     let canTapFollow = true
     const tapFollowCard=(data)=>{
@@ -72,6 +74,7 @@ export default {
             userObj.value.concern_be=1
             ArticleFun.setArticleCardUpdate(data.u_id,null,{concern_be:1})
             plus.nativeUI.toast(`关注成功`)
+            ArticleFun.addConcernMsg(userObj1.u_id,userObj1.u_name,data.u_id,data.u_name,null)
           }else {
             //  关注失败
           }
