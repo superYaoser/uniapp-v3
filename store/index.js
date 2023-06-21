@@ -13,12 +13,18 @@ export default createStore({
     mutations: {
         addUser(state, user) {
             state.user = user;
-        }
+        },
+        resetUser(state) {
+            state.user = {};
+        },
     },
     actions: {
         addUser({ commit }, user) {
             commit('addUser', user);
-        }
+        },
+        resetUser({ commit }) {
+            commit("resetUser");
+        },
     },
     modules: {}
 })

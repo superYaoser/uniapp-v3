@@ -36,12 +36,12 @@
 
 <script>
 import {onMounted, ref} from "vue";
-import TopBar from "@/components/MainApp/TopBar";
+
 import ArticlesList from "@/components/home/articlesList/ArticlesList";
 import {useStore} from 'vuex';
   export default {
 		components: {
-      TopBar,
+
       ArticlesList
 		},
     setup(){
@@ -61,7 +61,7 @@ import {useStore} from 'vuex';
       // 点击搜索
       const tapSearch=()=>{
         let login_user = store.getters.getUser
-        if (login_user){
+        if (login_user.u_id){
 
         //  说明登录了
           uni.navigateTo({

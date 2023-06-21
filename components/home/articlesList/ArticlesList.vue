@@ -15,7 +15,7 @@
                   <image src="./static/images/utils/blank_page.png"></image>
                   <view style="color: #a0a0a0">你还有没有关注任何人~~ 请刷新~</view>
                 </view>
-                <view v-for="(item2, index2) in item1.articleList" :key="item2.article_id" style="margin-bottom: 5px;">
+                <view v-for="(item2, index2) in item1.articleList" :key="item2.article_id" style="margin-bottom: 10rpx;">
 <!--                  文章卡片-->
 <ArticleCard :article-data="item2" :need-follow-model="needFollowModel"></ArticleCard>
 
@@ -106,7 +106,7 @@ export default {
         "select_title_num": 3
       })
       recommendArticleList.value = await getDetailedArticleByJsonData({
-        "sort": 0,
+        "sort": 1,
         "page_number": 1,
         "articleContentMaxWord": 100,
         "select_title_num": 1
@@ -203,7 +203,7 @@ export default {
           classifyList.value[index].articleList = lateArticleList.value
         } else if (index === 1) {
           recommendArticleList.value = await getDetailedArticleByJsonData({
-            "sort": 0,
+            "sort": 1,
             "page_number": 1,
             "articleContentMaxWord": 100,
             "select_title_num": 1

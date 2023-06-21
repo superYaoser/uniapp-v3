@@ -13,7 +13,8 @@
 
         <!--        身体-->
         <view class="message__container__body">
-          <view class="w100 h100">
+          <NoLogin v-if="!loginStatus"></NoLogin>
+          <view class="w100 h100" v-else>
             <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: 100%;background: #ffffff;`"
                          refresher-enabled="true" refresher-background="#ffffff">
               <MessageCard :data="{
@@ -25,6 +26,17 @@
               }"
               :id="'action'"
               v-if="leading"></MessageCard>
+              <MessageCard @click.stop :data="{
+                headImg:'http://114.115.220.47:3000/api/download/images/action.png',
+                name:'互动消息',
+                message:actionMessageList?actionMessageList[actionMessageList.length - 1].message_content:'没有最新的信息',
+                time:actionMessageList?formatDate(actionMessageList[actionMessageList.length - 1].create_time):'',
+                num:actionMessageList?actionMessageList.length:null
+              }"
+                           :id="'action'"
+                           v-else></MessageCard>
+<!--------------互动消息结束------------>
+
               <MessageCard :data="{
                 headImg:'https://i0.hdslb.com/bfs/face/bd6d1a14ea10a3f7d2ca219544e03c929d2b823d.jpg@240w_240h_1c_1s_!web-avatar-space-header.webp',
                 name:'Yaoser',
@@ -52,12 +64,17 @@ import {formatDate, formatTimestamp, PushMessageNotificationBar} from '@/static/
 import {
   onBackPress,onShow
 } from "@dcloudio/uni-app";
+import NoLogin from "@/components/noLogin/NoLogin";
 
 export default {
   components: {
-    MessageCard
+    MessageCard,NoLogin
   },
-  setup() {
+  props: {
+    loginStatus: Boolean,
+  },
+  setup(props){
+    let loginStatus = ref(props.loginStatus)
     let store
     store = useStore()
     let login_u_id = store.getters.getUser
@@ -88,8 +105,19 @@ export default {
       if (res.code ===200){
         actionMessageList.value = res.data
         console.log(actionMessageList)
+        if (actionMessageList.value){
+          uni.$emit('received_new_information',{
+            data :true
+          })
+        }else {
+          uni.$emit('received_new_information',{
+            data :false
+          })
+        }
       }else {
-
+        uni.$emit('received_new_information',{
+          data :false
+        })
       }
       leading.value = true
     }
@@ -105,7 +133,7 @@ export default {
 
 
     return {
-      actionMessageList,formatDate,leading
+      actionMessageList,formatDate,leading,loginStatus
     }
   }
 }

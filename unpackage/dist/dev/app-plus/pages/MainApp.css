@@ -555,20 +555,14 @@
   font-size: 12px;
 }
 
-
-.status_bar[data-v-35eb0c73] {
-  height: var(--status-bar-height);
-  width: 100%;
-}
-
 .active__cart[data-v-9eefd57b] {
   background: #FFFFFF;
 }
 .active__cart__container[data-v-9eefd57b] {
-  padding: 5px 3px 5px 5px;
+  padding: 0.40625rem 0.3125rem 0.40625rem 0.40625rem;
 }
 .active__cart__container__title[data-v-9eefd57b] {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 .active__cart__container__title__container[data-v-9eefd57b] {
   display: flex;
@@ -767,6 +761,29 @@
 }
 .unactive__nav[data-v-a0df4f3d] {
   color: #3a3a3a;
+}
+
+.nologin[data-v-26a25e63] {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  justify-content: center;
+}
+.nologin--button[data-v-26a25e63] {
+  background: #13dbf9;
+  border-radius: 0.3125rem;
+  color: #FFFFFF;
+  font-weight: bolder;
+  width: 6.25rem;
+  height: 1.875rem;
+  display: flex;
+  justify-content: center;
+  /* 水平居中 */
+  align-items: center;
+  /* 垂直居中 */
+}
+.nologin--button[data-v-26a25e63]:active {
+  background: #98f2ff;
 }
 
 .pyq__container__body[data-v-508725f9] {

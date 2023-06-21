@@ -24,6 +24,9 @@
         <view class="reactionMsgCard__body__right--img" v-if="messageCardInfo.article_path1">
           <view class="reactionMsgCard__body__right--img--path" :style="'background-image: url('+ messageCardInfo.article_path1 +')'"></view>
         </view>
+        <view class="reactionMsgCard__body__right--text textExceedsTwoLineHiddenReplacedDots" v-else>
+          {{ messageCardInfo.article_text }}
+        </view>
 
       </view>
     </view>
@@ -66,7 +69,8 @@ export default {
       message: data.message_content,
       time: formatDate(data.create_time),
       headImg:defaultHeadImgPath,
-      article_path1:null
+      article_path1:null,
+      article_text:null,
     });
     // 用户实体
     let user = ref()
@@ -86,6 +90,8 @@ export default {
           console.log(res.data.article_preview1_path)
           if (res.data.article_preview1_path){
             messageCardInfo.value.article_path1 =replaceUrlIP(res.data.article_preview1_path)
+          }else {
+            messageCardInfo.value.article_text = res.data.article_title
           }
         }
       }
@@ -217,6 +223,13 @@ export default {
         position: relative;
         background-position: center;
       }
+    }
+    &--text {
+      width: 70rpx;
+      height: 100rpx;
+      border: 0.0375rem silver solid;
+      border-radius: 10rpx;
+      font-size: 5rpx;
     }
   }
 }

@@ -14,7 +14,8 @@
       <view>
         <uni-icons type="plus-filled" size="45" color="#13dbf9" @tap="goPublish('Publish')"></uni-icons>
       </view>
-      <view>
+      <view style="position: relative">
+        <uni-icons type="smallcircle-filled" color="red" size="5rpx" style="position: absolute;top: 0;right: 0" v-if="haveNewInfo"></uni-icons>
         <uni-icons type="chat" size="30" :color="currentR ==='Message'?activityIconsColor:staticIconsColor"
                    @tap="goMessage('Message')"></uni-icons>
         <text>消息</text>
@@ -34,11 +35,15 @@ import {onMounted, ref} from "vue";
 export default {
   name: "TabBar",
   setup() {
+    let haveNewInfo = ref(false)
+    //监听路由变化
+    uni.$on('received_new_information',function(e){
+      haveNewInfo.value = e.data
+      console.log(haveNewInfo.value)
+    })
     //页面渲染完毕
     onMounted(()=>{
 
-      //先默认让头区域是首页的颜色
-      uni.$emit('topBarBackgroundColor', {bg: '#016fce'})
 
     })
     let currentR = ref('Home')
@@ -58,14 +63,10 @@ export default {
     //首页
     const goHome = (router) => {
       useUniEmitCurrentRouterUpdate(router)
-      //让头改变颜色
-      uni.$emit('topBarBackgroundColor', {bg: '#016fce'})
     }
     //动态
     const goDynamic = (router) => {
       useUniEmitCurrentRouterUpdate(router)
-      //让头改变颜色
-      uni.$emit('topBarBackgroundColor', {bg: '#ffffff'})
     }
     //发布
     const goPublish = (router) => {
@@ -78,14 +79,10 @@ export default {
     //消息
     const goMessage = (router) => {
       useUniEmitCurrentRouterUpdate(router)
-      //让头改变颜色
-      uni.$emit('topBarBackgroundColor', {bg: '#ffffff'})
     }
     //我的
     const goMine = (router) => {
       useUniEmitCurrentRouterUpdate(router)
-      //让头改变颜色
-      uni.$emit('topBarBackgroundColor', {bg: '#ffffff'})
     }
 
     return {
@@ -96,7 +93,7 @@ export default {
       goDynamic,
       goPublish,
       goMessage,
-      goMine
+      goMine,haveNewInfo
     }
   }
 }

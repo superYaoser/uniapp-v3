@@ -39,7 +39,6 @@
 
 <script>
 import ArticleDetailPage from "@/components/article/ArticleDetailPage";
-import TopBar from "@/components/MainApp/TopBar";
 import {
   onBackPress
 } from "@dcloudio/uni-app";
@@ -51,10 +50,10 @@ import PrivateWindow from "@/components/message/private/PrivateWindow";
 export default {
   components: {
     Loading,
-    ArticleDetailPage,TopBar,PrivateWindow
+    ArticleDetailPage,PrivateWindow
   },
   setup() {
-    let headerTitle =ref('91天王')
+    let headerTitle =ref('Yaoser')
     onMounted(()=>{
 
     })

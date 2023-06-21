@@ -33,7 +33,6 @@
 
 <script>
 import ArticleDetailPage from "@/components/article/ArticleDetailPage";
-import TopBar from "@/components/MainApp/TopBar";
 import {
   onBackPress
 } from "@dcloudio/uni-app";
@@ -44,10 +43,10 @@ import {addWatchByArticleId} from "@/static/api/act";
 export default {
   components: {
     Loading,
-    ArticleDetailPage,TopBar
+    ArticleDetailPage
   },
   setup() {
-    let headerTitle =ref('默认标题')
+    let headerTitle =ref('文章详细')
     onMounted(()=>{
 
     })

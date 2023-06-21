@@ -1,27 +1,53 @@
 <template>
-	<view class="login-content">
-		<view class="login-title">
-			登录
-		</view>
-		<view class="iphone">
-			<input placeholder="输入手机号" :value="iphoneValue" @input="clearInput" />
-			<uni-icons type="closeempty" color="#808080" size="25" v-if="showClearIcon" @click="clearIcon"></uni-icons>
-		</view>
+<view style="width: 100vw;height: 100vh;">
+  <view class="loginRegister__container">
 
-		<view class="password" v-if="type==2">
-			<!-- <input type="password" placeholder="输入密码" /> 要显示密码就不要设置type="password"-->
-			<input placeholder="请输入密码" v-model="passwordValue" :password="showPassword" />
-			<uni-icons type="eye-filled" color="#808080" size="25" @click="changePassword"></uni-icons>
-		</view>
-		<view class="test" v-if="type==1">
-			<input type="text" placeholder="输入验证码" v-model="testValue" />
-			<view class="get-test" type="default" @click="getTest()" v-if="showTimer">获取验证码</view>
-			<view class="get-test" type="default" v-else>{{timer+'s'}}</view>
-		</view>
-		<view class="test-btn" v-if="type==2" @click="setLoginType(1)">手机验证码登录>></view>
-		<view class="password-btn" v-if="type==1" @click="setLoginType(2)">密码登录>></view>
-		<view class="login-btn" @click="Login()">登录</view>
-	</view>
+    <view class="loginRegister__container__header status-bar-height">
+
+
+    </view>
+
+    <view class="loginRegister__container__body">
+
+      <view class="loginRegister__container__body__login">
+
+        <view class="loginRegister__container__body__login__title">
+
+          <text>账号密码登录</text>
+        </view>
+
+        <view class="loginRegister__container__body__login__email">
+
+          <input type="text" :maxlength="20" placeholder="账号/邮箱/手机号" :adjust-position="false" v-model="account"/>
+        </view>
+
+        <view class="loginRegister__container__body__login__password">
+          <input type="safe-password" :maxlength="16" placeholder="密码" :password="true" :adjust-position="false" v-model="password"/>
+        </view>
+
+        <view class="loginRegister__container__body__login__option">
+
+          <view class="loginRegister__container__body__login__option__remember">
+
+            <view>
+              <radio-group @change="">
+              <label><radio :value="true" :checked="true" :color="'#13dbf9'" class="loginRegister__container__body__login__option__remember--radio"></radio></label>
+            </radio-group>
+            </view>
+
+              <text>自动登录</text>
+
+          </view>
+        </view>
+
+        <view class="loginRegister__container__body__login--button" @tap.stop="login">
+          登录
+        </view>
+      </view>
+    </view>
+
+  </view>
+</view>
 </template>
 
 <script>
@@ -29,198 +55,144 @@
 		loginUseUser
 	} from "@/static/api/users";
   import {useStore} from 'vuex';
-  import {onMounted} from "vue";
+  import {onMounted, ref} from "vue";
+
 
 	export default {
-    setup(){
-      onMounted(()=>{
-        const store = useStore()
+    setup() {
+      //账号
+      let account = ref()
+      //密码
+      let password = ref()
+      //记住标记
+      let remember = true
+      const radioChange=(evt) => {
+        remember = evt.detail.value
+      }
+      //点击登录
+      const login = ()=>{
+        if (!account.value||!password.value){
+          plus.nativeUI.toast(`请输入账号或者密码`)
+          return
+        }
+        if (account.value==''||password.value==''){
+          plus.nativeUI.toast(`请输入账号或者密码`)
+          return
+        }
+        uni.removeStorageSync('token');
         // 登录成功后跳转到主页，然后将token保存到本地
         loginUseUser({
-          email: '1@qq.com',
-          password: '1'
+          email: account.value,
+          password: password.value
+          // email: '111@qq.com',
+          // password: '12312321'
         }).then(res => {
           console.log(res)
           if (res.code == 200) {
             try {
               uni.setStorageSync('token', res.token);
-// 如果登录成功，则获取当前用户
-              const currentUser = res.data;
-// 利用 Vuex 的 dispatch 方法将用户信息存储到全局状态中
-              store.dispatch('addUser', currentUser);
-              console.log(store.getters.getUser)
+              // plus.nativeUI.toast(`登录成功，当前用户：${store.getters.getUser.u_id}`)
+              uni.reLaunch({
+                url: '/pages/MainApp'
+              });
             } catch (e) {
-              console.log(e)
+              plus.nativeUI.toast(`登录发生异常：${e}`)
             }
-            uni.reLaunch({
-              url: '/pages/MainApp'
-            })
-          } else {
-            uni.reLaunch({
-              url: '/pages/loginRegister/loginRegister'
-            })
+          }else {
+            plus.nativeUI.toast(`登录失败-原因：${res.message}-代码${res.code}`)
           }
         })
-      })
-    },
+      }
 
-		// data() {
-		// 	return {
-		// 		iphoneValue: '', //手机号码
-		// 		passwordValue: '', //密码
-		// 		testValue: '', //验证码
-		// 		showPassword: true, //是否显示密码
-		// 		showClearIcon: false, //是否显示清除按钮
-		// 		type: 2, //登录的状态 - - - 1是验证码登录、2是密码登录
-		// 		token: '',
-		// 		timer: 0, //验证码时间
-		// 		showTimer: true, //是否显示验证码时间
-		// 	}
-		// },
-    //
-		// methods: {
-		// 	// 显示隐藏密码
-		// 	changePassword: function() {
-		// 		this.showPassword = !this.showPassword;
-		// 	},
-		// 	// 判断是否显示清除按钮
-		// 	clearInput: function(event) {
-		// 		this.iphoneValue = event.detail.value;
-		// 		if (event.detail.value.length > 0) {
-		// 			this.showClearIcon = true;
-		// 		} else {
-		// 			this.showClearIcon = false;
-		// 		}
-		// 	},
-		// 	// 清除内容/隐藏按钮
-		// 	clearIcon: function() {
-		// 		this.iphoneValue = '';
-		// 		this.showClearIcon = false;
-		// 	},
-		// 	// 切换登录的方式
-		// 	setLoginType(type) {
-		// 		this.type = type
-		// 	},
-		// 	// 密码登录
-		// 	Login() {
-		// 		// 登录成功后跳转到主页，然后将token保存到本地
-		// 		loginUseUser({
-		// 			email: '1@qq.com',
-		// 			password: '1'
-		// 		}).then(res => {
-		// 			console.log(res)
-		// 			if (res.code == 200) {
-		// 				try {
-		// 					uni.setStorageSync('token', res.token);
-		// 				} catch (e) {
-		// 					console.log(e)
-		// 				}
-		// 				uni.redirectTo({
-		// 					url: '/pages/MainApp'
-		// 				});
-		// 			} else {
-    //
-		// 			}
-		// 		})
-		// 	},
-		// 	// 获取验证码
-		// 	getTest() {
-    //
-		// 	},
-		// 	// 设置验证码时间动态减少
-		// 	timeDown(num) {
-		// 		let that = this;
-		// 		// 当时间为0时,恢复为按钮,清除定时器
-		// 		if (num == 0) {
-		// 			that.showTimer = true;
-		// 			return clearTimeout();
-		// 		} else {
-		// 			that.showTimer = false;
-		// 			setTimeout(function() {
-		// 				that.timer = num - 1
-		// 				that.timeDown(num - 1)
-		// 			}, 1000) //定时每秒减一
-		// 		}
-		// 	},
-		// 	// 下面是可以封装起来引入的部分
-		// 	// 判断是否是正确的手机号码
-		// 	isMobile(str) {
-		// 		// let reg = /^1\d{10}$/;
-		// 		// return reg.test(str)
-		// 	},
-		// }
+      return{
+        account,password,login
+      }
+    }
 	}
 </script>
 
-<style scoped>
-	.login-content {
-		padding: 70px 10px 35px;
-		text-align: center;
-		color: #333333;
-	}
+<style scoped lang="less">
+.loginRegister__container {
+  // 样式规则
 
-	.login-title {
-		font-size: 26px;
-		font-weight: bold;
-		margin-bottom: 31px;
-	}
+  &__header {
+    // 样式规则
+    height: 300rpx;
+    background-repeat: no-repeat;
+    /*把背景图扩展至足够大，直至完全覆盖背景区域，
+图片比例保持不变且不会失真，但某些部分被切割无法显示完整背景图像*/
+    background-size: cover;
+    position: relative;
+    cursor: pointer;
+    background-position: center;
+    //background-image: url('./../static/images/message/action.png');
+    background-image: url('./../../static/images/loginRegisterBG.jpg');
+  }
 
-	.login-content input {
-		height: 50px;
-		background: #F8F8F8;
-		border-radius: 25px;
-		text-align: left;
-		padding: 15px;
-		box-sizing: border-box;
-		font-size: 15px;
-	}
+  &__body {
+    // 样式规则
+    padding: 40rpx;
 
-	.iphone,
-	.password,
-	.test {
-		position: relative;
-		margin-bottom: 30px;
-	}
+    &__login {
+      // 样式规则
 
-	.iphone .uni-icons,
-	.password .uni-icons {
-		position: absolute;
-		top: 14px;
-		right: 30px;
-	}
+      &__title {
+        // 样式规则
+        font-size: 40rpx;
+        font-weight: bold;
+      }
 
-	.test-btn,
-	.password-btn {
-		color: #ff8b33;
-		font-size: 15px;
-		text-align: right;
-	}
+      &__email,&__password{
+        height: 70rpx;
+        margin: 20rpx 0;
+        border-bottom: 1px #F0F0F0 solid;
+      }
+      &__email input,&__password input{
+        height: 100%;
+        width: 100%;
+      }
+      &__email {
+        // 样式规则
 
-	.get-test {
-		color: #ff8b33;
-		font-size: 15px;
-		width: 122px;
-		height: 50px;
-		border: 1px solid #FF8B33;
-		border-radius: 25px;
-		line-height: 50px;
-	}
+      }
 
-	.test {
-		display: flex;
-		justify-content: space-between;
-	}
+      &__password {
+        // 样式规则
 
-	.login-btn {
-		width: 355px;
-		height: 45px;
-		background: #FF8B33;
-		border-radius: 36px;
-		color: #fff;
-		font-size: 20px;
-		text-align: center;
-		line-height: 45px;
-		position: fixed;
-		bottom: 60px;
-	}
+      }
+
+      &__option {
+        // 样式规则
+
+        &__remember {
+          // 样式规则
+          display: flex;
+          align-items: center;
+          font-size: 30rpx;
+          color: #4c4c4c;
+          &--radio{
+            transform: scale(0.8)
+          }
+        }
+
+        margin-bottom: 40rpx;
+      }
+
+      &--button {
+        // 样式规则
+        background: #13dbf9;
+        border-radius: 10rpx;
+        color: #FFFFFF;
+        font-weight: bolder;
+        height: 100rpx;
+        display: flex;
+        justify-content: center; /* 水平居中 */
+        align-items: center; /* 垂直居中 */
+      }
+      &--button:active{
+        background: #98f2ff;
+      }
+    }
+  }
+}
 </style>

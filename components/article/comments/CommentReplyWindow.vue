@@ -86,6 +86,10 @@ export default {
 
     //点击发布
     const sendComment = async ()=>{
+      if (!userObj.u_id){
+        plus.nativeUI.toast(`请先登录后评论`)
+        return
+      }
       sending.value=true
 
       let res = await addComment(props.article_id,commentObj.value.comment_id,input_value.value)
@@ -108,7 +112,7 @@ export default {
         windowClose()
 
         let u_name = await getUserNameByUid(commentObj.value.comment_user_id)
-        await ArticleFun.addCommentMsg(userObj.u_id, userObj.u_name, commentObj.value.comment_user_id, u_name, input_value.value,commentObj.value.comment_article_id)
+        await ArticleFun.addCommentMsg(userObj.u_id, userObj.u_name, commentObj.value.comment_user_id, u_name, input_value.value,articleObj.value.article_id)
 
       }else {
         plus.nativeUI.toast(`评论失败

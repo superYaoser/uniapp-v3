@@ -604,6 +604,13 @@
   position: relative;
   background-position: center;
 }
+.reactionMsgCard__body__right--text[data-v-0963c887] {
+  width: 2.1875rem;
+  height: 3.125rem;
+  border: 0.0375rem silver solid;
+  border-radius: 0.3125rem;
+  font-size: 0.15625rem;
+}
 
 .reactionMsg__container__body[data-v-fa095b8d] {
   background: #FFFFFF;

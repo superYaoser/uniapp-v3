@@ -1057,12 +1057,6 @@ body{
   margin-right: 0.9375rem;
 }
 
-
-.status_bar[data-v-35eb0c73] {
-  height: var(--status-bar-height);
-  width: 100%;
-}
-
 .articleDetailPage[data-v-b0178992] {
   overflow: hidden;
   width: 100%;

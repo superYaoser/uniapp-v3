@@ -206,6 +206,10 @@ export default {
     //点击关注
     let canTapFollow = true
     const tapFollowCard=(data)=>{
+      if (!userObj.u_id){
+        plus.nativeUI.toast(`用户未登录`)
+        return
+      }
       if (!canTapFollow){
         plus.nativeUI.toast(`点的太快啦~`)
         return // 如果当前不能刷新，则直接返回
@@ -241,6 +245,10 @@ export default {
     }
     //点击点赞
     const tapHandCard=(data)=>{
+      if (!userObj.u_id){
+        plus.nativeUI.toast(`用户未登录`)
+        return
+      }
       if (!canTapFollow){
         plus.nativeUI.toast(`点的太快啦~`)
         return // 如果当前不能刷新，则直接返回
@@ -289,10 +297,10 @@ export default {
   background: #FFFFFF;
 
   &__container {
-    padding: 5px 3px 5px 5px;
+    padding: 13rpx 10rpx 13rpx 13rpx;
     //作者栏
     &__title {
-      margin-bottom: 8px;
+      margin-bottom: 10px;
 
       &__container {
         display: flex;

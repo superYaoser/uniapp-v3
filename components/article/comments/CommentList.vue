@@ -44,7 +44,7 @@
           <view><uni-icons type="fire" size="23"></uni-icons>{{ Number(articleInfo.article_hand_support_num) + Number(articleInfo.article_watch_num) + Number(articleInfo.article_comment_num)}}</view>
 
 
-          <view><uni-icons type="hand-up" size="23"></uni-icons>
+          <view @tap.stop="tapHandCard(articleInfo)"><uni-icons :color="article_user_handBe===0?'#333333':'#0091ff'" type="hand-up" size="23"></uni-icons>
             {{ articleInfo.article_hand_support_num }}</view>
         </view>
       </view>
@@ -58,13 +58,20 @@
 import CommentCard from "@/components/article/comments/CommentCard";
 import {onMounted, ref} from "vue";
 import {getUserNameByUid, getUserObjByUid,defaultHeadImgPath,formatDate} from '@/static/utils/globalConifg'
-import {getCommentByArticleId, getCommentSonById} from '@/static/api/act'
+import {
+  addHandArticleByArticleId,
+  getCommentByArticleId,
+  getCommentSonById,
+  removeHandArticleByArticleId
+} from '@/static/api/act'
 import CommentExpand from "@/components/article/comments/CommentExpand";
 import CommentReplyWindow from "@/components/article/comments/CommentReplyWindow";
-import {getArticleByID} from "@/static/api/article";
+import {getArticleByID, getArticleUserHandStateById} from "@/static/api/article";
 import {
   onBackPress
 } from "@dcloudio/uni-app";
+import {useStore} from 'vuex';
+import ArticleFun from "@/components/article/articleFun";
 export default {
   components:{
     CommentReplyWindow,
@@ -87,6 +94,9 @@ export default {
     //文章信息
     let articleInfo = ref()
 
+    // 获取登录用户信息
+    const store = useStore()
+    let userObj = store.getters.getUser
     //-----------------------------------------------------------------------------------
     uni.$on('commentCard_showExpand',function(e){
       let data = e.data
@@ -153,6 +163,7 @@ export default {
     onMounted(async () => {
 
       await initialize()
+      await initializeHand()
     })
     //页面返回会触发的方法
     const pageBack = () => {
@@ -190,6 +201,62 @@ export default {
       }
     })
 //-------------------------监听 end --------------------------------------------------------------------------------------------------------------------------------------------
+    //点击关注
+    let canTapFollow = true
+    //点击点赞
+    const tapHandCard=(data)=>{
+      console.log("文章详细界面点击了 点赞 ")
+      if (!userObj.u_id){
+        plus.nativeUI.toast(`用户未登录`)
+        return
+      }
+      if (!canTapFollow){
+        plus.nativeUI.toast(`点的太快啦~`)
+        return // 如果当前不能刷新，则直接返回
+      }
+      canTapFollow = false
+      //一秒只能点一次关注
+      setTimeout(() => { canTapFollow = true }, 1000)
+
+      if (article_user_handBe.value===0){
+        addHandArticleByArticleId(data.article_id).then(res=>{
+          console.log(res)
+          if (res.code===200){
+
+            ArticleFun.setArticleCardUpdate(null,data.article_id,{hand:++articleInfo.value.article_hand_support_num})
+            plus.nativeUI.toast(`点赞成功`)
+
+            ArticleFun.addHandMsg(userObj.u_id,userObj.u_name,data.article_user_id,data.u_name,data.article_id)
+            article_user_handBe.value = 1
+          }else {
+            //  点赞失败
+          }
+        })
+      }else {
+        removeHandArticleByArticleId(data.article_id).then(res=>{
+          console.log(res)
+          if (res.code===200){
+
+            ArticleFun.setArticleCardUpdate(null,data.article_id,{hand:--articleInfo.value.article_hand_support_num})
+            plus.nativeUI.toast(`取消点赞成功`)
+            article_user_handBe.value = 0
+          }else {
+            //  点赞失败
+          }
+        })
+      }
+      console.log('点击了点赞')
+    }
+    let article_user_handBe = ref(0)
+    // 初始化点赞
+    const initializeHand = async ()=>{
+      let res = await getArticleUserHandStateById(articleInfo.value.article_id)
+      if (res.code ===200){
+        console.log(res.data)
+
+        article_user_handBe.value = res.data.article_user_handBe
+      }
+    }
     return{
       empty_comment,
       article_comment_list,
@@ -199,7 +266,9 @@ export default {
       expand_comment_obj,
       isReply,
       reply_comment_obj,
-      article_id,articleInfo,iWantSpeak
+      article_id,articleInfo,iWantSpeak,
+      article_user_handBe,
+      tapHandCard
     }
   }
 

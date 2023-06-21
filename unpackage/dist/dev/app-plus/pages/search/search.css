@@ -646,10 +646,10 @@
   background: #FFFFFF;
 }
 .active__cart__container[data-v-9eefd57b] {
-  padding: 5px 3px 5px 5px;
+  padding: 0.40625rem 0.3125rem 0.40625rem 0.40625rem;
 }
 .active__cart__container__title[data-v-9eefd57b] {
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 .active__cart__container__title__container[data-v-9eefd57b] {
   display: flex;

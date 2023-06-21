@@ -44,22 +44,8 @@
         </view>
 
         <view class="articleInfo__container__footer" v-if="false">
-          <view class="articleInfo__container__footer--comments">
-            <view class="articleInfo__container__footer--comments--search">
-
-              <input type="text" placeholder="  我有话想说..."/>
-            </view>
-          </view>
-          <view class="articleInfo__container__footer--util">
-            <view><uni-icons type="chatbubble" size="23"></uni-icons>
-              {{ articleInfo.article_comment_num }}</view>
-
-            <view><uni-icons type="fire" size="23"></uni-icons>{{ Number(articleInfo.article_hand_support_num) + Number(articleInfo.article_watch_num) + Number(articleInfo.article_comment_num)}}</view>
 
 
-            <view><uni-icons type="hand-up" size="23"></uni-icons>
-              {{ articleInfo.article_hand_support_num }}</view>
-          </view>
         </view>
 
       </view>
@@ -78,7 +64,7 @@ import {
 } from "@dcloudio/uni-app";
 import ArticleFun from "@/components/article/articleFun";
 import {onMounted, ref} from "vue";
-import {getArticleByID} from '@/static/api/article'
+import {getArticleByID, getArticleUserHandStateById} from '@/static/api/article'
 import App from "@/App";
 import {getUserInfoById, getUser1AndUser2Concern, setUserAddConcern, setUserRemoveConcern} from '@/static/api/users'
 import {sendMessageToScreen} from'@/static/utils/globalConifg'
@@ -86,7 +72,7 @@ import Loading from "@/components/loading/Loading";
 import {defaultHeadImgPath,replaceUrlIP} from '@/static/utils/globalConifg'
 import {useStore} from 'vuex';
 import {formatDate} from '@/static/utils/globalConifg'
-import {addWatchByArticleId} from "@/static/api/act";
+import {addHandArticleByArticleId, addWatchByArticleId, removeHandArticleByArticleId} from "@/static/api/act";
 import CommentList from "@/components/article/comments/CommentList";
 export default {
   props: {
@@ -108,6 +94,7 @@ export default {
     const store = useStore()
     let selfId = store.getters.getUser
     selfId = selfId.u_id
+    let userObj = store.getters.getUser
 
     //标准写法 获取作者个人信息
     const getAuthorInfo = async (id)=>{
@@ -118,9 +105,12 @@ export default {
           return res.data[0]
         } else {
           // Handle error here
-          plus.nativeUI.toast(`获取个人信息错误
-          代码：${res.code}`,{ duration:'long'})
-          // sendMessageToScreen({message:'获取个人信息错误'})
+
+          // plus.nativeUI.toast(`获取个人信息错误
+          // 代码：${res.code}`,{ duration:'long'})
+
+          console.log(`获取个人信息错误
+          代码：${res.code}`)
         }
       } catch (error) {
         // Handle any exceptions here
@@ -137,9 +127,12 @@ export default {
           return res.data.concern_be === 1;
         } else {
           // Handle error here
-          plus.nativeUI.toast(`获取关注状态错误
-          代码：${res.code}`,{ duration:'long'})
-          // sendMessageToScreen({message:'获取个人信息错误'})
+
+          // plus.nativeUI.toast(`获取关注状态错误
+          // 代码：${res.code}`,{ duration:'long'})
+
+          console.log(`获取关注状态错误
+          代码：${res.code}`)
         }
       } catch (error) {
         // Handle any exceptions here
@@ -149,6 +142,10 @@ export default {
     }
     //向服务器添加观看记录数据
     const setWatchByArticleId= async (id)=>{
+      if (!userObj.u_id){
+        plus.nativeUI.toast(`用户未登录`)
+        return
+      }
       try {
         await addWatchByArticleId(id)
         ArticleFun.setArticleCardUpdate(null,id,{watch:++articleInfo.value.article_watch_num})
@@ -174,13 +171,14 @@ export default {
         }
       })
       const regex = new RegExp('<img', 'gi');
-      html.value= html.value.replace(regex, `<img style="max-width:100% !important;height:auto;display:block;margin: 0 auto;width:98%;border-radius: 8px;"`);
+      html.value= html.value.replace(regex, `<img style="max-width:100% !important;height:auto;display:block;margin: 10px auto;width:98%;border-radius: 8px;"`);
 
       // 赋值作者信息
       authorInfo.value = await getAuthorInfo(articleInfo.value.article_user_id)
       //赋值关注信息
       concern_be.value = await getUserConcern(selfId,articleInfo.value.article_user_id)
       await setWatchByArticleId(articleInfo.value.article_id)
+
     })
 
     //---------------互动 --------------------------------
@@ -191,6 +189,10 @@ export default {
     //点击关注
     let canTapFollow = true
     const tapFollowCard=(data)=>{
+      if (!userObj.u_id){
+        plus.nativeUI.toast(`用户未登录`)
+        return
+      }
       if (!canTapFollow){
         plus.nativeUI.toast(`点的太快啦~`)
         return // 如果当前不能刷新，则直接返回
@@ -206,6 +208,7 @@ export default {
             concern_be.value=true
             ArticleFun.setArticleCardUpdate(data.u_id,null,{concern_be:1})
             plus.nativeUI.toast(`关注成功`)
+            ArticleFun.addConcernMsg(userObj.u_id,userObj.u_name,articleInfo.value.article_user_id,data.u_name,articleInfo.value.article_id)
           }else {
             //  关注失败
           }
@@ -223,6 +226,8 @@ export default {
       }
       console.log('点击了关注')
     }
+
+
     //---------------互动 end--------------------------------
 
     // 替换html内容中所有src

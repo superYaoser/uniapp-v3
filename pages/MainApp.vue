@@ -1,12 +1,12 @@
 <template>
 	<view id="Main" style="width: 100%;height: 100vh;overflow: hidden;">
-		<view class="main__container" style="width: 100%;height: 100%;overflow: hidden;">
+		<view class="main__container" style="width: 100%;height: 100%;overflow: hidden;" v-if="loading">
       <Home v-show="currentR==='Home'"></Home>
-      <Dynamic v-show="currentR==='Dynamic'" v-if="loading"></Dynamic>
-      <Message v-show="currentR==='Message'" v-if="loading"></Message>
-      <Mine v-show="currentR==='Mine'" v-if="loading"></Mine>
+      <Dynamic v-show="currentR==='Dynamic'" :login-status="loginStatus"></Dynamic>
+      <Message v-show="currentR==='Message'" :login-status="loginStatus"></Message>
+      <Mine v-show="currentR==='Mine'"></Mine>
     </view>
-		<TabBar v-show="tabBarVisibility"></TabBar>
+		<TabBar></TabBar>
 	</view>
 </template>
 
@@ -17,7 +17,6 @@ import {useStore} from 'vuex';
   import Dynamic from "@/pages/pyq/Dynamic";
   import Message from "@/pages/message/Message";
   import Mine from "@/pages/mine/Mine";
-  import TopBar from "@/components/MainApp/TopBar";
 import {onMounted, ref} from "vue";
   import {
     onBackPress,onShow
@@ -26,63 +25,90 @@ import {onMounted, ref} from "vue";
 import {PushMessageNotificationBar} from "@/static/utils/globalConifg";
 	export default {
 		components: {
-			TabBar,Home,Dynamic,Message,Mine,TopBar
+			TabBar,Home,Dynamic,Message,Mine
 		},
     setup(){
+      const store = useStore()
       //初始化状态
       let loading =ref(false)
-      //登录初始化
-      onShow(()=>{
-        if (currentR.value==='Home'){
-          uni.$emit('topBarBackgroundColor', {bg: '#016fce'})
-        }else {
-
-        }
-      })
-      //初始化
-      onMounted(()=>{
-
-
-        const store = useStore()
-        // 登录成功后跳转到主页，然后将token保存到本地
+      //初始化方法
+      const initialize =()=>{
+        loading.value = false
+        //登录，但是用token，验证用户有没有登录
         loginUseUser({
-          email: '1@qq.com',
-          password: '1'
-          // email: '111@qq.com',
-          // password: '12312321'
+          email: '测试token',
+          password: '测试token'
         }).then(res => {
           console.log(res)
           if (res.code == 200) {
             try {
-              uni.setStorageSync('token', res.token);
-// 如果登录成功，则获取当前用户
+              // 如果登录成功，则获取当前用户
               const currentUser = res.data;
-// 利用 Vuex 的 dispatch 方法将用户信息存储到全局状态中
-              store.dispatch('addUser', currentUser);
-              console.log(store.getters.getUser)
-              plus.nativeUI.toast(`登录成功，当前用户：${store.getters.getUser.u_id}`)
+              if (!saveVuex(currentUser)){
+                plus.nativeUI.toast(`MainApp设置缓存出现了错误，请尝试重新启动`)
+                uni.removeStorageSync('token');
+                return
+              }
+              uni.setStorageSync('token', res.token);
+              plus.nativeUI.toast(`登录成功，当前用户：${res.data.u_id}`)
+              loginStatus.value = true
             } catch (e) {
-              console.log(e)
+              plus.nativeUI.toast(`MainApp用户信息缓存登录出现了错误：${e}`)
             }
           }else {
+            //  说明用户没有登录历史
+            plus.nativeUI.toast(`用户未登录`)
+            loginStatus.value = false
           }
           loading.value = true
         })
+      }
+
+      //登录状态
+      let loginStatus = ref(false)
+
+      //监听用户注销事件
+      uni.$on('login_out',()=>{
+        uni.removeStorageSync('token');
+        store.dispatch('resetUser');
+        uni.showToast({
+          title: '注销成功',
+          icon: 'success', // 可选值：'success', 'loading', 'none'
+          duration: 1000 // 持续时间，默认为1500ms
+        });
+        initialize()
       })
+      onShow(()=>{
+
+      })
+
+      //初始化
+      onMounted(()=>{
+        // uni.removeStorageSync('token');
+        initialize()
+      })
+
+      //保存vuex函数
+      const saveVuex =(userData)=>{
+        try{
+          // 利用 Vuex 的 dispatch 方法将用户信息存储到全局状态中
+          store.dispatch('addUser', userData);
+          console.log(store.getters.getUser)
+          return true
+        }catch (e){
+          plus.nativeUI.toast(`MainApp报错：${e}`)
+          console.log(e)
+          return false
+        }
+      }
 
       let backButtonPress =ref(0)
       //当前路由
       let currentR = ref('Home')
-      //页脚导航的可见性
-      let tabBarVisibility = ref(true)
 
       //监听路由变化
       uni.$on('currentRouterUpdate',function(data){
         currentR.value = data.router;
-      })
-      //监听页脚的可见性变化
-      uni.$on('tabBarVisibilityUpdate',function(b){
-        tabBarVisibility.value = b.tabBarVisibility;
       })
 
       //监听用户触发返回后处理请求
@@ -99,7 +125,7 @@ import {PushMessageNotificationBar} from "@/static/utils/globalConifg";
         return true;
       })
       return{
-        currentR,tabBarVisibility,loading
+        currentR,loading,loginStatus
       }
     },
 		data() {

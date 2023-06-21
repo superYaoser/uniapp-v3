@@ -13,8 +13,9 @@
 
         <!--        身体-->
         <view class="pyq__container__body">
-          <Loading v-if="loading"></Loading>
-          <view class="w100 h100">
+
+          <NoLogin v-if="!loginStatus" :img-change="1"></NoLogin>
+          <view class="w100 h100" v-else>
             <ArticlesList :need-follow-model="false" :model_str_num="'pyq'"></ArticlesList>
           </view>
         </view>
@@ -30,30 +31,22 @@ import {useStore} from 'vuex';
 import {onMounted, ref, watch,computed} from "vue";
 import Loading from "@/components/loading/Loading";
 import {getConcernDetailedArticle} from "@/static/api/article";
+import NoLogin from "@/components/noLogin/NoLogin";
 	export default {
 		components: {
-      ArticlesList,Loading
+      ArticlesList,Loading,NoLogin
 		},
-    setup(){
+    props: {
+      loginStatus: Boolean,
+    },
+    setup(props){
+      let loginStatus = ref(props.loginStatus)
       onMounted(()=>{
 
       })
 
-      // 定义 加载状态 计算属性 可以判断用户有没有登录
-      const loading = computed(() => {
-        //查看是否登录
-        const store = useStore()
-        let login_u_id = store.getters.getUser
-        login_u_id = login_u_id.u_id
-        if (!login_u_id){
-          return true
-        }else {
-          return false
-        }
-      });
-
       return{
-        loading
+        loginStatus
       }
     }
 	}

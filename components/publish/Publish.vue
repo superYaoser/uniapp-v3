@@ -79,7 +79,6 @@ import {onMounted, ref} from "vue";
 import {baseUrl, replaceUrlIP} from '@/static/utils/globalConifg'
 import {getCategoryList} from '@/static/api/category'
 import {pushNewArticle} from '@/static/api/article'
-import TopBar from "@/components/MainApp/TopBar";
 import {enterWord, replaceImgSrc} from "@/static/utils/globalConifg";
 import {
   onBackPress
@@ -87,7 +86,7 @@ import {
 
 export default {
   components: {
-    TopBar
+
   },
   setup() {
     //键盘高度
