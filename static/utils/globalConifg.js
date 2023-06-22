@@ -1,6 +1,7 @@
 import {getUserInfoById} from "@/static/api/users";
 //全局的Url
 const IP = '192.168.85.1'
+// const IP = '192.168.0.106'
 // const baseUrl = 'http://114.115.220.47:3000/api/'
 // const baseUrl = 'http://192.168.85.1:3000/api/'
 const baseUrl = 'http://'+IP+':3000/api/'

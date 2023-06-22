@@ -95,6 +95,16 @@ function removeHandArticleByArticleId(id) {
         method:'POST',
     });
 }
+/*•	get /api/act/watch/user/:id 查看用户观看数据
+权限：1
+参数：:id
+说明：
+*/
+function getWatchByUid(id) {
+    return R({
+        url: 'act/watch/user/'+id,
+    });
+}
 export {
     addWatchByArticleId,
     getCommentSonById,
@@ -103,5 +113,6 @@ export {
     getCommentById,
     getCommentPosterityById,
     addHandArticleByArticleId,
-    removeHandArticleByArticleId
+    removeHandArticleByArticleId,
+    getWatchByUid
 }

@@ -86,10 +86,21 @@ function getArticleUserHandListByUserId(id) {
         url: 'article/user-hand-list/user/'+id,
     });
 }
+
+/*•	GET /api/article/list/user/:id 查询该用户的全部文章列表，可以正常查看的
+权限：1
+参数：id（用户）
+*/
+function getArticleListByUserId(id) {
+    return R({
+        url: 'article/list/user/'+id,
+    });
+}
+
 export {
     pushNewArticle,
     getDetailedArticle,
     getArticleByID,
     getConcernDetailedArticle,getArticleDetailByID,getArticleUserHandStateById,getArticleUserHandListByUserId
-
+    ,getArticleListByUserId
 }

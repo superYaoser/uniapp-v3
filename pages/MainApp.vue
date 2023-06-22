@@ -4,7 +4,7 @@
       <Home v-show="currentR==='Home'"></Home>
       <Dynamic v-show="currentR==='Dynamic'" :login-status="loginStatus"></Dynamic>
       <Message v-show="currentR==='Message'" :login-status="loginStatus"></Message>
-      <Mine v-show="currentR==='Mine'"></Mine>
+      <Mine v-show="currentR==='Mine'" :login-status="loginStatus"></Mine>
     </view>
 		<TabBar></TabBar>
 	</view>

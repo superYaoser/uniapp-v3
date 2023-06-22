@@ -5,7 +5,7 @@
     <Loading v-if="articleLoading&&handStateLoading"></Loading>
     <view  class="active__cart__container" @tap="tapArticleCard(articleInfo)" v-else>
       <!---------------------------作者栏-->
-      <view class="active__cart__container__title" @tap.stop="tapAuthorCard()">
+      <view class="active__cart__container__title" @tap.stop="tapAuthorCard(articleInfo)">
         <view class="active__cart__container__title__container">
           <view class="active__cart__container__title__container__img">
             <view class="active__cart__container__title__container__img--path" :style="articleInfo.u_head ? 'background-image: url(' + articleInfo.u_head + ')' : 'background-image: url(' + defaultHeadImgPath + ')'"></view>
@@ -202,6 +202,9 @@ export default {
     //点击作者栏
     const tapAuthorCard=(data)=>{
       console.log('点击了作者栏')
+      uni.navigateTo({
+        url: '/pages/user/user?id='+data.article_user_id
+      })
     }
     //点击关注
     let canTapFollow = true

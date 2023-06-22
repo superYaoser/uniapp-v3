@@ -88,8 +88,31 @@ function getUserDetailBy(id){
 		method:'GET',
 	});
 }
+/*•	GET /api/user/concern-list/:id查询用户关注列表
+权限：1
+参数：:id
+说明：
+*/
+function getUserConcernListByUid(id){
+	return R({
+		url: 'user/concern-list/'+id,
+		method:'GET',
+	});
+}
+/*•	GET /api/user/fens-list/:id查询用户粉丝列表
+权限：1
+参数：:id
+说明：
+*/
+function getUserFensListByUid(id){
+	return R({
+		url: 'user/concern-list/'+id,
+		method:'GET',
+	});
+}
 export {
 	loginUseUser,
 	getUserInfoById,
-	getUserInfoPageJson,setUserAddConcern,setUserRemoveConcern,getUser1AndUser2Concern,getUserDetailBy
+	getUserInfoPageJson,setUserAddConcern,setUserRemoveConcern,getUser1AndUser2Concern,getUserDetailBy,
+	getUserConcernListByUid,getUserFensListByUid
 }

@@ -72,6 +72,15 @@
             }
 
         }
+        ,{
+            "path" : "pages/user/user",
+            "style" :
+            {
+              "navigationBarTitleText": "",
+              "titleNView": false
+            }
+
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
