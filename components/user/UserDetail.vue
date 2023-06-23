@@ -21,7 +21,7 @@
               <view class="userDetail__container__header__bg__space--button" style="border: 1px #929292 solid;color: #929292;" v-if="needFollow" @tap.stop="tapFollowCard(userObj)" v-show="userObj.concern_be===1">
                 已关注
               </view>
-              <view class="userDetail__container__header__bg__space--button" v-if="needEdit">
+              <view class="userDetail__container__header__bg__space--button" v-if="needEdit" @tap.stop="tapEdit(userObj)">
                 编辑
               </view>
               <view class="userDetail__container__header__bg__space--button" v-if="false">
@@ -261,23 +261,30 @@ export default {
 
     //点击粉丝
     const tapFans=(data)=>{
-      console.log('点击了作者栏')
+      console.log('点击用户粉丝列表')
       uni.navigateTo({
         url: '/pages/user/fans?id='+data.u_id
       })
     }
     //点击关注
     const tapConcern=(data)=>{
-      console.log('点击了作者栏')
+      console.log('点击用户关注列表')
       uni.navigateTo({
         url: '/pages/user/concern?id='+data.u_id
+      })
+    }
+    //点击关注
+    const tapEdit=(data)=>{
+      console.log('点击用户关注列表')
+      uni.navigateTo({
+        url: '/pages/user/edit?id='+data.u_id
       })
     }
     return{
       articleNavIndex,articleNavColor,unArticleNavColor,changeCurrentNavPage,clickNavIndex,currentIndex,swiperItemChange,
       userObj,needEdit,needFollow,defaultHeadImgPath,pageBack,needBreak,tapFollowCard,
       fens_num,concern_num,loading,loginOut,needLoginOut,
-      tapFans,tapConcern,
+      tapFans,tapConcern,tapEdit
     }
   }
 }

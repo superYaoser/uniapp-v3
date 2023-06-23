@@ -26,8 +26,8 @@
               <view class="userEdit__container__body__main">
 
                 <view class="userEdit__container__body__main__head">
-                  <view class="userEdit__container__body__main__head__container">
-                    <view class="userEdit__container__body__main__head__container--img"></view>
+                  <view class="userEdit__container__body__main__head__container" @tap.stop="addImage">
+                    <view class="userEdit__container__body__main__head__container--img" :style="headImg ? 'background-image: url(' + headImg + ')' : 'background-image: url(' + defaultHeadImgPath + ')'"></view>
                     <view>点击修改头像</view>
                   </view>
 
@@ -37,17 +37,17 @@
                 <view class="userEdit__container__body__main__info">
                   <view class="userEdit__container__body__main__info__name">
 
-                    <view>昵称</view>
+                    <view>昵称：</view>
                     <input type="text" :maxlength="10" :adjust-position="false" v-model="name"/>
                   </view>
 
                   <view class="userEdit__container__body__main__info__signature">
 
-                    <view>签名</view>
+                    <view>签名：</view>
                     <input type="text" :maxlength="10" :adjust-position="false" v-model="signature"/>
                   </view>
 
-                  <view class="userEdit__container__body__main__info--button">提交</view>
+                  <view class="userEdit__container__body__main__info--button" @tap.stop="ok">提交</view>
                 </view>
 
               </view>
@@ -64,7 +64,8 @@
 import {useStore} from 'vuex';
 import {onMounted, ref, watch, computed} from "vue";
 import UserCard from "@/components/user/UserCard";
-import {getUserDetailBy} from '@/static/api/users'
+import {getUserDetailBy,updateUserBasicInfo} from '@/static/api/users'
+import {baseUrl, defaultHeadImgPath, replaceUrlIP,validateString} from '@/static/utils/globalConifg'
 import {
   onBackPress,onShow,onLoad
 } from "@dcloudio/uni-app";
@@ -88,29 +89,34 @@ export default {
     let name = ref()
     //签名
     let signature =ref()
+    // 头像
+    let headImg = ref()
 
     onLoad(async (option) => {
       loading.value = false
-      // //用户未登录 抱歉，直接不让你看主页
-      // if (!userObj.u_id){
-      //   plus.nativeUI.toast(`请先登录`)
-      //   console.log("用户未登录，需要返回")
-      //   pageBack()
-      //   return
-      // }
+      //用户未登录 抱歉，直接退出
+      if (!userObj.u_id){
+        plus.nativeUI.toast(`请先登录`)
+        console.log("用户未登录，需要返回")
+        pageBack()
+        return
+      }
       let id = option.id;
       console.log(id)
       u_id.value = id
-      // let res = await getUserConcernListByUid(u_id.value)
-      // console.log(res)
-      // if (res.code ===200){
-      //   userList.value = res.data
-      //   console.log(userList)
-      // }else {
-      //
-      //   //  获取失败
-      //   plus.nativeUI.toast(`获取关注信息失败，原因:${res.message}`)
-      // }
+      let res = await getUserDetailBy(u_id.value)
+      console.log(res)
+      if (res.code ===200){
+        localUserObj.value = res.data
+        console.log(localUserObj)
+        name.value = localUserObj.value.u_name
+        signature.value = localUserObj.value.u_signature
+        headImg.value = localUserObj.value.u_head
+      }else {
+
+        //  获取失败
+        plus.nativeUI.toast(`获取用户失败，原因:${res.message}`)
+      }
       loading.value = true
 
     })
@@ -122,9 +128,60 @@ export default {
       })
     }
 
+    /*上传图片*/
+    const addImage = () => {
+      uni.chooseImage({
+        sizeType: ['original', 'compressed'],
+        count: 1,
+        crop:{
+          width:1024,
+          height:1024
+        },
+        success(res) {
+          console.log(res.tempFilePaths[0])
+          uni.uploadFile({
+            url: baseUrl + 'upload/image', //域名+上传文件的请求接口 (根据你实际的接口来)
+            filePath: res.tempFilePaths[0], // tempFilePath可以作为img标签的src属性显示图片 服务器图片的路径
+            name: 'image', //上传到服务器的参数，自定义
+            header: {
+              "Content-Type": "multipart/form-data",
+              "authorization": uni.getStorageSync('token'),
+            },
+            success(res) {
+              let data = JSON.parse(res.data)
+              console.log(data)
+              headImg.value=replaceUrlIP(data.imageUrl)
+            }
+          })
+        }
+      })
+    }
+    const ok=async ()=>{
+      if (name.value==''||signature.value==''){
+        plus.nativeUI.toast(`未输入任何昵称与姓名`)
+        return
+      }
+      if (!validateString(name.value)||!validateString(signature.value)){
+        plus.nativeUI.toast(`不可以包含特殊符号`)
+        return
+      }
+
+      let res = await updateUserBasicInfo({
+        u_head:headImg.value,
+        u_name:name.value,
+        u_signature:signature.value
+      })
+      if (res.code ===200){
+        plus.nativeUI.toast(`修改成功`)
+        pageBack()
+      }else {
+        plus.nativeUI.toast(`修改失败，原因：${res.message}`)
+      }
+    }
+
     return {
       pageBack,localUserObj,loading,
-      name,signature
+      name,signature,defaultHeadImgPath,headImg,addImage,ok
     }
   }
 }

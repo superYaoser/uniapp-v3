@@ -2513,7 +2513,14 @@ if (uni.restoreGlobal) {
       method: "GET"
     });
   }
-  const IP = "192.168.85.1";
+  function updateUserBasicInfo(data) {
+    return request({
+      url: "user/basic-info",
+      method: "POST",
+      data
+    });
+  }
+  const IP = "43.143.240.217";
   const baseUrl = "http://" + IP + ":3000/api/";
   function extractIP(url) {
     let pattern = /http:\/\/([\d\.]+):(\d+)/;
@@ -2582,6 +2589,10 @@ if (uni.restoreGlobal) {
     };
     plus.push.createMessage(content, "LocalMSG", options);
   };
+  function validateString(str) {
+    const regExp = /^[\u4e00-\u9fa5a-zA-Z0-9]*$/;
+    return regExp.test(str) && str !== "" && str != null && str !== void 0;
+  }
   const request = (req = "") => {
     formatAppLog("log", "at static/api/root/request.js:3", baseUrl);
     formatAppLog("log", "at static/api/root/request.js:4", req);
@@ -5731,7 +5742,7 @@ if (uni.restoreGlobal) {
       let hotArticleList = vue.ref([]);
       const getDetailedArticleByJsonData = async (data) => {
         let temp = await getDetailedArticle(data);
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:71", temp.data);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:72", temp.data);
         let res = temp.data;
         if (temp.data.length < 1 || !temp || temp == "") {
           plus.nativeUI.toast(`没有更多数据`);
@@ -5743,7 +5754,7 @@ if (uni.restoreGlobal) {
         if (model_str_num === "pyq")
           return;
         clickNavIndex.value = e.page;
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:89", clickNavIndex.value);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:90", clickNavIndex.value);
       });
       let currentIndex = vue.ref();
       const swiperItemChange = (e) => {
@@ -5779,7 +5790,7 @@ if (uni.restoreGlobal) {
       const store2 = useStore();
       let login_u_id = store2.getters.getUser;
       login_u_id = login_u_id.u_id;
-      formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:136", "ArticleList用户id" + login_u_id);
+      formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:137", "ArticleList用户id" + login_u_id);
       let concernArticleList = vue.ref([]);
       const getConcernDetailedArticleByJsonData = async (data) => {
         let temp = await getConcernDetailedArticle(data);
@@ -5797,10 +5808,11 @@ if (uni.restoreGlobal) {
           "u_id": login_u_id,
           "articleContentMaxWord": 100
         });
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:160", concernArticleList.value);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:161", concernArticleList.value);
         classifyList2.value[0].articleList = concernArticleList.value;
       };
       let concernArticleNULL = vue.ref(false);
+      let loading = vue.ref(true);
       let refreshOK = vue.ref(false);
       let canRefresh = true;
       const refreshListWithThrottle = async (index) => {
@@ -5810,15 +5822,16 @@ if (uni.restoreGlobal) {
           uni.$emit("home_articleList_change", { data: classifyList2.value });
         }, 1100);
         if (!canRefresh) {
-          formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:180", "当前不能刷新");
+          formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:182", "当前不能刷新");
           return;
         }
         canRefresh = false;
         setTimeout(() => {
           canRefresh = true;
         }, 1e3);
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:189", "下拉刷新被触发");
-        indexReFreshPage = [1, 1, 1];
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:191", "下拉刷新被触发");
+        loading.value = false;
+        indexReFreshPage[index] = 1;
         if (set.static === 2) {
           concernArticleList.value = await getConcernDetailedArticleByJsonData({
             "u_id": login_u_id,
@@ -5827,9 +5840,9 @@ if (uni.restoreGlobal) {
           classifyList2.value[index].articleList = concernArticleList.value;
           plus.nativeUI.toast(`已刷新`);
         } else {
-          formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:199", index);
+          formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:202", index);
           if (index === 0) {
-            formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:201", "123123123213213122");
+            formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:204", "123123123213213122");
             lateArticleList.value = await getDetailedArticleByJsonData({
               "sort": 1,
               "page_number": 1,
@@ -5856,6 +5869,7 @@ if (uni.restoreGlobal) {
           }
           plus.nativeUI.toast(`已刷新`);
         }
+        loading.value = true;
       };
       let upRefreshOK = vue.ref(false);
       let indexReFreshPage = [1, 1, 1];
@@ -5870,7 +5884,7 @@ if (uni.restoreGlobal) {
           uni.$emit("home_articleList_change", { data: classifyList2.value });
         }, 1100);
         if (!canUpRefresh) {
-          formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:248", "当前不能上拉刷新");
+          formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:252", "当前不能上拉刷新");
           plus.nativeUI.toast(`载入中...`);
           return;
         }
@@ -5878,7 +5892,7 @@ if (uni.restoreGlobal) {
         setTimeout(() => {
           canUpRefresh = true;
         }, 1e3);
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:258", "上拉刷新被触发");
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:262", "上拉刷新被触发");
         sendLoadingLogo();
         if (index === 0) {
           let lateArticleList2 = await getDetailedArticleByJsonData({
@@ -5936,7 +5950,7 @@ if (uni.restoreGlobal) {
       model_str_num = props.model_str_num;
       let set = getListSetConfig(model_str_num);
       vue.onMounted(async () => {
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:329", set);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:334", set);
         if (set.static === 2) {
           if (!login_u_id) {
             plus.nativeUI.toast(`用户没有登录`);
@@ -5965,11 +5979,13 @@ if (uni.restoreGlobal) {
         refreshListWithThrottle,
         refreshOK,
         concernArticleNULL,
-        upRefreshListWithThrottle
+        upRefreshListWithThrottle,
+        loading
       };
     }
   };
   function _sfc_render$z(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_Loading = vue.resolveComponent("Loading");
     const _component_ArticleCard = vue.resolveComponent("ArticleCard");
     return vue.openBlock(), vue.createElementBlock("view", { class: "w100 h100" }, [
       vue.createElementVNode("view", { class: "actives__container w100 h100" }, [
@@ -5984,7 +6000,6 @@ if (uni.restoreGlobal) {
             null,
             vue.renderList($setup.classifyList, (item1, index1) => {
               return vue.openBlock(), vue.createElementBlock("swiper-item", { key: index1 }, [
-                vue.createCommentVNode('            <Loading v-if="scrollViewLoading"></Loading>'),
                 vue.createElementVNode("scroll-view", {
                   class: "scrollview",
                   "scroll-y": "true",
@@ -6016,10 +6031,14 @@ if (uni.restoreGlobal) {
                           style: { "margin-bottom": "10rpx" }
                         }, [
                           vue.createCommentVNode("                  文章卡片"),
-                          vue.createVNode(_component_ArticleCard, {
+                          !$setup.loading ? (vue.openBlock(), vue.createBlock(_component_Loading, {
+                            key: 0,
+                            style: { "height": "350rpx" }
+                          })) : (vue.openBlock(), vue.createBlock(_component_ArticleCard, {
+                            key: 1,
                             "article-data": item2,
                             "need-follow-model": $setup.needFollowModel
-                          }, null, 8, ["article-data", "need-follow-model"])
+                          }, null, 8, ["article-data", "need-follow-model"]))
                         ]);
                       }),
                       128
@@ -6509,7 +6528,7 @@ if (uni.restoreGlobal) {
                 $setup.leading ? (vue.openBlock(), vue.createBlock(_component_MessageCard, {
                   key: 0,
                   data: {
-                    headImg: "http://114.115.220.47:3000/api/download/images/action.png",
+                    headImg: "http://43.143.240.217:3000/api/download/images/action.png",
                     name: "互动消息",
                     message: $setup.actionMessageList ? $setup.actionMessageList[$setup.actionMessageList.length - 1].message_content : "没有最新的信息",
                     time: $setup.actionMessageList ? $setup.formatDate($setup.actionMessageList[$setup.actionMessageList.length - 1].create_time) : "",
@@ -6521,7 +6540,7 @@ if (uni.restoreGlobal) {
                   onClick: _cache[0] || (_cache[0] = vue.withModifiers(() => {
                   }, ["stop"])),
                   data: {
-                    headImg: "http://114.115.220.47:3000/api/download/images/action.png",
+                    headImg: "http://43.143.240.217:3000/api/download/images/action.png",
                     name: "互动消息",
                     message: $setup.actionMessageList ? $setup.actionMessageList[$setup.actionMessageList.length - 1].message_content : "没有最新的信息",
                     time: $setup.actionMessageList ? $setup.formatDate($setup.actionMessageList[$setup.actionMessageList.length - 1].create_time) : "",
@@ -6859,15 +6878,21 @@ if (uni.restoreGlobal) {
         formatAppLog("log", "at components/user/UserDetail.vue:259", "点击了关注");
       };
       const tapFans = (data) => {
-        formatAppLog("log", "at components/user/UserDetail.vue:264", "点击了作者栏");
+        formatAppLog("log", "at components/user/UserDetail.vue:264", "点击用户粉丝列表");
         uni.navigateTo({
           url: "/pages/user/fans?id=" + data.u_id
         });
       };
       const tapConcern = (data) => {
-        formatAppLog("log", "at components/user/UserDetail.vue:271", "点击了作者栏");
+        formatAppLog("log", "at components/user/UserDetail.vue:271", "点击用户关注列表");
         uni.navigateTo({
           url: "/pages/user/concern?id=" + data.u_id
+        });
+      };
+      const tapEdit = (data) => {
+        formatAppLog("log", "at components/user/UserDetail.vue:278", "点击用户关注列表");
+        uni.navigateTo({
+          url: "/pages/user/edit?id=" + data.u_id
         });
       };
       return {
@@ -6891,7 +6916,8 @@ if (uni.restoreGlobal) {
         loginOut,
         needLoginOut,
         tapFans,
-        tapConcern
+        tapConcern,
+        tapEdit
       };
     }
   };
@@ -6968,7 +6994,8 @@ if (uni.restoreGlobal) {
                 ]) : vue.createCommentVNode("v-if", true),
                 $setup.needEdit ? (vue.openBlock(), vue.createElementBlock("view", {
                   key: 2,
-                  class: "userDetail__container__header__bg__space--button"
+                  class: "userDetail__container__header__bg__space--button",
+                  onClick: _cache[4] || (_cache[4] = vue.withModifiers(($event) => $setup.tapEdit($setup.userObj), ["stop"]))
                 }, " 编辑 ")) : vue.createCommentVNode("v-if", true),
                 vue.createCommentVNode("v-if", true)
               ]),
@@ -7025,7 +7052,7 @@ if (uni.restoreGlobal) {
               }, [
                 vue.createElementVNode("view", {
                   class: "userDetail__container__header__info__grades__option",
-                  onClick: _cache[4] || (_cache[4] = vue.withModifiers(($event) => $setup.tapConcern($setup.userObj), ["stop"]))
+                  onClick: _cache[5] || (_cache[5] = vue.withModifiers(($event) => $setup.tapConcern($setup.userObj), ["stop"]))
                 }, [
                   vue.createElementVNode(
                     "text",
@@ -7038,7 +7065,7 @@ if (uni.restoreGlobal) {
                 ]),
                 vue.createElementVNode("view", {
                   class: "userDetail__container__header__info__grades__option",
-                  onClick: _cache[5] || (_cache[5] = vue.withModifiers(($event) => $setup.tapFans($setup.userObj), ["stop"]))
+                  onClick: _cache[6] || (_cache[6] = vue.withModifiers(($event) => $setup.tapFans($setup.userObj), ["stop"]))
                 }, [
                   vue.createElementVNode(
                     "text",
@@ -7082,7 +7109,7 @@ if (uni.restoreGlobal) {
                   "view",
                   {
                     class: "header__nav__container--option",
-                    onClick: _cache[6] || (_cache[6] = ($event) => $setup.changeCurrentNavPage(0)),
+                    onClick: _cache[7] || (_cache[7] = ($event) => $setup.changeCurrentNavPage(0)),
                     style: vue.normalizeStyle($setup.articleNavIndex === 0 ? "  color: " + $setup.articleNavColor + ";" : "color: " + $setup.unArticleNavColor + ";")
                   },
                   [
@@ -7096,7 +7123,7 @@ if (uni.restoreGlobal) {
                   "view",
                   {
                     class: "header__nav__container--option",
-                    onClick: _cache[7] || (_cache[7] = ($event) => $setup.changeCurrentNavPage(1)),
+                    onClick: _cache[8] || (_cache[8] = ($event) => $setup.changeCurrentNavPage(1)),
                     style: vue.normalizeStyle($setup.articleNavIndex === 1 ? "  color: " + $setup.articleNavColor + ";" : "color: " + $setup.unArticleNavColor + ";")
                   },
                   [
@@ -7110,7 +7137,7 @@ if (uni.restoreGlobal) {
                   "view",
                   {
                     class: "header__nav__container--option",
-                    onClick: _cache[8] || (_cache[8] = ($event) => $setup.changeCurrentNavPage(2)),
+                    onClick: _cache[9] || (_cache[9] = ($event) => $setup.changeCurrentNavPage(2)),
                     style: vue.normalizeStyle($setup.articleNavIndex === 2 ? "  color: " + $setup.articleNavColor + ";" : "color: " + $setup.unArticleNavColor + ";")
                   },
                   [
@@ -7129,7 +7156,7 @@ if (uni.restoreGlobal) {
             vue.createElementVNode("swiper", {
               style: { "width": "100%", "height": "100%", "padding": "0 0" },
               autoplay: false,
-              onChange: _cache[9] || (_cache[9] = ($event) => $setup.swiperItemChange($event)),
+              onChange: _cache[10] || (_cache[10] = ($event) => $setup.swiperItemChange($event)),
               current: $setup.clickNavIndex
             }, [
               vue.createCommentVNode("            发布"),
@@ -10526,16 +10553,34 @@ if (uni.restoreGlobal) {
     setup() {
       let u_id = vue.ref();
       let store2 = useStore();
-      store2.getters.getUser;
+      let userObj = store2.getters.getUser;
       let localUserObj = vue.ref();
       let loading = vue.ref(false);
       let name = vue.ref();
       let signature = vue.ref();
+      let headImg = vue.ref();
       onLoad(async (option) => {
         loading.value = false;
+        if (!userObj.u_id) {
+          plus.nativeUI.toast(`请先登录`);
+          formatAppLog("log", "at pages/user/edit.vue:100", "用户未登录，需要返回");
+          pageBack();
+          return;
+        }
         let id = option.id;
-        formatAppLog("log", "at pages/user/edit.vue:102", id);
+        formatAppLog("log", "at pages/user/edit.vue:105", id);
         u_id.value = id;
+        let res = await getUserDetailBy(u_id.value);
+        formatAppLog("log", "at pages/user/edit.vue:108", res);
+        if (res.code === 200) {
+          localUserObj.value = res.data;
+          formatAppLog("log", "at pages/user/edit.vue:111", localUserObj);
+          name.value = localUserObj.value.u_name;
+          signature.value = localUserObj.value.u_signature;
+          headImg.value = localUserObj.value.u_head;
+        } else {
+          plus.nativeUI.toast(`获取用户失败，原因:${res.message}`);
+        }
         loading.value = true;
       });
       const pageBack = () => {
@@ -10544,12 +10589,67 @@ if (uni.restoreGlobal) {
           //返回的页面数，如果 delta 大于现有页面数，则返回到首页。
         });
       };
+      const addImage = () => {
+        uni.chooseImage({
+          sizeType: ["original", "compressed"],
+          count: 1,
+          crop: {
+            width: 1024,
+            height: 1024
+          },
+          success(res) {
+            formatAppLog("log", "at pages/user/edit.vue:141", res.tempFilePaths[0]);
+            uni.uploadFile({
+              url: baseUrl + "upload/image",
+              //域名+上传文件的请求接口 (根据你实际的接口来)
+              filePath: res.tempFilePaths[0],
+              // tempFilePath可以作为img标签的src属性显示图片 服务器图片的路径
+              name: "image",
+              //上传到服务器的参数，自定义
+              header: {
+                "Content-Type": "multipart/form-data",
+                "authorization": uni.getStorageSync("token")
+              },
+              success(res2) {
+                let data = JSON.parse(res2.data);
+                formatAppLog("log", "at pages/user/edit.vue:152", data);
+                headImg.value = replaceUrlIP(data.imageUrl);
+              }
+            });
+          }
+        });
+      };
+      const ok = async () => {
+        if (name.value == "" || signature.value == "") {
+          plus.nativeUI.toast(`未输入任何昵称与姓名`);
+          return;
+        }
+        if (!validateString(name.value) || !validateString(signature.value)) {
+          plus.nativeUI.toast(`不可以包含特殊符号`);
+          return;
+        }
+        let res = await updateUserBasicInfo({
+          u_head: headImg.value,
+          u_name: name.value,
+          u_signature: signature.value
+        });
+        if (res.code === 200) {
+          plus.nativeUI.toast(`修改成功`);
+          pageBack();
+        } else {
+          plus.nativeUI.toast(`修改失败，原因：${res.message}`);
+        }
+      };
       return {
         pageBack,
         localUserObj,
         loading,
         name,
-        signature
+        signature,
+        defaultHeadImgPath,
+        headImg,
+        addImage,
+        ok
       };
     }
   };
@@ -10587,21 +10687,33 @@ if (uni.restoreGlobal) {
               !$setup.loading ? (vue.openBlock(), vue.createBlock(_component_Loading, { key: 0 })) : vue.createCommentVNode("v-if", true),
               vue.createElementVNode("view", { class: "userEdit__container__body__main" }, [
                 vue.createElementVNode("view", { class: "userEdit__container__body__main__head" }, [
-                  vue.createElementVNode("view", { class: "userEdit__container__body__main__head__container" }, [
-                    vue.createElementVNode("view", { class: "userEdit__container__body__main__head__container--img" }),
+                  vue.createElementVNode("view", {
+                    class: "userEdit__container__body__main__head__container",
+                    onClick: _cache[1] || (_cache[1] = vue.withModifiers((...args) => $setup.addImage && $setup.addImage(...args), ["stop"]))
+                  }, [
+                    vue.createElementVNode(
+                      "view",
+                      {
+                        class: "userEdit__container__body__main__head__container--img",
+                        style: vue.normalizeStyle($setup.headImg ? "background-image: url(" + $setup.headImg + ")" : "background-image: url(" + $setup.defaultHeadImgPath + ")")
+                      },
+                      null,
+                      4
+                      /* STYLE */
+                    ),
                     vue.createElementVNode("view", null, "点击修改头像")
                   ])
                 ]),
                 vue.createElementVNode("view", { class: "userEdit__container__body__main__info" }, [
                   vue.createElementVNode("view", { class: "userEdit__container__body__main__info__name" }, [
-                    vue.createElementVNode("view", null, "昵称"),
+                    vue.createElementVNode("view", null, "昵称："),
                     vue.withDirectives(vue.createElementVNode(
                       "input",
                       {
                         type: "text",
                         maxlength: 10,
                         "adjust-position": false,
-                        "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.name = $event)
+                        "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.name = $event)
                       },
                       null,
                       512
@@ -10611,14 +10723,14 @@ if (uni.restoreGlobal) {
                     ])
                   ]),
                   vue.createElementVNode("view", { class: "userEdit__container__body__main__info__signature" }, [
-                    vue.createElementVNode("view", null, "签名"),
+                    vue.createElementVNode("view", null, "签名："),
                     vue.withDirectives(vue.createElementVNode(
                       "input",
                       {
                         type: "text",
                         maxlength: 10,
                         "adjust-position": false,
-                        "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.signature = $event)
+                        "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.signature = $event)
                       },
                       null,
                       512
@@ -10627,7 +10739,10 @@ if (uni.restoreGlobal) {
                       [vue.vModelText, $setup.signature]
                     ])
                   ]),
-                  vue.createElementVNode("view", { class: "userEdit__container__body__main__info--button" }, "提交")
+                  vue.createElementVNode("view", {
+                    class: "userEdit__container__body__main__info--button",
+                    onClick: _cache[4] || (_cache[4] = vue.withModifiers((...args) => $setup.ok && $setup.ok(...args), ["stop"]))
+                  }, "提交")
                 ])
               ])
             ])

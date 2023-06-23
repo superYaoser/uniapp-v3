@@ -110,9 +110,23 @@ function getUserFensListByUid(id){
 		method:'GET',
 	});
 }
+/*•	POST /api/user/basic-info 修改用户基本三个信息
+只能更改登录中的用户
+权限：2
+参数：jwt、u_head、u_name、u_signature
+说明：jwt验证身份后，直接修改
+*/
+function updateUserBasicInfo(data){
+	return R({
+		url: 'user/basic-info',
+		method:'POST',
+		data:data
+	});
+}
 export {
 	loginUseUser,
 	getUserInfoById,
 	getUserInfoPageJson,setUserAddConcern,setUserRemoveConcern,getUser1AndUser2Concern,getUserDetailBy,
-	getUserConcernListByUid,getUserFensListByUid
+	getUserConcernListByUid,getUserFensListByUid,
+	updateUserBasicInfo
 }

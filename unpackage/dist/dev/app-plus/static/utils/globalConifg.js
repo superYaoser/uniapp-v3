@@ -1,6 +1,6 @@
 import {getUserInfoById} from "@/static/api/users";
 //全局的Url
-const IP = '192.168.85.1'
+const IP = '43.143.240.217'
 // const IP = '192.168.0.106'
 // const baseUrl = 'http://114.115.220.47:3000/api/'
 // const baseUrl = 'http://192.168.85.1:3000/api/'
@@ -17,7 +17,7 @@ function extractIP(url) {
     let pattern = /http:\/\/([\d\.]+):(\d+)/;
     let result = url.match(pattern);
     if (result && result.length >= 3) {
-        return result[1] + ":" + result[2];
+        return result[1] + ":" + result[2]; 
     } else {
         return null;
     }
@@ -137,6 +137,16 @@ const PushMessageNotificationBar = (iconPath,content,)=>{
 
     plus.push.createMessage(content, "LocalMSG", options);
 }
+/**
+ * 验证字符串是否只包含英文、数字和中文字符，不允许包含其他特殊符号及空格 空字符串也不行
+ * @param {string} str - 需要验证的字符串
+ * @returns {boolean} - 返回验证结果，true 表示只包含英文、数字和中文字符，false 表示包含其他特殊符号或空格
+ */
+function validateString(str) {
+    // 使用正则表达式进行匹配验证
+    const regExp = /^[\u4e00-\u9fa5a-zA-Z0-9]*$/;
+    return regExp.test(str) && str!=='' && str!=null && str!==undefined;
+}
 export{
     baseUrl,
     defaultHeadImgPath,
@@ -146,5 +156,5 @@ export{
     getUserNameByUid,getUserObjByUid,replaceUrlIP,replaceImgSrc,
     formatTimestamp,
     PushMessageNotificationBar
-    ,IP,
+    ,IP,validateString
 }
