@@ -125,7 +125,7 @@
       "style": "dark",
       "background": "#F8F8F8"
     },
-    "arguments": "{\"path\":\"pages/user/fans\"}",
+    "arguments": "{\"path\":\"pages/user/edit\"}",
     "uniStatistics": {
       "enable": false
     },
