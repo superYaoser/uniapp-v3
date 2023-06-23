@@ -802,6 +802,10 @@
   /* 垂直居中 */
   margin-right: 1.25rem;
 }
+.userDetail__container__header__bg__space--button[data-v-597bd1cc]:active {
+  background: #13dbf9;
+  color: #FFFFFF;
+}
 .userDetail__container__header__bg__headImg[data-v-597bd1cc] {
   position: absolute;
   bottom: 1%;
@@ -875,11 +879,11 @@
 }
 .loginOut[data-v-597bd1cc] {
   position: absolute;
-  bottom: 2%;
-  left: 30%;
+  top: 20%;
+  right: 5%;
   color: #ffffff;
   font-size: 0.625rem;
-  padding: 0.15625rem;
+  padding: 0.0625rem;
   border: 1px #ff5e5e solid;
   border-radius: 0.3125rem;
   background: rgba(237, 13, 13, 0.3);

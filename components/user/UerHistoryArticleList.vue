@@ -1,7 +1,8 @@
 <template>
   <view>
-    <view v-for="(item,index) in articleList" :key="index" style="margin-bottom: 10rpx;">
-      <view class="disF-center" style="color: #646464;flex-direction: column;align-items: flex-end;font-size: 32rpx;background: #FFFFFF;"><view style="margin-right:30rpx;">查看时间：{{ item.w_create_time= item.w_create_time.slice(0, 19).replace('T', '-') }}</view></view>
+    <view class="disF-center" style="color: #a0a0a0;flex-direction: column;" v-if="userObj.u_id!==u_id"><view>无法查看他/她人的历史记录</view></view>
+    <view v-for="(item,index) in articleList" :key="index" style="margin-bottom: 10rpx;" v-else>
+      <view class="disF-center" style="color: #646464;flex-direction: column;align-items: flex-end;font-size: 32rpx;background: #FFFFFF;"><view style="margin-right:30rpx;">查看时间：{{ item.w_create_time=formatTimestamp(new Date(item.w_create_time)).slice(6, -7)}}</view></view>
       <ArticleCard :article-data="item" :need-follow-model="true"></ArticleCard>
     </view>
     <view class="disF-center" style="color: #a0a0a0;flex-direction: column;"><view>历史记录最多显示50条</view></view>
@@ -14,7 +15,8 @@ import {onMounted, ref} from "vue";
 import {getArticleDetailByID} from '@/static/api/article'
 import {getWatchByUid} from '@/static/api/act'
 import ArticleCard from "@/components/article/ArticleCard";
-import {formatDate} from '@/static/utils/globalConifg'
+import {formatTimestamp} from '@/static/utils/globalConifg'
+import {useStore} from 'vuex';
 
 export default {
   props: {
@@ -31,6 +33,8 @@ export default {
     let articleList = ref([])
     // 存储观看数据
     let watchArticleIdData = []
+    let store = useStore()
+    let userObj = ref(store.getters.getUser)
 
     const initialize =async (u_id)=>{
       let res = await getWatchByUid(u_id)
@@ -56,11 +60,14 @@ export default {
 
     }
 
-    onMounted(()=>{
-      initialize(u_id.value)
+    onMounted(async ()=>{
+      if (userObj.value.u_id === u_id.value)
+        await initialize(u_id.value)
+
+
     })
     return{
-      articleList,formatDate
+      articleList,formatTimestamp,userObj,u_id
     }
   }
 }

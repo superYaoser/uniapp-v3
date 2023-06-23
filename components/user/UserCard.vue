@@ -4,7 +4,7 @@
 
       <view class="userCard__container__body">
 
-        <view class="userCard__container__body__left">
+        <view class="userCard__container__body__left" @tap.stop="tapAuthorCard(userObj)">
           <view class="userCard__container__body__left__head">
             <view class="userCard__container__body__left__head--img" :style="userObj.u_head ? 'background-image: url(' + userObj.u_head + ')' : 'background-image: url(' + defaultHeadImgPath + ')'"></view>
           </view>
@@ -92,11 +92,18 @@ export default {
       }
       console.log('点击了关注')
     }
+    //点击作者栏
+    const tapAuthorCard=(data)=>{
+      console.log('点击了作者栏')
+      uni.navigateTo({
+        url: '/pages/user/user?id='+data.u_id
+      })
+    }
 
     let userObj =ref()
     userObj.value = props.userObj
     return {
-      userObj,isSelf,defaultHeadImgPath,tapFollowCard
+      userObj,isSelf,defaultHeadImgPath,tapFollowCard,tapAuthorCard
     }
   }
 }

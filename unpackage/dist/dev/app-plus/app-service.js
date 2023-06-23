@@ -2292,7 +2292,7 @@ if (uni.restoreGlobal) {
     const reg = /^[0-9]*$/g;
     return typeof val === "number" || reg.test(val) ? val + "px" : val;
   };
-  const _sfc_main$B = {
+  const _sfc_main$D = {
     name: "UniIcons",
     emits: ["click"],
     props: {
@@ -2336,7 +2336,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$A(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock(
       "text",
       {
@@ -2349,8 +2349,8 @@ if (uni.restoreGlobal) {
       /* CLASS, STYLE */
     );
   }
-  const __easycom_0$1 = /* @__PURE__ */ _export_sfc(_sfc_main$B, [["render", _sfc_render$A], ["__scopeId", "data-v-d31e1c47"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/uni_modules/uni-icons/components/uni-icons/uni-icons.vue"]]);
-  const _sfc_main$A = {
+  const __easycom_0$1 = /* @__PURE__ */ _export_sfc(_sfc_main$D, [["render", _sfc_render$C], ["__scopeId", "data-v-d31e1c47"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/uni_modules/uni-icons/components/uni-icons/uni-icons.vue"]]);
+  const _sfc_main$C = {
     name: "TabBar",
     setup() {
       let haveNewInfo = vue.ref(false);
@@ -2403,7 +2403,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$z(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$B(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$1);
     return vue.openBlock(), vue.createElementBlock("view", { id: "TabBar" }, [
       vue.createElementVNode("view", { class: "tabbar" }, [
@@ -2461,7 +2461,7 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const TabBar = /* @__PURE__ */ _export_sfc(_sfc_main$A, [["render", _sfc_render$z], ["__scopeId", "data-v-270561e4"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/common/TabBar.vue"]]);
+  const TabBar = /* @__PURE__ */ _export_sfc(_sfc_main$C, [["render", _sfc_render$B], ["__scopeId", "data-v-270561e4"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/common/TabBar.vue"]]);
   function loginUseUser(data) {
     return request({
       url: "user/login",
@@ -2509,7 +2509,7 @@ if (uni.restoreGlobal) {
   }
   function getUserFensListByUid(id) {
     return request({
-      url: "user/concern-list/" + id,
+      url: "user/fens-list/" + id,
       method: "GET"
     });
   }
@@ -2709,7 +2709,7 @@ if (uni.restoreGlobal) {
       url: "act/watch/user/" + id
     });
   }
-  const _sfc_main$z = {
+  const _sfc_main$B = {
     name: "Loading",
     data() {
       return {};
@@ -2732,7 +2732,7 @@ if (uni.restoreGlobal) {
      */
     methods: {}
   };
-  function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$A(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { style: { "background": "#fff", "text-align": "center" } }, [
       $props.loading ? (vue.openBlock(), vue.createElementBlock("image", {
         key: 0,
@@ -2742,7 +2742,7 @@ if (uni.restoreGlobal) {
       })) : vue.createCommentVNode("v-if", true)
     ]);
   }
-  const Loading = /* @__PURE__ */ _export_sfc(_sfc_main$z, [["render", _sfc_render$y], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/loading/Loading.vue"]]);
+  const Loading = /* @__PURE__ */ _export_sfc(_sfc_main$B, [["render", _sfc_render$A], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/loading/Loading.vue"]]);
   function getNMessageByReceiveUid(id) {
     return request({
       url: "message/action/user/" + id
@@ -5325,7 +5325,7 @@ if (uni.restoreGlobal) {
     let res = await addActionMessage(data);
     return res.code === 200;
   };
-  const _sfc_main$y = {
+  const _sfc_main$A = {
     name: "ArticleCard",
     components: { Loading },
     props: {
@@ -5493,7 +5493,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$x(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$z(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Loading = vue.resolveComponent("Loading");
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$1);
     return vue.openBlock(), vue.createElementBlock("view", { class: "ArticleCard__container w100 h100" }, [
@@ -5694,7 +5694,7 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const ArticleCard = /* @__PURE__ */ _export_sfc(_sfc_main$y, [["render", _sfc_render$x], ["__scopeId", "data-v-9eefd57b"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/article/ArticleCard.vue"]]);
+  const ArticleCard = /* @__PURE__ */ _export_sfc(_sfc_main$A, [["render", _sfc_render$z], ["__scopeId", "data-v-9eefd57b"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/article/ArticleCard.vue"]]);
   const getListSetConfig = (e) => {
     formatAppLog("log", "at components/home/articlesList/functions.js:72", e);
     const listSetConfig = {
@@ -5712,7 +5712,7 @@ if (uni.restoreGlobal) {
       return listSetConfig;
     }
   };
-  const _sfc_main$x = {
+  const _sfc_main$z = {
     components: {
       Loading,
       ArticleCard
@@ -5724,8 +5724,8 @@ if (uni.restoreGlobal) {
     setup(props) {
       const needFollowModel = vue.ref(true);
       needFollowModel.value = props.needFollowModel;
-      let classifyList = vue.ref();
-      classifyList.value = [];
+      let classifyList2 = vue.ref();
+      classifyList2.value = [];
       let lateArticleList = vue.ref([]);
       let recommendArticleList = vue.ref([]);
       let hotArticleList = vue.ref([]);
@@ -5740,8 +5740,10 @@ if (uni.restoreGlobal) {
       };
       let clickNavIndex = vue.ref();
       uni.$on("home_article_follow_nav_change", function(e) {
+        if (model_str_num === "pyq")
+          return;
         clickNavIndex.value = e.page;
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:84", clickNavIndex.value);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:89", clickNavIndex.value);
       });
       let currentIndex = vue.ref();
       const swiperItemChange = (e) => {
@@ -5750,7 +5752,7 @@ if (uni.restoreGlobal) {
       };
       const initializeHomeData = async () => {
         for (let i = 0; i < 3; i++) {
-          classifyList.value[i] = { categoryID: i, classifyTitle: "", classifyContent: "类别描述", currentPage: 1, articleList: [{}] };
+          classifyList2.value[i] = { categoryID: i, classifyTitle: "", classifyContent: "类别描述", currentPage: 1, articleList: [{}] };
         }
         lateArticleList.value = await getDetailedArticleByJsonData({
           "sort": 1,
@@ -5770,14 +5772,14 @@ if (uni.restoreGlobal) {
           "articleContentMaxWord": 100,
           "select_title_num": 2
         });
-        classifyList.value[0].articleList = lateArticleList.value;
-        classifyList.value[1].articleList = recommendArticleList.value;
-        classifyList.value[2].articleList = hotArticleList.value;
+        classifyList2.value[0].articleList = lateArticleList.value;
+        classifyList2.value[1].articleList = recommendArticleList.value;
+        classifyList2.value[2].articleList = hotArticleList.value;
       };
       const store2 = useStore();
       let login_u_id = store2.getters.getUser;
       login_u_id = login_u_id.u_id;
-      formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:131", "ArticleList用户id" + login_u_id);
+      formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:136", "ArticleList用户id" + login_u_id);
       let concernArticleList = vue.ref([]);
       const getConcernDetailedArticleByJsonData = async (data) => {
         let temp = await getConcernDetailedArticle(data);
@@ -5790,13 +5792,13 @@ if (uni.restoreGlobal) {
         return res;
       };
       const initializePyqData = async () => {
-        classifyList.value[0] = { categoryID: 0, classifyTitle: "", classifyContent: "类别描述", currentPage: 1, articleList: [{}] };
+        classifyList2.value[0] = { categoryID: 0, classifyTitle: "", classifyContent: "类别描述", currentPage: 1, articleList: [{}] };
         concernArticleList.value = await getConcernDetailedArticleByJsonData({
           "u_id": login_u_id,
           "articleContentMaxWord": 100
         });
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:155", concernArticleList.value);
-        classifyList.value[0].articleList = concernArticleList.value;
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:160", concernArticleList.value);
+        classifyList2.value[0].articleList = concernArticleList.value;
       };
       let concernArticleNULL = vue.ref(false);
       let refreshOK = vue.ref(false);
@@ -5805,35 +5807,36 @@ if (uni.restoreGlobal) {
         refreshOK.value = true;
         setTimeout(() => {
           refreshOK.value = false;
-          uni.$emit("home_articleList_change", { data: classifyList.value });
+          uni.$emit("home_articleList_change", { data: classifyList2.value });
         }, 1100);
         if (!canRefresh) {
-          formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:175", "当前不能刷新");
+          formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:180", "当前不能刷新");
           return;
         }
         canRefresh = false;
         setTimeout(() => {
           canRefresh = true;
         }, 1e3);
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:184", "下拉刷新被触发");
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:189", "下拉刷新被触发");
         indexReFreshPage = [1, 1, 1];
         if (set.static === 2) {
           concernArticleList.value = await getConcernDetailedArticleByJsonData({
             "u_id": login_u_id,
             "articleContentMaxWord": 100
           });
-          classifyList.value[index].articleList = concernArticleList.value;
+          classifyList2.value[index].articleList = concernArticleList.value;
+          plus.nativeUI.toast(`已刷新`);
         } else {
-          formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:194", index);
+          formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:199", index);
           if (index === 0) {
-            formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:196", "123123123213213122");
+            formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:201", "123123123213213122");
             lateArticleList.value = await getDetailedArticleByJsonData({
               "sort": 1,
               "page_number": 1,
               "articleContentMaxWord": 100,
               "select_title_num": 3
             });
-            classifyList.value[index].articleList = lateArticleList.value;
+            classifyList2.value[index].articleList = lateArticleList.value;
           } else if (index === 1) {
             recommendArticleList.value = await getDetailedArticleByJsonData({
               "sort": 1,
@@ -5841,7 +5844,7 @@ if (uni.restoreGlobal) {
               "articleContentMaxWord": 100,
               "select_title_num": 1
             });
-            classifyList.value[index].articleList = recommendArticleList.value;
+            classifyList2.value[index].articleList = recommendArticleList.value;
           } else if (index === 2) {
             hotArticleList.value = await getDetailedArticleByJsonData({
               "sort": 1,
@@ -5849,8 +5852,9 @@ if (uni.restoreGlobal) {
               "articleContentMaxWord": 100,
               "select_title_num": 2
             });
-            classifyList.value[index].articleList = hotArticleList.value;
+            classifyList2.value[index].articleList = hotArticleList.value;
           }
+          plus.nativeUI.toast(`已刷新`);
         }
       };
       let upRefreshOK = vue.ref(false);
@@ -5863,10 +5867,10 @@ if (uni.restoreGlobal) {
         upRefreshOK.value = true;
         setTimeout(() => {
           upRefreshOK.value = false;
-          uni.$emit("home_articleList_change", { data: classifyList.value });
+          uni.$emit("home_articleList_change", { data: classifyList2.value });
         }, 1100);
         if (!canUpRefresh) {
-          formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:243", "当前不能上拉刷新");
+          formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:248", "当前不能上拉刷新");
           plus.nativeUI.toast(`载入中...`);
           return;
         }
@@ -5874,7 +5878,7 @@ if (uni.restoreGlobal) {
         setTimeout(() => {
           canUpRefresh = true;
         }, 1e3);
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:253", "上拉刷新被触发");
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:258", "上拉刷新被触发");
         sendLoadingLogo();
         if (index === 0) {
           let lateArticleList2 = await getDetailedArticleByJsonData({
@@ -5911,7 +5915,7 @@ if (uni.restoreGlobal) {
       const pushInClassifyListIndexByArticleList = (index, articleList) => {
         try {
           for (let i = 0; i < articleList.length; i++) {
-            classifyList.value[index].articleList.push(articleList[i]);
+            classifyList2.value[index].articleList.push(articleList[i]);
           }
           return true;
         } catch (e) {
@@ -5932,7 +5936,7 @@ if (uni.restoreGlobal) {
       model_str_num = props.model_str_num;
       let set = getListSetConfig(model_str_num);
       vue.onMounted(async () => {
-        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:324", set);
+        formatAppLog("log", "at components/home/articlesList/ArticlesList.vue:329", set);
         if (set.static === 2) {
           if (!login_u_id) {
             plus.nativeUI.toast(`用户没有登录`);
@@ -5945,7 +5949,7 @@ if (uni.restoreGlobal) {
         }
       });
       let scrollViewLoading = vue.ref(true);
-      vue.watch(classifyList, (newValue) => {
+      vue.watch(classifyList2, (newValue) => {
         let allArticleListHaveValue = newValue.every((item) => item.articleList.length > 1);
         if (allArticleListHaveValue) {
           scrollViewLoading.value = false;
@@ -5953,7 +5957,7 @@ if (uni.restoreGlobal) {
       }, { deep: true });
       return {
         scrollViewLoading,
-        classifyList,
+        classifyList: classifyList2,
         swiperItemChange,
         clickNavIndex,
         needFollowModel,
@@ -5965,7 +5969,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$y(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ArticleCard = vue.resolveComponent("ArticleCard");
     return vue.openBlock(), vue.createElementBlock("view", { class: "w100 h100" }, [
       vue.createElementVNode("view", { class: "actives__container w100 h100" }, [
@@ -6032,8 +6036,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const ArticlesList = /* @__PURE__ */ _export_sfc(_sfc_main$x, [["render", _sfc_render$w], ["__scopeId", "data-v-fc82db5d"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/home/articlesList/ArticlesList.vue"]]);
-  const _sfc_main$w = {
+  const ArticlesList = /* @__PURE__ */ _export_sfc(_sfc_main$z, [["render", _sfc_render$y], ["__scopeId", "data-v-fc82db5d"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/home/articlesList/ArticlesList.vue"]]);
+  const _sfc_main$y = {
     components: {
       ArticlesList
     },
@@ -6062,6 +6066,10 @@ if (uni.restoreGlobal) {
           plus.nativeUI.toast(`请先登录`);
         }
       };
+      const tapSan = () => {
+        formatAppLog("log", "at pages/home/Home.vue:80", "点击扫描");
+        plus.nativeUI.toast(`暂未开放`);
+      };
       vue.onMounted(() => {
       });
       return {
@@ -6069,7 +6077,8 @@ if (uni.restoreGlobal) {
         articleNavColor,
         unArticleNavColor,
         changeCurrentNavPage,
-        tapSearch
+        tapSearch,
+        tapSan
       };
     },
     data() {
@@ -6081,7 +6090,7 @@ if (uni.restoreGlobal) {
     },
     methods: {}
   };
-  function _sfc_render$v(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$x(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$1);
     const _component_ArticlesList = vue.resolveComponent("ArticlesList");
     return vue.openBlock(), vue.createElementBlock("view", {
@@ -6110,11 +6119,15 @@ if (uni.restoreGlobal) {
                   }),
                   vue.createElementVNode("text", { space: "ensp" }, " 搜点什么...")
                 ]),
-                vue.createVNode(_component_uni_icons, {
-                  type: "scan",
-                  size: "55rpx",
-                  color: "#002c52"
-                })
+                vue.createElementVNode("view", {
+                  onClick: _cache[1] || (_cache[1] = vue.withModifiers(($event) => $setup.tapSan(), ["stop"]))
+                }, [
+                  vue.createVNode(_component_uni_icons, {
+                    type: "scan",
+                    size: "55rpx",
+                    color: "#002c52"
+                  })
+                ])
               ])
             ]),
             vue.createCommentVNode("          导航"),
@@ -6123,33 +6136,51 @@ if (uni.restoreGlobal) {
                 vue.createElementVNode(
                   "view",
                   {
-                    class: "header__nav__container--late",
-                    onClick: _cache[1] || (_cache[1] = ($event) => $setup.changeCurrentNavPage(0)),
+                    class: "header__nav__container--option",
+                    onClick: _cache[2] || (_cache[2] = ($event) => $setup.changeCurrentNavPage(0)),
                     style: vue.normalizeStyle($setup.articleNavIndex === 0 ? "  color: " + $setup.articleNavColor + ";" : "color: " + $setup.unArticleNavColor + ";")
                   },
-                  "最新",
+                  [
+                    vue.createTextVNode("最新"),
+                    $setup.articleNavIndex === 0 ? (vue.openBlock(), vue.createElementBlock("view", {
+                      key: 0,
+                      class: "header__nav__container--option--a"
+                    })) : vue.createCommentVNode("v-if", true)
+                  ],
                   4
                   /* STYLE */
                 ),
                 vue.createElementVNode(
                   "view",
                   {
-                    class: "header__nav__container--recommend",
-                    onClick: _cache[2] || (_cache[2] = ($event) => $setup.changeCurrentNavPage(1)),
+                    class: "header__nav__container--option",
+                    onClick: _cache[3] || (_cache[3] = ($event) => $setup.changeCurrentNavPage(1)),
                     style: vue.normalizeStyle($setup.articleNavIndex === 1 ? "  color: " + $setup.articleNavColor + ";" : "color: " + $setup.unArticleNavColor + ";")
                   },
-                  "推荐",
+                  [
+                    vue.createTextVNode("推荐"),
+                    $setup.articleNavIndex === 1 ? (vue.openBlock(), vue.createElementBlock("view", {
+                      key: 0,
+                      class: "header__nav__container--option--a"
+                    })) : vue.createCommentVNode("v-if", true)
+                  ],
                   4
                   /* STYLE */
                 ),
                 vue.createElementVNode(
                   "view",
                   {
-                    class: "header__nav__container--hot",
-                    onClick: _cache[3] || (_cache[3] = ($event) => $setup.changeCurrentNavPage(2)),
+                    class: "header__nav__container--option",
+                    onClick: _cache[4] || (_cache[4] = ($event) => $setup.changeCurrentNavPage(2)),
                     style: vue.normalizeStyle($setup.articleNavIndex === 2 ? "  color: " + $setup.articleNavColor + ";" : "color: " + $setup.unArticleNavColor + ";")
                   },
-                  "热门",
+                  [
+                    vue.createTextVNode("热门"),
+                    $setup.articleNavIndex === 2 ? (vue.openBlock(), vue.createElementBlock("view", {
+                      key: 0,
+                      class: "header__nav__container--option--a"
+                    })) : vue.createCommentVNode("v-if", true)
+                  ],
                   4
                   /* STYLE */
                 )
@@ -6166,8 +6197,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const Home = /* @__PURE__ */ _export_sfc(_sfc_main$w, [["render", _sfc_render$v], ["__scopeId", "data-v-a0df4f3d"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/home/Home.vue"]]);
-  const _sfc_main$v = {
+  const Home = /* @__PURE__ */ _export_sfc(_sfc_main$y, [["render", _sfc_render$x], ["__scopeId", "data-v-a0df4f3d"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/home/Home.vue"]]);
+  const _sfc_main$x = {
     name: "Nologin",
     methods: {
       login: function() {
@@ -6189,7 +6220,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$u(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", null, [
       vue.createElementVNode("view", { style: { "background": "#fff", "text-align": "center" } }, [
         $setup.imgChangeNumber === 1 ? (vue.openBlock(), vue.createElementBlock("image", {
@@ -6208,8 +6239,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const NoLogin = /* @__PURE__ */ _export_sfc(_sfc_main$v, [["render", _sfc_render$u], ["__scopeId", "data-v-26a25e63"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/noLogin/NoLogin.vue"]]);
-  const _sfc_main$u = {
+  const NoLogin = /* @__PURE__ */ _export_sfc(_sfc_main$x, [["render", _sfc_render$w], ["__scopeId", "data-v-26a25e63"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/noLogin/NoLogin.vue"]]);
+  const _sfc_main$w = {
     components: {
       ArticlesList,
       Loading,
@@ -6227,7 +6258,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$v(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_NoLogin = vue.resolveComponent("NoLogin");
     const _component_ArticlesList = vue.resolveComponent("ArticlesList");
     return vue.openBlock(), vue.createElementBlock("view", { class: "w100 h100" }, [
@@ -6261,8 +6292,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const Dynamic = /* @__PURE__ */ _export_sfc(_sfc_main$u, [["render", _sfc_render$t], ["__scopeId", "data-v-508725f9"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/pyq/Dynamic.vue"]]);
-  const _sfc_main$t = {
+  const Dynamic = /* @__PURE__ */ _export_sfc(_sfc_main$w, [["render", _sfc_render$v], ["__scopeId", "data-v-508725f9"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/pyq/Dynamic.vue"]]);
+  const _sfc_main$v = {
     name: "messageCard",
     props: {
       data: Object,
@@ -6294,7 +6325,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$u(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", {
       style: { "width": "100%", "height": "120rpx", "background": "#F5F5F5", "padding": "10rpx", "display": "flex", "align-items": "centerl", "margin": "2rpx 0" },
       onClick: _cache[0] || (_cache[0] = vue.withModifiers((...args) => $setup.tapMessageCard && $setup.tapMessageCard(...args), ["stop"]))
@@ -6360,8 +6391,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const MessageCard = /* @__PURE__ */ _export_sfc(_sfc_main$t, [["render", _sfc_render$s], ["__scopeId", "data-v-4762ac38"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/message/MessageCard.vue"]]);
-  const _sfc_main$s = {
+  const MessageCard = /* @__PURE__ */ _export_sfc(_sfc_main$v, [["render", _sfc_render$u], ["__scopeId", "data-v-4762ac38"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/message/MessageCard.vue"]]);
+  const _sfc_main$u = {
     components: {
       MessageCard,
       NoLogin
@@ -6375,11 +6406,31 @@ if (uni.restoreGlobal) {
       store2 = useStore();
       let login_u_id = store2.getters.getUser;
       login_u_id = login_u_id.u_id;
+      let refreshOK = vue.ref(false);
+      let canRefresh = true;
+      const refreshListWithThrottle = async () => {
+        refreshOK.value = true;
+        setTimeout(() => {
+          refreshOK.value = false;
+          uni.$emit("home_articleList_change", { data: classifyList.value });
+        }, 1100);
+        if (!canRefresh) {
+          formatAppLog("log", "at pages/message/Message.vue:95", "当前不能刷新");
+          return;
+        }
+        canRefresh = false;
+        setTimeout(() => {
+          canRefresh = true;
+        }, 1e3);
+        formatAppLog("log", "at pages/message/Message.vue:104", "下拉刷新被触发");
+        await initializeInteractiveInformation();
+        plus.nativeUI.toast(`已刷新`);
+      };
       let actionMessageList = vue.ref();
       let leading = vue.ref(false);
       uni.$on("message_action", function(e) {
         let data = e.data;
-        formatAppLog("log", "at pages/message/Message.vue:92", data);
+        formatAppLog("log", "at pages/message/Message.vue:117", data);
         if (e.data.receive_user_id === login_u_id) {
           PushMessageNotificationBar("", data.content);
           plus.nativeUI.toast(`${data.content}`);
@@ -6389,10 +6440,10 @@ if (uni.restoreGlobal) {
       const initializeInteractiveInformation = async (login_u_id2) => {
         leading.value = false;
         let res = await getNMessageByReceiveUid(login_u_id2);
-        formatAppLog("log", "at pages/message/Message.vue:104", res);
+        formatAppLog("log", "at pages/message/Message.vue:129", res);
         if (res.code === 200) {
           actionMessageList.value = res.data;
-          formatAppLog("log", "at pages/message/Message.vue:107", actionMessageList);
+          formatAppLog("log", "at pages/message/Message.vue:132", actionMessageList);
           if (actionMessageList.value) {
             uni.$emit("received_new_information", {
               data: true
@@ -6419,11 +6470,13 @@ if (uni.restoreGlobal) {
         actionMessageList,
         formatDate,
         leading,
-        loginStatus
+        loginStatus,
+        refreshListWithThrottle,
+        refreshOK
       };
     }
   };
-  function _sfc_render$r(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_NoLogin = vue.resolveComponent("NoLogin");
     const _component_MessageCard = vue.resolveComponent("MessageCard");
     return vue.openBlock(), vue.createElementBlock("view", { class: "w100 h100" }, [
@@ -6449,7 +6502,9 @@ if (uni.restoreGlobal) {
                 "scroll-y": "true",
                 style: `width: 100%;height: 100%;background: #ffffff;`,
                 "refresher-enabled": "true",
-                "refresher-background": "#ffffff"
+                "refresher-background": "#f5f5f5",
+                onRefresherrefresh: _cache[1] || (_cache[1] = ($event) => $setup.refreshListWithThrottle()),
+                "refresher-triggered": $setup.refreshOK
               }, [
                 $setup.leading ? (vue.openBlock(), vue.createBlock(_component_MessageCard, {
                   key: 0,
@@ -6485,15 +6540,15 @@ if (uni.restoreGlobal) {
                   },
                   id: "123"
                 }, null, 8, ["data"])
-              ])
+              ], 40, ["refresher-triggered"])
             ]))
           ])
         ])
       ])
     ]);
   }
-  const Message = /* @__PURE__ */ _export_sfc(_sfc_main$s, [["render", _sfc_render$r], ["__scopeId", "data-v-6b9d1851"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/message/Message.vue"]]);
-  const _sfc_main$r = {
+  const Message = /* @__PURE__ */ _export_sfc(_sfc_main$u, [["render", _sfc_render$t], ["__scopeId", "data-v-6b9d1851"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/message/Message.vue"]]);
+  const _sfc_main$t = {
     props: {
       u_id: String
     },
@@ -6518,7 +6573,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$q(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ArticleCard = vue.resolveComponent("ArticleCard");
     return vue.openBlock(), vue.createElementBlock("view", null, [
       (vue.openBlock(true), vue.createElementBlock(
@@ -6546,8 +6601,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const UserArticleList = /* @__PURE__ */ _export_sfc(_sfc_main$r, [["render", _sfc_render$q], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/user/UserArticleList.vue"]]);
-  const _sfc_main$q = {
+  const UserArticleList = /* @__PURE__ */ _export_sfc(_sfc_main$t, [["render", _sfc_render$s], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/user/UserArticleList.vue"]]);
+  const _sfc_main$s = {
     props: {
       u_id: String
     },
@@ -6572,7 +6627,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$p(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$r(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ArticleCard = vue.resolveComponent("ArticleCard");
     return vue.openBlock(), vue.createElementBlock("view", null, [
       (vue.openBlock(true), vue.createElementBlock(
@@ -6600,8 +6655,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const UserHandArticleList = /* @__PURE__ */ _export_sfc(_sfc_main$q, [["render", _sfc_render$p], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/user/UserHandArticleList.vue"]]);
-  const _sfc_main$p = {
+  const UserHandArticleList = /* @__PURE__ */ _export_sfc(_sfc_main$s, [["render", _sfc_render$r], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/user/UserHandArticleList.vue"]]);
+  const _sfc_main$r = {
     props: {
       u_id: String
     },
@@ -6613,6 +6668,8 @@ if (uni.restoreGlobal) {
       u_id.value = props.u_id;
       let articleList = vue.ref([]);
       let watchArticleIdData = [];
+      let store2 = useStore();
+      let userObj = vue.ref(store2.getters.getUser);
       const initialize = async (u_id2) => {
         let res = await getWatchByUid(u_id2);
         if (res.code === 200) {
@@ -6627,26 +6684,35 @@ if (uni.restoreGlobal) {
           let res1 = await getArticleDetailByID(watchArticleIdData[i].w_article_id);
           if (res1.code === 200) {
             res1.data.w_create_time = watchArticleIdData[i].w_create_time;
-            formatAppLog("log", "at components/user/UerHistoryArticleList.vue:51", res1.data.w_create_time);
+            formatAppLog("log", "at components/user/UerHistoryArticleList.vue:55", res1.data.w_create_time);
             articleList.value.push(res1.data);
           }
         }
       };
-      vue.onMounted(() => {
-        initialize(u_id.value);
+      vue.onMounted(async () => {
+        if (userObj.value.u_id === u_id.value)
+          await initialize(u_id.value);
       });
       return {
         articleList,
-        formatDate
+        formatTimestamp,
+        userObj,
+        u_id
       };
     }
   };
-  function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$q(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ArticleCard = vue.resolveComponent("ArticleCard");
     return vue.openBlock(), vue.createElementBlock("view", null, [
-      (vue.openBlock(true), vue.createElementBlock(
+      $setup.userObj.u_id !== $setup.u_id ? (vue.openBlock(), vue.createElementBlock("view", {
+        key: 0,
+        class: "disF-center",
+        style: { "color": "#a0a0a0", "flex-direction": "column" }
+      }, [
+        vue.createElementVNode("view", null, "无法查看他/她人的历史记录")
+      ])) : (vue.openBlock(true), vue.createElementBlock(
         vue.Fragment,
-        null,
+        { key: 1 },
         vue.renderList($setup.articleList, (item, index) => {
           return vue.openBlock(), vue.createElementBlock("view", {
             key: index,
@@ -6659,7 +6725,7 @@ if (uni.restoreGlobal) {
               vue.createElementVNode(
                 "view",
                 { style: { "margin-right": "30rpx" } },
-                "查看时间：" + vue.toDisplayString(item.w_create_time = item.w_create_time.slice(0, 19).replace("T", "-")),
+                "查看时间：" + vue.toDisplayString(item.w_create_time = $setup.formatTimestamp(new Date(item.w_create_time)).slice(6, -7)),
                 1
                 /* TEXT */
               )
@@ -6687,8 +6753,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const UerHistoryArticleList = /* @__PURE__ */ _export_sfc(_sfc_main$p, [["render", _sfc_render$o], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/user/UerHistoryArticleList.vue"]]);
-  const _sfc_main$o = {
+  const UerHistoryArticleList = /* @__PURE__ */ _export_sfc(_sfc_main$r, [["render", _sfc_render$q], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/user/UerHistoryArticleList.vue"]]);
+  const _sfc_main$q = {
     name: "UserDetail",
     components: {
       UserArticleList,
@@ -6728,8 +6794,8 @@ if (uni.restoreGlobal) {
         let res = await getUserConcernListByUid(userObj.value.u_id);
         let res1 = await getUserFensListByUid(userObj.value.u_id);
         if (res.code === 200 && res1.code === 200) {
-          fens_num.value = res.data.length;
-          concern_num.value = res1.data.length;
+          fens_num.value = res1.data.length;
+          concern_num.value = res.data.length;
         }
         loading.value = true;
       };
@@ -6792,6 +6858,18 @@ if (uni.restoreGlobal) {
         }
         formatAppLog("log", "at components/user/UserDetail.vue:259", "点击了关注");
       };
+      const tapFans = (data) => {
+        formatAppLog("log", "at components/user/UserDetail.vue:264", "点击了作者栏");
+        uni.navigateTo({
+          url: "/pages/user/fans?id=" + data.u_id
+        });
+      };
+      const tapConcern = (data) => {
+        formatAppLog("log", "at components/user/UserDetail.vue:271", "点击了作者栏");
+        uni.navigateTo({
+          url: "/pages/user/concern?id=" + data.u_id
+        });
+      };
       return {
         articleNavIndex,
         articleNavColor,
@@ -6811,13 +6889,14 @@ if (uni.restoreGlobal) {
         concern_num,
         loading,
         loginOut,
-        needLoginOut
+        needLoginOut,
+        tapFans,
+        tapConcern
       };
     }
   };
-  function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$p(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$1);
-    const _component_Loading = vue.resolveComponent("Loading");
     const _component_UserArticleList = vue.resolveComponent("UserArticleList");
     const _component_UserHandArticleList = vue.resolveComponent("UserHandArticleList");
     const _component_UerHistoryArticleList = vue.resolveComponent("UerHistoryArticleList");
@@ -6854,7 +6933,7 @@ if (uni.restoreGlobal) {
                   key: 1,
                   onClick: _cache[1] || (_cache[1] = vue.withModifiers((...args) => $setup.loginOut && $setup.loginOut(...args), ["stop"])),
                   class: "loginOut"
-                }, "注销登录")) : vue.createCommentVNode("v-if", true)
+                }, "注销")) : vue.createCommentVNode("v-if", true)
               ]),
               vue.createElementVNode("view", {
                 class: "userDetail__container__header__bg__space",
@@ -6939,12 +7018,15 @@ if (uni.restoreGlobal) {
                   vue.createElementVNode("text", null, vue.toDisplayString("IP所属：黑龙江"))
                 ])
               ]),
-              !$setup.loading ? (vue.openBlock(), vue.createBlock(_component_Loading, { key: 0 })) : vue.createCommentVNode("v-if", true),
+              vue.createCommentVNode('          <Loading v-if="!loading"></Loading>'),
               $setup.loading ? (vue.openBlock(), vue.createElementBlock("view", {
-                key: 1,
+                key: 0,
                 class: "userDetail__container__header__info__grades"
               }, [
-                vue.createElementVNode("view", { class: "userDetail__container__header__info__grades__option" }, [
+                vue.createElementVNode("view", {
+                  class: "userDetail__container__header__info__grades__option",
+                  onClick: _cache[4] || (_cache[4] = vue.withModifiers(($event) => $setup.tapConcern($setup.userObj), ["stop"]))
+                }, [
                   vue.createElementVNode(
                     "text",
                     { class: "userDetail__container__header__info__grades__option--num" },
@@ -6954,7 +7036,10 @@ if (uni.restoreGlobal) {
                   ),
                   vue.createElementVNode("text", { class: "userDetail__container__header__info__grades__option--word" }, vue.toDisplayString("关注"))
                 ]),
-                vue.createElementVNode("view", { class: "userDetail__container__header__info__grades__option" }, [
+                vue.createElementVNode("view", {
+                  class: "userDetail__container__header__info__grades__option",
+                  onClick: _cache[5] || (_cache[5] = vue.withModifiers(($event) => $setup.tapFans($setup.userObj), ["stop"]))
+                }, [
                   vue.createElementVNode(
                     "text",
                     { class: "userDetail__container__header__info__grades__option--num" },
@@ -6983,21 +7068,21 @@ if (uni.restoreGlobal) {
           }, [
             vue.createElementVNode("view", {
               class: "header__nav",
-              style: { "height": "7%" }
+              style: { "height": "6%" }
             }, [
               vue.createElementVNode("view", {
-                style: { "height": "20%" },
+                style: { "height": "15%" },
                 class: "bg-efefef"
               }),
               vue.createElementVNode("view", {
                 class: "header__nav__container",
-                style: { "height": "80%" }
+                style: { "height": "85%" }
               }, [
                 vue.createElementVNode(
                   "view",
                   {
                     class: "header__nav__container--option",
-                    onClick: _cache[4] || (_cache[4] = ($event) => $setup.changeCurrentNavPage(0)),
+                    onClick: _cache[6] || (_cache[6] = ($event) => $setup.changeCurrentNavPage(0)),
                     style: vue.normalizeStyle($setup.articleNavIndex === 0 ? "  color: " + $setup.articleNavColor + ";" : "color: " + $setup.unArticleNavColor + ";")
                   },
                   [
@@ -7011,7 +7096,7 @@ if (uni.restoreGlobal) {
                   "view",
                   {
                     class: "header__nav__container--option",
-                    onClick: _cache[5] || (_cache[5] = ($event) => $setup.changeCurrentNavPage(1)),
+                    onClick: _cache[7] || (_cache[7] = ($event) => $setup.changeCurrentNavPage(1)),
                     style: vue.normalizeStyle($setup.articleNavIndex === 1 ? "  color: " + $setup.articleNavColor + ";" : "color: " + $setup.unArticleNavColor + ";")
                   },
                   [
@@ -7025,7 +7110,7 @@ if (uni.restoreGlobal) {
                   "view",
                   {
                     class: "header__nav__container--option",
-                    onClick: _cache[6] || (_cache[6] = ($event) => $setup.changeCurrentNavPage(2)),
+                    onClick: _cache[8] || (_cache[8] = ($event) => $setup.changeCurrentNavPage(2)),
                     style: vue.normalizeStyle($setup.articleNavIndex === 2 ? "  color: " + $setup.articleNavColor + ";" : "color: " + $setup.unArticleNavColor + ";")
                   },
                   [
@@ -7044,7 +7129,7 @@ if (uni.restoreGlobal) {
             vue.createElementVNode("swiper", {
               style: { "width": "100%", "height": "100%", "padding": "0 0" },
               autoplay: false,
-              onChange: _cache[7] || (_cache[7] = ($event) => $setup.swiperItemChange($event)),
+              onChange: _cache[9] || (_cache[9] = ($event) => $setup.swiperItemChange($event)),
               current: $setup.clickNavIndex
             }, [
               vue.createCommentVNode("            发布"),
@@ -7066,10 +7151,9 @@ if (uni.restoreGlobal) {
                   "scroll-y": "true",
                   style: `width: 100%;height: 100%;background: #f5f5f5;`
                 }, [
-                  $setup.articleNavIndex === 1 ? (vue.openBlock(), vue.createBlock(_component_UserHandArticleList, {
-                    key: 0,
+                  vue.createVNode(_component_UserHandArticleList, {
                     u_id: $setup.userObj.u_id
-                  }, null, 8, ["u_id"])) : vue.createCommentVNode("v-if", true)
+                  }, null, 8, ["u_id"])
                 ])
               ]),
               vue.createCommentVNode("            历史"),
@@ -7091,8 +7175,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const UserDetail = /* @__PURE__ */ _export_sfc(_sfc_main$o, [["render", _sfc_render$n], ["__scopeId", "data-v-597bd1cc"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/user/UserDetail.vue"]]);
-  const _sfc_main$n = {
+  const UserDetail = /* @__PURE__ */ _export_sfc(_sfc_main$q, [["render", _sfc_render$p], ["__scopeId", "data-v-597bd1cc"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/user/UserDetail.vue"]]);
+  const _sfc_main$p = {
     components: {
       NoLogin,
       UserDetail
@@ -7128,7 +7212,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_NoLogin = vue.resolveComponent("NoLogin");
     const _component_UserDetail = vue.resolveComponent("UserDetail");
     return vue.openBlock(), vue.createElementBlock("view", { id: "Mine" }, [
@@ -7151,8 +7235,8 @@ if (uni.restoreGlobal) {
       ])) : vue.createCommentVNode("v-if", true)
     ]);
   }
-  const Mine = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$m], ["__scopeId", "data-v-9bc331c6"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/mine/Mine.vue"]]);
-  const _sfc_main$m = {
+  const Mine = /* @__PURE__ */ _export_sfc(_sfc_main$p, [["render", _sfc_render$o], ["__scopeId", "data-v-9bc331c6"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/mine/Mine.vue"]]);
+  const _sfc_main$o = {
     components: {
       TabBar,
       Home,
@@ -7252,7 +7336,7 @@ if (uni.restoreGlobal) {
     },
     methods: {}
   };
-  function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Home = vue.resolveComponent("Home");
     const _component_Dynamic = vue.resolveComponent("Dynamic");
     const _component_Message = vue.resolveComponent("Message");
@@ -7289,8 +7373,8 @@ if (uni.restoreGlobal) {
       vue.createVNode(_component_TabBar)
     ]);
   }
-  const PagesMainApp = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$l], ["__scopeId", "data-v-dc27c07e"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/MainApp.vue"]]);
-  const _sfc_main$l = {
+  const PagesMainApp = /* @__PURE__ */ _export_sfc(_sfc_main$o, [["render", _sfc_render$n], ["__scopeId", "data-v-dc27c07e"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/MainApp.vue"]]);
+  const _sfc_main$n = {
     setup() {
       socket.on("action", function(data) {
         uni.$emit("message_action", {
@@ -7308,8 +7392,8 @@ if (uni.restoreGlobal) {
       formatAppLog("log", "at App.vue:20", "App Hide");
     }
   };
-  const App = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/App.vue"]]);
-  const _sfc_main$k = {
+  const App = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/App.vue"]]);
+  const _sfc_main$m = {
     components: { Loading },
     props: {
       commentObj: Object,
@@ -7386,7 +7470,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Loading = vue.resolveComponent("Loading");
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$1);
     return vue.openBlock(), vue.createElementBlock(
@@ -7576,8 +7660,8 @@ if (uni.restoreGlobal) {
       /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
     );
   }
-  const CommentCard = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["render", _sfc_render$k], ["__scopeId", "data-v-1acd372d"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/article/comments/CommentCard.vue"]]);
-  const _sfc_main$j = {
+  const CommentCard = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$m], ["__scopeId", "data-v-1acd372d"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/article/comments/CommentCard.vue"]]);
+  const _sfc_main$l = {
     components: { CommentCard },
     props: {
       commentObj: Object,
@@ -7613,7 +7697,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$1);
     const _component_CommentCard = vue.resolveComponent("CommentCard");
     return vue.openBlock(), vue.createElementBlock("view", {
@@ -7683,8 +7767,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const CommentExpand = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$j], ["__scopeId", "data-v-b72a798a"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/article/comments/CommentExpand.vue"]]);
-  const _sfc_main$i = {
+  const CommentExpand = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$l], ["__scopeId", "data-v-b72a798a"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/article/comments/CommentExpand.vue"]]);
+  const _sfc_main$k = {
     props: {
       article_id: String,
       commentObj: Object,
@@ -7770,7 +7854,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", {
       style: { "height": "100vh", "width": "100vw", "background": "rgba(0,0,0,0.15)", "position": "fixed", "z-index": "999", "top": "0", "left": "0", "overflow": "hidden" },
       onClick: _cache[3] || (_cache[3] = (...args) => $setup.windowClose && $setup.windowClose(...args))
@@ -7829,8 +7913,8 @@ if (uni.restoreGlobal) {
       )
     ]);
   }
-  const CommentReplyWindow = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["render", _sfc_render$i], ["__scopeId", "data-v-31eef9f2"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/article/comments/CommentReplyWindow.vue"]]);
-  const _sfc_main$h = {
+  const CommentReplyWindow = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["render", _sfc_render$k], ["__scopeId", "data-v-31eef9f2"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/article/comments/CommentReplyWindow.vue"]]);
+  const _sfc_main$j = {
     components: {
       CommentReplyWindow,
       CommentCard,
@@ -7994,7 +8078,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_CommentReplyWindow = vue.resolveComponent("CommentReplyWindow");
     const _component_CommentExpand = vue.resolveComponent("CommentExpand");
     const _component_CommentCard = vue.resolveComponent("CommentCard");
@@ -8116,8 +8200,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const CommentList = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$h], ["__scopeId", "data-v-404a4e6d"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/article/comments/CommentList.vue"]]);
-  const _sfc_main$g = {
+  const CommentList = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$j], ["__scopeId", "data-v-404a4e6d"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/article/comments/CommentList.vue"]]);
+  const _sfc_main$i = {
     props: {
       needFollowModel: Boolean
     },
@@ -8251,7 +8335,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Loading = vue.resolveComponent("Loading");
     const _component_CommentList = vue.resolveComponent("CommentList");
     return vue.openBlock(), vue.createElementBlock("view", { style: { "padding": "0 5px 10px", "background": "#FFFFFF", "height": "100%" } }, [
@@ -8369,8 +8453,8 @@ if (uni.restoreGlobal) {
       vue.createElementVNode("view")
     ]);
   }
-  const ArticleDetailPage = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$g], ["__scopeId", "data-v-388cd4fe"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/article/ArticleDetailPage.vue"]]);
-  const _sfc_main$f = {
+  const ArticleDetailPage = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["render", _sfc_render$i], ["__scopeId", "data-v-388cd4fe"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/article/ArticleDetailPage.vue"]]);
+  const _sfc_main$h = {
     components: {
       Loading,
       ArticleDetailPage
@@ -8391,7 +8475,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$1);
     const _component_ArticleDetailPage = vue.resolveComponent("ArticleDetailPage", true);
     return vue.openBlock(), vue.createElementBlock("view", { class: "articleDetailPage" }, [
@@ -8432,8 +8516,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesArticleDetailArticleDetailPage = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$f], ["__scopeId", "data-v-b0178992"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/article/detail/ArticleDetailPage.vue"]]);
-  const _sfc_main$e = {
+  const PagesArticleDetailArticleDetailPage = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$h], ["__scopeId", "data-v-b0178992"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/article/detail/ArticleDetailPage.vue"]]);
+  const _sfc_main$g = {
     setup() {
       let account = vue.ref();
       let password = vue.ref();
@@ -8475,7 +8559,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { style: { "width": "100vw", "height": "100vh" } }, [
       vue.createElementVNode("view", { class: "loginRegister__container" }, [
         vue.createElementVNode("view", { class: "loginRegister__container__header status-bar-height" }),
@@ -8554,8 +8638,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesLoginRegisterLoginRegister = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$e], ["__scopeId", "data-v-ed6efab4"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/loginRegister/loginRegister.vue"]]);
-  const _sfc_main$d = {
+  const PagesLoginRegisterLoginRegister = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$g], ["__scopeId", "data-v-ed6efab4"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/loginRegister/loginRegister.vue"]]);
+  const _sfc_main$f = {
     props: {
       userObj: Object
     },
@@ -8595,21 +8679,31 @@ if (uni.restoreGlobal) {
         }
         formatAppLog("log", "at components/user/UserCard.vue:93", "点击了关注");
       };
+      const tapAuthorCard = (data) => {
+        formatAppLog("log", "at components/user/UserCard.vue:97", "点击了作者栏");
+        uni.navigateTo({
+          url: "/pages/user/user?id=" + data.u_id
+        });
+      };
       let userObj = vue.ref();
       userObj.value = props.userObj;
       return {
         userObj,
         isSelf,
         defaultHeadImgPath,
-        tapFollowCard
+        tapFollowCard,
+        tapAuthorCard
       };
     }
   };
-  function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { style: { "width": "100%", "height": "120rpx", "background": "#FFFFFF" } }, [
       vue.createElementVNode("view", { class: "userCard__container" }, [
         vue.createElementVNode("view", { class: "userCard__container__body" }, [
-          vue.createElementVNode("view", { class: "userCard__container__body__left" }, [
+          vue.createElementVNode("view", {
+            class: "userCard__container__body__left",
+            onClick: _cache[0] || (_cache[0] = vue.withModifiers(($event) => $setup.tapAuthorCard($setup.userObj), ["stop"]))
+          }, [
             vue.createElementVNode("view", { class: "userCard__container__body__left__head" }, [
               vue.createElementVNode(
                 "view",
@@ -8651,7 +8745,7 @@ if (uni.restoreGlobal) {
               "view",
               {
                 class: "userCard__container__body__right__follow",
-                onClick: _cache[0] || (_cache[0] = vue.withModifiers(($event) => $setup.tapFollowCard($setup.userObj), ["stop"]))
+                onClick: _cache[1] || (_cache[1] = vue.withModifiers(($event) => $setup.tapFollowCard($setup.userObj), ["stop"]))
               },
               [
                 vue.createElementVNode("view", { style: { "width": "100%", "height": "100%" } }, [
@@ -8685,8 +8779,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const UserCard = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d], ["__scopeId", "data-v-c99219be"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/user/UserCard.vue"]]);
-  const _sfc_main$c = {
+  const UserCard = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$f], ["__scopeId", "data-v-c99219be"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/user/UserCard.vue"]]);
+  const _sfc_main$e = {
     setup() {
       vue.onMounted(() => {
       });
@@ -8697,7 +8791,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { style: { "background": "#bebebe", "padding": "5px" } }, [
       vue.createElementVNode("view", { class: "status-bar-height" }),
       vue.createCommentVNode("    <Comment></Comment>"),
@@ -8728,8 +8822,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesTestPageTestPage = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$c], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/testPage/testPage.vue"]]);
-  const _sfc_main$b = {
+  const PagesTestPageTestPage = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$e], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/testPage/testPage.vue"]]);
+  const _sfc_main$d = {
     name: "UniGridItem",
     inject: ["grid"],
     props: {
@@ -8779,7 +8873,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
     return $data.width ? (vue.openBlock(), vue.createElementBlock(
       "view",
       {
@@ -8806,8 +8900,8 @@ if (uni.restoreGlobal) {
       /* STYLE */
     )) : vue.createCommentVNode("v-if", true);
   }
-  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$b], ["__scopeId", "data-v-7a807eb7"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/uni_modules/uni-grid/components/uni-grid-item/uni-grid-item.vue"]]);
-  const _sfc_main$a = {
+  const __easycom_0 = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d], ["__scopeId", "data-v-7a807eb7"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/uni_modules/uni-grid/components/uni-grid-item/uni-grid-item.vue"]]);
+  const _sfc_main$c = {
     name: "UniGrid",
     emits: ["change"],
     props: {
@@ -8877,7 +8971,7 @@ if (uni.restoreGlobal) {
       }
     }
   };
-  function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { class: "uni-grid-wrap" }, [
       vue.createElementVNode("view", {
         id: $data.elId,
@@ -8889,7 +8983,7 @@ if (uni.restoreGlobal) {
       ], 14, ["id"])
     ]);
   }
-  const __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$a], ["__scopeId", "data-v-07acefee"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/uni_modules/uni-grid/components/uni-grid/uni-grid.vue"]]);
+  const __easycom_1 = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$c], ["__scopeId", "data-v-07acefee"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/uni_modules/uni-grid/components/uni-grid/uni-grid.vue"]]);
   function getSearchUser(id) {
     return request({
       url: "search/user/" + id,
@@ -8908,7 +9002,7 @@ if (uni.restoreGlobal) {
       method: "GET"
     });
   }
-  const _sfc_main$9 = {
+  const _sfc_main$b = {
     setup(props) {
       const store2 = useStore();
       let login_u_id = store2.getters.getUser;
@@ -8944,7 +9038,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_grid_item = resolveEasycom(vue.resolveDynamicComponent("uni-grid-item"), __easycom_0);
     const _component_uni_grid = resolveEasycom(vue.resolveDynamicComponent("uni-grid"), __easycom_1);
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$1);
@@ -9066,8 +9160,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const SearchHistory = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$9], ["__scopeId", "data-v-54a2f8a1"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/home/search/SearchHistory.vue"]]);
-  const _sfc_main$8 = {
+  const SearchHistory = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$b], ["__scopeId", "data-v-54a2f8a1"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/home/search/SearchHistory.vue"]]);
+  const _sfc_main$a = {
     props: {
       searchResult: Object
     },
@@ -9136,7 +9230,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_ArticleCard = vue.resolveComponent("ArticleCard");
     const _component_UserCard = vue.resolveComponent("UserCard");
     return vue.openBlock(), vue.createElementBlock("view", { class: "w100 h100" }, [
@@ -9275,8 +9369,8 @@ if (uni.restoreGlobal) {
       ])) : vue.createCommentVNode("v-if", true)
     ]);
   }
-  const SearchResult = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$8], ["__scopeId", "data-v-7411b02c"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/home/search/SearchResult.vue"]]);
-  const _sfc_main$7 = {
+  const SearchResult = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$a], ["__scopeId", "data-v-7411b02c"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/home/search/SearchResult.vue"]]);
+  const _sfc_main$9 = {
     components: {
       SearchHistory,
       SearchResult
@@ -9343,7 +9437,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$1);
     const _component_SearchHistory = vue.resolveComponent("SearchHistory");
     const _component_SearchResult = vue.resolveComponent("SearchResult");
@@ -9413,8 +9507,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesSearchSearch = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$7], ["__scopeId", "data-v-c10c040c"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/search/search.vue"]]);
-  const _sfc_main$6 = {
+  const PagesSearchSearch = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$9], ["__scopeId", "data-v-c10c040c"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/search/search.vue"]]);
+  const _sfc_main$8 = {
     components: {},
     setup() {
       let keyHeight = vue.ref(0);
@@ -9584,7 +9678,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$1);
     return vue.openBlock(), vue.createElementBlock("view", { id: "Publish" }, [
       vue.createElementVNode("view", { class: "publish" }, [
@@ -9710,19 +9804,31 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const Publish = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6], ["__scopeId", "data-v-42e07aa5"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/publish/Publish.vue"]]);
-  const _sfc_main$5 = {
+  const Publish = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$8], ["__scopeId", "data-v-42e07aa5"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/publish/Publish.vue"]]);
+  const _sfc_main$7 = {
     components: {
       Loading,
       Publish
     },
     setup() {
+      let store2 = useStore();
+      let userObj = store2.getters.getUser;
+      const pageBack = () => {
+        uni.navigateBack({
+          delta: 1
+          //返回的页面数，如果 delta 大于现有页面数，则返回到首页。
+        });
+      };
       vue.onMounted(() => {
+        if (!userObj.u_id) {
+          plus.nativeUI.toast(`请先登录`);
+          pageBack();
+        }
       });
       return {};
     }
   };
-  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Publish = vue.resolveComponent("Publish", true);
     return vue.openBlock(), vue.createElementBlock("view", { class: "publishPage" }, [
       vue.createElementVNode("view", { class: "publishPage__container" }, [
@@ -9735,8 +9841,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesPublishPublish = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5], ["__scopeId", "data-v-acfd9c67"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/publish/Publish.vue"]]);
-  const _sfc_main$4 = {
+  const PagesPublishPublish = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$7], ["__scopeId", "data-v-acfd9c67"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/publish/Publish.vue"]]);
+  const _sfc_main$6 = {
     name: "messageCard",
     props: {
       data: Object,
@@ -9786,10 +9892,16 @@ if (uni.restoreGlobal) {
           url: "/pages/article/detail/ArticleDetailPage?id=" + data.article_id
         });
       };
+      const tapAuthorCard = () => {
+        formatAppLog("log", "at components/message/ReactionMsgCard.vue:119", "点击了作者栏");
+        uni.navigateTo({
+          url: "/pages/user/user?id=" + data.send_user_id
+        });
+      };
       const tapMessageCard = () => {
-        formatAppLog("log", "at components/message/ReactionMsgCard.vue:119", "用户点击信息卡");
+        formatAppLog("log", "at components/message/ReactionMsgCard.vue:126", "用户点击信息卡");
         if (id.value === "action") {
-          formatAppLog("log", "at components/message/ReactionMsgCard.vue:121", "打开互动消息");
+          formatAppLog("log", "at components/message/ReactionMsgCard.vue:128", "打开互动消息");
           uni.navigateTo({
             // url: '/pages/message/ReactionMessage/ReactionMessage?id=' + u_id.value
           });
@@ -9803,14 +9915,18 @@ if (uni.restoreGlobal) {
         messageCardInfo,
         tapMessageCard,
         u_id,
-        tapArticleCard
+        tapArticleCard,
+        tapAuthorCard
       };
     }
   };
-  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { style: { "width": "100%", "height": "120rpx", "background": "#F5F5F5", "padding": "10rpx", "display": "flex", "align-items": "center", "margin": "2rpx 0" } }, [
       vue.createElementVNode("view", { class: "reactionMsgCard__body" }, [
-        vue.createElementVNode("view", { class: "reactionMsgCard__body__left" }, [
+        vue.createElementVNode("view", {
+          class: "reactionMsgCard__body__left",
+          onClick: _cache[0] || (_cache[0] = vue.withModifiers((...args) => $setup.tapAuthorCard && $setup.tapAuthorCard(...args), ["stop"]))
+        }, [
           vue.createElementVNode("view", { class: "reactionMsgCard__body__head" }, [
             vue.createElementVNode(
               "view",
@@ -9846,7 +9962,7 @@ if (uni.restoreGlobal) {
         ]),
         vue.createElementVNode("view", {
           class: "reactionMsgCard__body__right",
-          onClick: _cache[0] || (_cache[0] = vue.withModifiers((...args) => $setup.tapArticleCard && $setup.tapArticleCard(...args), ["stop"]))
+          onClick: _cache[1] || (_cache[1] = vue.withModifiers((...args) => $setup.tapArticleCard && $setup.tapArticleCard(...args), ["stop"]))
         }, [
           vue.createElementVNode("view", { class: "reactionMsgCard__body__right--time" }, [
             vue.createElementVNode(
@@ -9885,8 +10001,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const ReactionMsgCard = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4], ["__scopeId", "data-v-0963c887"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/message/ReactionMsgCard.vue"]]);
-  const _sfc_main$3 = {
+  const ReactionMsgCard = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6], ["__scopeId", "data-v-0963c887"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/message/ReactionMsgCard.vue"]]);
+  const _sfc_main$5 = {
     components: {
       ReactionMsgCard
     },
@@ -9921,7 +10037,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$1);
     const _component_ReactionMsgCard = vue.resolveComponent("ReactionMsgCard");
     return vue.openBlock(), vue.createElementBlock("view", {
@@ -9973,8 +10089,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesMessageReactionMessageReactionMessage = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3], ["__scopeId", "data-v-fa095b8d"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/message/ReactionMessage/ReactionMessage.vue"]]);
-  const _sfc_main$2 = {
+  const PagesMessageReactionMessageReactionMessage = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5], ["__scopeId", "data-v-fa095b8d"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/message/ReactionMessage/ReactionMessage.vue"]]);
+  const _sfc_main$4 = {
     name: "PrivateWindow",
     props: {
       position: Number,
@@ -9988,7 +10104,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     return vue.openBlock(), vue.createElementBlock("view", { style: { "margin-top": "30rpx", "padding": "20rpx" } }, [
       vue.createElementVNode("view", { class: "privateWindow" }, [
         vue.createElementVNode("view", { class: "privateWindow__container" }, [
@@ -10028,8 +10144,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PrivateWindow = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["__scopeId", "data-v-20951d9e"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/message/private/PrivateWindow.vue"]]);
-  const _sfc_main$1 = {
+  const PrivateWindow = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4], ["__scopeId", "data-v-20951d9e"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/components/message/private/PrivateWindow.vue"]]);
+  const _sfc_main$3 = {
     components: {
       Loading,
       ArticleDetailPage,
@@ -10051,7 +10167,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$1);
     const _component_PrivateWindow = vue.resolveComponent("PrivateWindow");
     return vue.openBlock(), vue.createElementBlock("view", { class: "privateMessage" }, [
@@ -10108,8 +10224,8 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesMessagePrivateMessagePrivateMessage = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["__scopeId", "data-v-d6363766"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/message/PrivateMessage/PrivateMessage.vue"]]);
-  const _sfc_main = {
+  const PagesMessagePrivateMessagePrivateMessage = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3], ["__scopeId", "data-v-d6363766"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/message/PrivateMessage/PrivateMessage.vue"]]);
+  const _sfc_main$2 = {
     components: {
       UserDetail,
       Loading
@@ -10156,7 +10272,7 @@ if (uni.restoreGlobal) {
       };
     }
   };
-  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     const _component_Loading = vue.resolveComponent("Loading");
     const _component_UserDetail = vue.resolveComponent("UserDetail");
     return vue.openBlock(), vue.createElementBlock("view", { style: { "width": "100vw" } }, [
@@ -10179,7 +10295,229 @@ if (uni.restoreGlobal) {
       ])
     ]);
   }
-  const PagesUserUser = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/user/user.vue"]]);
+  const PagesUserUser = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/user/user.vue"]]);
+  const _sfc_main$1 = {
+    components: {
+      UserCard,
+      Loading
+    },
+    setup() {
+      let u_id = vue.ref();
+      let userList = vue.ref();
+      let store2 = useStore();
+      let userObj = store2.getters.getUser;
+      let loading = vue.ref(false);
+      onLoad(async (option) => {
+        loading.value = false;
+        if (!userObj.u_id) {
+          plus.nativeUI.toast(`请先登录`);
+          formatAppLog("log", "at pages/user/fans.vue:69", "用户未登录，需要返回");
+          pageBack();
+          return;
+        }
+        let id = option.id;
+        formatAppLog("log", "at pages/user/fans.vue:74", id);
+        u_id.value = id;
+        let res = await getUserFensListByUid(u_id.value);
+        formatAppLog("log", "at pages/user/fans.vue:77", res);
+        if (res.code === 200) {
+          userList.value = res.data;
+          formatAppLog("log", "at pages/user/fans.vue:80", userList);
+        } else {
+          plus.nativeUI.toast(`获取粉丝信息失败，原因:${res.message}`);
+        }
+        loading.value = true;
+      });
+      const pageBack = () => {
+        uni.navigateBack({
+          delta: 1
+          //返回的页面数，如果 delta 大于现有页面数，则返回到首页。
+        });
+      };
+      return {
+        pageBack,
+        userList,
+        loading
+      };
+    }
+  };
+  function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$1);
+    const _component_Loading = vue.resolveComponent("Loading");
+    const _component_UserCard = vue.resolveComponent("UserCard");
+    return vue.openBlock(), vue.createElementBlock("view", {
+      class: "w100 h100",
+      style: { "overflow": "hidden" }
+    }, [
+      vue.createElementVNode("view", { class: "w100 h100" }, [
+        vue.createElementVNode("view", { class: "userFens__container w100 h100" }, [
+          vue.createCommentVNode("        头部"),
+          vue.createElementVNode("view", { class: "userFens__container__header" }, [
+            vue.createElementVNode("view", { style: { "height": "var(--status-bar-height)" } }),
+            vue.createElementVNode("view", { class: "userFens__container__header--main" }, [
+              vue.createElementVNode("view", { class: "userFens__container__header--button" }, [
+                vue.createElementVNode("view", {
+                  onClick: _cache[0] || (_cache[0] = ($event) => $setup.pageBack()),
+                  style: { "margin-left": "10px" }
+                }, [
+                  vue.createVNode(_component_uni_icons, {
+                    type: "left",
+                    size: "20"
+                  })
+                ])
+              ]),
+              vue.createElementVNode("view", { class: "userFens__container__header--title" }, vue.toDisplayString("全部粉丝")),
+              vue.createElementVNode("view", { class: "userFens__container__header--more" })
+            ])
+          ]),
+          vue.createCommentVNode("        身体"),
+          vue.createElementVNode("view", { class: "userFens__container__body" }, [
+            vue.createElementVNode("view", { class: "w100 h100" }, [
+              vue.createElementVNode("scroll-view", {
+                class: "scrollview",
+                "scroll-y": "true",
+                style: `width: 100%;height: 100%;background: #f5f5f5;`
+              }, [
+                !$setup.loading ? (vue.openBlock(), vue.createBlock(_component_Loading, { key: 0 })) : vue.createCommentVNode("v-if", true),
+                $setup.loading ? (vue.openBlock(true), vue.createElementBlock(
+                  vue.Fragment,
+                  { key: 1 },
+                  vue.renderList($setup.userList, (item, index) => {
+                    return vue.openBlock(), vue.createElementBlock("view", {
+                      key: index,
+                      style: { "margin-bottom": "5px" }
+                    }, [
+                      vue.createVNode(_component_UserCard, { "user-obj": item }, null, 8, ["user-obj"])
+                    ]);
+                  }),
+                  128
+                  /* KEYED_FRAGMENT */
+                )) : vue.createCommentVNode("v-if", true),
+                vue.createElementVNode("view", {
+                  class: "disF-center",
+                  style: { "color": "#a0a0a0", "flex-direction": "column" }
+                }, [
+                  vue.createElementVNode("view", null, "已经到底了...")
+                ])
+              ])
+            ])
+          ])
+        ])
+      ])
+    ]);
+  }
+  const PagesUserFans = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["__scopeId", "data-v-2e1e43a4"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/user/fans.vue"]]);
+  const _sfc_main = {
+    components: {
+      UserCard,
+      Loading
+    },
+    setup() {
+      let u_id = vue.ref();
+      let userList = vue.ref();
+      let store2 = useStore();
+      let userObj = store2.getters.getUser;
+      let loading = vue.ref(false);
+      onLoad(async (option) => {
+        loading.value = false;
+        if (!userObj.u_id) {
+          plus.nativeUI.toast(`请先登录`);
+          formatAppLog("log", "at pages/user/concern.vue:69", "用户未登录，需要返回");
+          pageBack();
+          return;
+        }
+        let id = option.id;
+        formatAppLog("log", "at pages/user/concern.vue:74", id);
+        u_id.value = id;
+        let res = await getUserConcernListByUid(u_id.value);
+        formatAppLog("log", "at pages/user/concern.vue:77", res);
+        if (res.code === 200) {
+          userList.value = res.data;
+          formatAppLog("log", "at pages/user/concern.vue:80", userList);
+        } else {
+          plus.nativeUI.toast(`获取关注信息失败，原因:${res.message}`);
+        }
+        loading.value = true;
+      });
+      const pageBack = () => {
+        uni.navigateBack({
+          delta: 1
+          //返回的页面数，如果 delta 大于现有页面数，则返回到首页。
+        });
+      };
+      return {
+        pageBack,
+        userList,
+        loading
+      };
+    }
+  };
+  function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+    const _component_uni_icons = resolveEasycom(vue.resolveDynamicComponent("uni-icons"), __easycom_0$1);
+    const _component_Loading = vue.resolveComponent("Loading");
+    const _component_UserCard = vue.resolveComponent("UserCard");
+    return vue.openBlock(), vue.createElementBlock("view", {
+      class: "w100 h100",
+      style: { "overflow": "hidden" }
+    }, [
+      vue.createElementVNode("view", { class: "w100 h100" }, [
+        vue.createElementVNode("view", { class: "userConcern__container w100 h100" }, [
+          vue.createCommentVNode("        头部"),
+          vue.createElementVNode("view", { class: "userConcern__container__header" }, [
+            vue.createElementVNode("view", { style: { "height": "var(--status-bar-height)" } }),
+            vue.createElementVNode("view", { class: "userConcern__container__header--main" }, [
+              vue.createElementVNode("view", { class: "userConcern__container__header--button" }, [
+                vue.createElementVNode("view", {
+                  onClick: _cache[0] || (_cache[0] = ($event) => $setup.pageBack()),
+                  style: { "margin-left": "10px" }
+                }, [
+                  vue.createVNode(_component_uni_icons, {
+                    type: "left",
+                    size: "20"
+                  })
+                ])
+              ]),
+              vue.createElementVNode("view", { class: "userConcern__container__header--title" }, vue.toDisplayString("全部关注")),
+              vue.createElementVNode("view", { class: "userConcern__container__header--more" })
+            ])
+          ]),
+          vue.createCommentVNode("        身体"),
+          vue.createElementVNode("view", { class: "userConcern__container__body" }, [
+            vue.createElementVNode("view", { class: "w100 h100" }, [
+              vue.createElementVNode("scroll-view", {
+                class: "scrollview",
+                "scroll-y": "true",
+                style: `width: 100%;height: 100%;background: #f5f5f5;`
+              }, [
+                !$setup.loading ? (vue.openBlock(), vue.createBlock(_component_Loading, { key: 0 })) : vue.createCommentVNode("v-if", true),
+                $setup.loading ? (vue.openBlock(true), vue.createElementBlock(
+                  vue.Fragment,
+                  { key: 1 },
+                  vue.renderList($setup.userList, (item, index) => {
+                    return vue.openBlock(), vue.createElementBlock("view", {
+                      key: index,
+                      style: { "margin-bottom": "5px" }
+                    }, [
+                      vue.createVNode(_component_UserCard, { "user-obj": item }, null, 8, ["user-obj"])
+                    ]);
+                  }),
+                  128
+                  /* KEYED_FRAGMENT */
+                )) : vue.createCommentVNode("v-if", true),
+                vue.createElementVNode("view", {
+                  class: "disF-center",
+                  style: { "color": "#a0a0a0", "flex-direction": "column" }
+                }, [
+                  vue.createElementVNode("view", null, "已经到底了...")
+                ])
+              ])
+            ])
+          ])
+        ])
+      ])
+    ]);
+  }
+  const PagesUserConcern = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-7fa36418"], ["__file", "G:/study/Full Stack developer/Project/uniapp/v3-uniapp/pages/user/concern.vue"]]);
   __definePage("pages/MainApp", PagesMainApp);
   __definePage("pages/article/detail/ArticleDetailPage", PagesArticleDetailArticleDetailPage);
   __definePage("pages/loginRegister/loginRegister", PagesLoginRegisterLoginRegister);
@@ -10189,6 +10527,8 @@ if (uni.restoreGlobal) {
   __definePage("pages/message/ReactionMessage/ReactionMessage", PagesMessageReactionMessageReactionMessage);
   __definePage("pages/message/PrivateMessage/PrivateMessage", PagesMessagePrivateMessagePrivateMessage);
   __definePage("pages/user/user", PagesUserUser);
+  __definePage("pages/user/fans", PagesUserFans);
+  __definePage("pages/user/concern", PagesUserConcern);
   var lookup = [
     0,
     0,

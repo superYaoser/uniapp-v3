@@ -9,15 +9,15 @@
           <view class="header__search">
             <view class="header__search__container">
               <view class="header__search__container__input"  @tap.stop="tapSearch()"><uni-icons type="search" style="margin-left: 10rpx" size="25rpx"></uni-icons><text space="ensp"> 搜点什么...</text></view>
-              <uni-icons type="scan" size="55rpx" color="#002c52"></uni-icons>
+              <view @tap.stop="tapSan()"><uni-icons type="scan" size="55rpx" color="#002c52" ></uni-icons></view>
             </view>
           </view>
 <!--          导航-->
           <view class="header__nav">
             <view class="header__nav__container">
-              <view class="header__nav__container--late" @tap="changeCurrentNavPage(0)" :style="articleNavIndex===0?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">最新</view>
-              <view class="header__nav__container--recommend"  @tap="changeCurrentNavPage(1)" :style="articleNavIndex===1?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">推荐</view>
-              <view class="header__nav__container--hot"  @tap="changeCurrentNavPage(2)" :style="articleNavIndex===2?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">热门</view>
+              <view class="header__nav__container--option" @tap="changeCurrentNavPage(0)" :style="articleNavIndex===0?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">最新<view class="header__nav__container--option--a" v-if="articleNavIndex===0"></view></view>
+              <view class="header__nav__container--option"  @tap="changeCurrentNavPage(1)" :style="articleNavIndex===1?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">推荐<view class="header__nav__container--option--a" v-if="articleNavIndex===1"></view></view>
+              <view class="header__nav__container--option"  @tap="changeCurrentNavPage(2)" :style="articleNavIndex===2?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">热门<view class="header__nav__container--option--a" v-if="articleNavIndex===2"></view></view>
             </view>
           </view>
         </view>
@@ -75,6 +75,11 @@ import {useStore} from 'vuex';
           plus.nativeUI.toast(`请先登录`)
         }
       }
+      //点击扫描按钮
+      const tapSan=()=>{
+        console.log("点击扫描")
+        plus.nativeUI.toast(`暂未开放`)
+      }
 
 
       //页面渲染完毕
@@ -83,7 +88,7 @@ import {useStore} from 'vuex';
       })
 
       return{
-        articleNavIndex,articleNavColor,unArticleNavColor,changeCurrentNavPage,tapSearch
+        articleNavIndex,articleNavColor,unArticleNavColor,changeCurrentNavPage,tapSearch,tapSan
       }
     },
 		data() {
@@ -150,19 +155,35 @@ import {useStore} from 'vuex';
     }
   }
 }
-.header__nav{
+.header__nav {
   width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  .header__nav__container{
+
+  .header__nav__container {
+    padding: 0 40rpx;
     display: flex;
-    view{
+    align-items: center;
+    justify-content: space-around;
+    height: 100%;
+    width: 60%;
+    margin: 0 auto;
+
+    view {
       font-size: 1rem;
       font-weight: inherit;
-      margin: 0 10px;
+    }
+    &--option{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      &--a{
+        width: 15px;
+        height: 4px;
+        background: #0088ff;
+        border-radius: 5rpx;
+      }
     }
   }
+
 }
 
 .active__nav{

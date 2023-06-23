@@ -121,6 +121,7 @@ const formatTimestamp=(timestamp)=> {
     const formattedTime = `${year}-${month}-${day} ${hour}:${minute}:${second}.${millisecond}`;
     return formattedTime;
 }
+
 /**
  * 发起通知栏信息
  * 参考：https://uniapp.dcloud.net.cn/tutorial/app-push.html#%E9%80%9A%E7%9F%A5%E6%A0%8F%E6%B6%88%E6%81%AF%E6%93%8D%E4%BD%9C
@@ -145,5 +146,5 @@ export{
     getUserNameByUid,getUserObjByUid,replaceUrlIP,replaceImgSrc,
     formatTimestamp,
     PushMessageNotificationBar
-    ,IP
+    ,IP,
 }

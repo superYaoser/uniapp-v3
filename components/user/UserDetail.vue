@@ -1,123 +1,123 @@
 <template>
-<view style="width: 100vw;height: 100%;overflow: hidden">
+  <view style="width: 100vw;height: 100%;overflow: hidden">
 
-  <scroll-view scroll-y="true" style="height: 100%;overflow: hidden">
-    <view class="userDetail__container h100" >
+    <scroll-view scroll-y="true" style="height: 100%;overflow: hidden">
+      <view class="userDetail__container h100" >
 
-      <view class="userDetail__container__header" style="height: 50%;">
+        <view class="userDetail__container__header" style="height: 50%;">
 
-        <view class="userDetail__container__header__bg" style="height: 60%">
-          <view class="userDetail__container__header__bg--img" style="height: 85%;">
-            <view class="userDetail__container__header__bg__break" @tap.stop="pageBack" v-if="needBreak">
-              <uni-icons type="left" size="50rpx" color="#ffffff"></uni-icons>
+          <view class="userDetail__container__header__bg" style="height: 60%">
+            <view class="userDetail__container__header__bg--img" style="height: 85%;">
+              <view class="userDetail__container__header__bg__break" @tap.stop="pageBack" v-if="needBreak">
+                <uni-icons type="left" size="50rpx" color="#ffffff"></uni-icons>
+              </view>
+              <view @tap.stop="loginOut" class="loginOut" v-if="needLoginOut">注销</view>
             </view>
-            <view @tap.stop="loginOut" class="loginOut" v-if="needLoginOut">注销登录</view>
+            <view class="userDetail__container__header__bg__space" style="height: 15%;">
+
+              <view class="userDetail__container__header__bg__space--button" v-if="needFollow" @tap.stop="tapFollowCard(userObj)" v-show="userObj.concern_be===0">
+                关注
+              </view>
+              <view class="userDetail__container__header__bg__space--button" style="border: 1px #929292 solid;color: #929292;" v-if="needFollow" @tap.stop="tapFollowCard(userObj)" v-show="userObj.concern_be===1">
+                已关注
+              </view>
+              <view class="userDetail__container__header__bg__space--button" v-if="needEdit">
+                编辑
+              </view>
+              <view class="userDetail__container__header__bg__space--button" v-if="false">
+                私聊
+              </view>
+            </view>
+            <view class="userDetail__container__header__bg__headImg" :style="userObj.u_head ? 'background-image: url(' + userObj.u_head + ')' : 'background-image: url(' + defaultHeadImgPath + ')'">
+            </view>
+
           </view>
-          <view class="userDetail__container__header__bg__space" style="height: 15%;">
+          <view class="userDetail__container__header__info " style="height: 40%;padding: 40rpx">
+            <view class="userDetail__container__header__info__user">
 
-            <view class="userDetail__container__header__bg__space--button" v-if="needFollow" @tap.stop="tapFollowCard(userObj)" v-show="userObj.concern_be===0">
-              关注
+              <view class="userDetail__container__header__info__user--name">
+                {{ userObj.u_name }}
+              </view>
+              <view class="userDetail__container__header__info__user--nickname">
+                <uni-icons type="color-filled" size="30rpx" color="#909090"></uni-icons><text>{{ userObj.u_signature }}</text>
+              </view>
+              <view class="userDetail__container__header__info__user--ip">
+                <uni-icons type="location-filled" size="30rpx" color="#909090"></uni-icons><text>{{ 'IP所属：黑龙江' }}</text>
+              </view>
             </view>
-            <view class="userDetail__container__header__bg__space--button" style="border: 1px #929292 solid;color: #929292;" v-if="needFollow" @tap.stop="tapFollowCard(userObj)" v-show="userObj.concern_be===1">
-              已关注
-            </view>
-            <view class="userDetail__container__header__bg__space--button" v-if="needEdit">
-              编辑
-            </view>
-            <view class="userDetail__container__header__bg__space--button" v-if="false">
-              私聊
-            </view>
-          </view>
-          <view class="userDetail__container__header__bg__headImg" :style="userObj.u_head ? 'background-image: url(' + userObj.u_head + ')' : 'background-image: url(' + defaultHeadImgPath + ')'">
-          </view>
 
-        </view>
-        <view class="userDetail__container__header__info " style="height: 40%;padding: 40rpx">
-          <view class="userDetail__container__header__info__user">
+            <!--          <Loading v-if="!loading"></Loading>-->
+            <view class="userDetail__container__header__info__grades" v-if="loading">
 
-            <view class="userDetail__container__header__info__user--name">
-              {{ userObj.u_name }}
+              <view class="userDetail__container__header__info__grades__option" @tap.stop="tapConcern(userObj)">
+                <text class="userDetail__container__header__info__grades__option--num">{{ concern_num }}</text>
+                <text class="userDetail__container__header__info__grades__option--word">{{ '关注' }}</text>
+              </view>
+              <view class="userDetail__container__header__info__grades__option" @tap.stop="tapFans(userObj)">
+                <text class="userDetail__container__header__info__grades__option--num">{{ fens_num }}</text>
+                <text class="userDetail__container__header__info__grades__option--word">{{ '粉丝' }}</text>
+              </view>
+              <view class="userDetail__container__header__info__grades__option">
+                <text class="userDetail__container__header__info__grades__option--num">{{ userObj.get_hand_num }}</text>
+                <text class="userDetail__container__header__info__grades__option--word">{{ '获赞' }}</text>
+              </view>
             </view>
-            <view class="userDetail__container__header__info__user--nickname">
-              <uni-icons type="color-filled" size="30rpx" color="#909090"></uni-icons><text>{{ userObj.u_signature }}</text>
-            </view>
-            <view class="userDetail__container__header__info__user--ip">
-              <uni-icons type="location-filled" size="30rpx" color="#909090"></uni-icons><text>{{ 'IP所属：黑龙江' }}</text>
-            </view>
-          </view>
 
-          <Loading v-if="!loading"></Loading>
-          <view class="userDetail__container__header__info__grades" v-if="loading">
-
-            <view class="userDetail__container__header__info__grades__option">
-              <text class="userDetail__container__header__info__grades__option--num">{{ concern_num }}</text>
-              <text class="userDetail__container__header__info__grades__option--word">{{ '关注' }}</text>
-            </view>
-            <view class="userDetail__container__header__info__grades__option">
-              <text class="userDetail__container__header__info__grades__option--num">{{ fens_num }}</text>
-              <text class="userDetail__container__header__info__grades__option--word">{{ '粉丝' }}</text>
-            </view>
-            <view class="userDetail__container__header__info__grades__option">
-              <text class="userDetail__container__header__info__grades__option--num">{{ userObj.get_hand_num }}</text>
-              <text class="userDetail__container__header__info__grades__option--word">{{ '获赞' }}</text>
-            </view>
-          </view>
-
-        </view>
-      </view>
-
-      <view class="userDetail__container__body" style="height: 90%;">
-        <view class="header__nav" style="height: 7%">
-          <view style="height: 20%;" class="bg-efefef"></view>
-          <view class="header__nav__container" style="height: 80%">
-            <view class="header__nav__container--option" @tap="changeCurrentNavPage(0)"
-                  :style="articleNavIndex===0?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">
-              <text>发布</text>
-              <view v-if="articleNavIndex===0"></view>
-            </view>
-            <view class="header__nav__container--option" @tap="changeCurrentNavPage(1)"
-                  :style="articleNavIndex===1?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">
-              <text>点赞</text>
-              <view v-if="articleNavIndex===1"></view>
-            </view>
-            <view class="header__nav__container--option" @tap="changeCurrentNavPage(2)"
-                  :style="articleNavIndex===2?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">
-              <text>历史</text>
-              <view v-if="articleNavIndex===2"></view>
-            </view>
           </view>
         </view>
-        <view style="height: 5rpx" class="bg-efefef"></view>
+
+        <view class="userDetail__container__body" style="height: 90%;">
+          <view class="header__nav" style="height: 6%">
+            <view style="height: 15%;" class="bg-efefef"></view>
+            <view class="header__nav__container" style="height: 85%">
+              <view class="header__nav__container--option" @tap="changeCurrentNavPage(0)"
+                    :style="articleNavIndex===0?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">
+                <text>发布</text>
+                <view v-if="articleNavIndex===0"></view>
+              </view>
+              <view class="header__nav__container--option" @tap="changeCurrentNavPage(1)"
+                    :style="articleNavIndex===1?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">
+                <text>点赞</text>
+                <view v-if="articleNavIndex===1"></view>
+              </view>
+              <view class="header__nav__container--option" @tap="changeCurrentNavPage(2)"
+                    :style="articleNavIndex===2?'  color: '+articleNavColor+';':'color: '+unArticleNavColor+';'">
+                <text>历史</text>
+                <view v-if="articleNavIndex===2"></view>
+              </view>
+            </view>
+          </view>
+          <view style="height: 5rpx" class="bg-efefef"></view>
           <swiper style='width: 100%;height: 100%;padding: 0 0' :autoplay="false" @change="swiperItemChange($event)"
                   :current="clickNavIndex">
-<!--            发布-->
+            <!--            发布-->
             <swiper-item>
               <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: 100%;background: #f5f5f5;`">
                 <UserArticleList :u_id="userObj.u_id"></UserArticleList>
               </scroll-view>
             </swiper-item>
 
-<!--            点赞-->
+            <!--            点赞-->
             <swiper-item>
               <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: 100%;background: #f5f5f5;`">
-                <UserHandArticleList :u_id="userObj.u_id" v-if="articleNavIndex===1"></UserHandArticleList>
+                <UserHandArticleList :u_id="userObj.u_id"></UserHandArticleList>
               </scroll-view>
             </swiper-item>
 
-<!--            历史-->
+            <!--            历史-->
             <swiper-item>
               <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: 100%;background: #f5f5f5;`">
                 <UerHistoryArticleList :u_id="userObj.u_id" v-if="articleNavIndex===2"></UerHistoryArticleList>
               </scroll-view>
             </swiper-item>
           </swiper>
+        </view>
+
       </view>
-
-    </view>
-  </scroll-view>
+    </scroll-view>
 
 
-</view>
+  </view>
 </template>
 
 <script>
@@ -179,8 +179,8 @@ export default {
       let res = await getUserConcernListByUid(userObj.value.u_id)
       let res1 = await getUserFensListByUid(userObj.value.u_id)
       if (res.code===200&&res1.code===200){
-        fens_num.value =res.data.length
-        concern_num.value =res1.data.length
+        fens_num.value =res1.data.length
+        concern_num.value =res.data.length
       }
       loading.value =true
     }
@@ -258,10 +258,26 @@ export default {
       }
       console.log('点击了关注')
     }
+
+    //点击粉丝
+    const tapFans=(data)=>{
+      console.log('点击了作者栏')
+      uni.navigateTo({
+        url: '/pages/user/fans?id='+data.u_id
+      })
+    }
+    //点击关注
+    const tapConcern=(data)=>{
+      console.log('点击了作者栏')
+      uni.navigateTo({
+        url: '/pages/user/concern?id='+data.u_id
+      })
+    }
     return{
       articleNavIndex,articleNavColor,unArticleNavColor,changeCurrentNavPage,clickNavIndex,currentIndex,swiperItemChange,
       userObj,needEdit,needFollow,defaultHeadImgPath,pageBack,needBreak,tapFollowCard,
-      fens_num,concern_num,loading,loginOut,needLoginOut
+      fens_num,concern_num,loading,loginOut,needLoginOut,
+      tapFans,tapConcern,
     }
   }
 }
@@ -315,6 +331,10 @@ export default {
           justify-content: center; /* 水平居中 */
           align-items: center; /* 垂直居中 */
           margin-right: 40rpx;
+        }
+        &--button:active{
+          background: #13dbf9;
+          color: #FFFFFF;
         }
       }
       &__headImg{
@@ -408,11 +428,11 @@ export default {
 }
 .loginOut{
   position: absolute;
-  bottom: 2%;
-  left: 30%;
+  top: 20%;
+  right: 5%;
   color: #ffffff;
   font-size: 20rpx;
-  padding: 5rpx;
+  padding: 2rpx;
   border: 1px #ff5e5e solid;
   border-radius: 10rpx;
   background: rgba(237, 13, 13, 0.3);

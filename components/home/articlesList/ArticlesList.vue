@@ -80,6 +80,11 @@ export default {
     //用于用户点击了哪个导航跳转到哪个页面
     let clickNavIndex = ref()
     uni.$on('home_article_follow_nav_change',function(e){
+      //2023 6 23 发现一个bug 主页index发生改变，朋友圈也改变，但是朋友圈没有 1 2 页，所以就会空白
+      // 如果页面是朋友圈，直接返回，不发生页面左右滚动
+      if(model_str_num==='pyq')
+        return
+
       clickNavIndex.value = e.page;
       console.log(clickNavIndex.value)
     })
@@ -189,7 +194,7 @@ export default {
           "articleContentMaxWord": 100,
         })
         classifyList.value[index].articleList = concernArticleList.value
-
+        plus.nativeUI.toast(`已刷新`)
       } else {
         console.log(index)
         if (index === 0) {
@@ -218,7 +223,7 @@ export default {
           })
           classifyList.value[index].articleList = hotArticleList.value
         }
-
+        plus.nativeUI.toast(`已刷新`)
       }
     }
     //----------------------------刷新 end-------------------------------------------------------------------------------------------

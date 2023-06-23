@@ -106,7 +106,7 @@ function getUserConcernListByUid(id){
 */
 function getUserFensListByUid(id){
 	return R({
-		url: 'user/concern-list/'+id,
+		url: 'user/fens-list/'+id,
 		method:'GET',
 	});
 }

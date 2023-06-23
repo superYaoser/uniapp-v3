@@ -16,7 +16,8 @@
           <NoLogin v-if="!loginStatus"></NoLogin>
           <view class="w100 h100" v-else>
             <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: 100%;background: #ffffff;`"
-                         refresher-enabled="true" refresher-background="#ffffff">
+                         refresher-enabled="true" refresher-background="#f5f5f5" @refresherrefresh="refreshListWithThrottle()"
+                         :refresher-triggered="refreshOK">
               <MessageCard :data="{
                 headImg:'http://114.115.220.47:3000/api/download/images/action.png',
                 name:'互动消息',
@@ -80,6 +81,30 @@ export default {
     let login_u_id = store.getters.getUser
     login_u_id = login_u_id.u_id
 
+    //是否下拉刷新完毕
+    let refreshOK = ref(false)
+    //下拉刷新列表
+    let canRefresh = true // 初始状态为true表示可以刷新
+    const refreshListWithThrottle = async () => {
+      // 下面是原有的刷新逻辑，不需要修改
+      refreshOK.value = true
+      setTimeout(() => { refreshOK.value = false
+        uni.$emit('home_articleList_change', {data: classifyList.value})
+      }, 1100) // 1.5秒后将刷新状态重新设置为true
+      if (!canRefresh){
+        console.log("当前不能刷新")
+
+        return // 如果当前不能刷新，则直接返回
+      }
+
+      canRefresh = false // 将刷新状态设置为false
+      setTimeout(() => { canRefresh = true }, 1000) // 1.5秒后将刷新状态重新设置为true
+
+      // 下面是原有的刷新逻辑，不需要修改
+      console.log("下拉刷新被触发")
+      await initializeInteractiveInformation()
+      plus.nativeUI.toast(`已刷新`)
+    }
 //*********************互动消息************************************************
     let actionMessageList = ref()
 
@@ -133,7 +158,8 @@ export default {
 
 
     return {
-      actionMessageList,formatDate,leading,loginStatus
+      actionMessageList,formatDate,leading,loginStatus,
+      refreshListWithThrottle,refreshOK
     }
   }
 }

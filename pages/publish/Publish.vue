@@ -24,6 +24,7 @@ import {
 import {onMounted, ref} from "vue";
 import Loading from "@/components/loading/Loading";
 import Publish from "@/components/publish/Publish";
+import {useStore} from 'vuex';
 
 export default {
   components: {
@@ -31,8 +32,21 @@ export default {
     Publish
   },
   setup() {
-
+    let store = useStore()
+    let userObj = store.getters.getUser
+    //页面返回会触发的方法
+    const pageBack = () => {
+      uni.navigateBack({
+        delta: 1
+        //返回的页面数，如果 delta 大于现有页面数，则返回到首页。
+      })
+    }
     onMounted(()=>{
+if (!userObj.u_id){
+  plus.nativeUI.toast(`请先登录`)
+  pageBack()
+}
+
 
     })
 

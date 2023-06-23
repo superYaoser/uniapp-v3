@@ -81,6 +81,24 @@
             }
 
         }
+        ,{
+            "path" : "pages/user/fans",
+            "style" :
+            {
+              "navigationBarTitleText": "",
+              "titleNView": false
+            }
+
+        }
+        ,{
+            "path" : "pages/user/concern",
+            "style" :
+            {
+              "navigationBarTitleText": "",
+              "titleNView": false
+            }
+
+        }
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

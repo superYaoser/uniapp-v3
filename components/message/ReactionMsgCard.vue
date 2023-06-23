@@ -1,7 +1,7 @@
 <template>
   <view style="width: 100%;height: 120rpx;background: #F5F5F5;padding: 10rpx;display: flex;align-items: center;margin: 2rpx 0">
     <view class="reactionMsgCard__body">
-      <view class="reactionMsgCard__body__left">
+      <view class="reactionMsgCard__body__left" @tap.stop="tapAuthorCard">
         <view class="reactionMsgCard__body__head">
           <view class="reactionMsgCard__body__head--img" :style="'background-image: url('+ messageCardInfo.headImg +')'"></view>
         </view>
@@ -114,6 +114,13 @@ export default {
         url: '/pages/article/detail/ArticleDetailPage?id='+data.article_id
       })
     }
+    //点击作者栏
+    const tapAuthorCard=()=>{
+      console.log('点击了作者栏')
+      uni.navigateTo({
+        url: '/pages/user/user?id='+data.send_user_id
+      })
+    }
 
     const tapMessageCard = () => {
       console.log("用户点击信息卡")
@@ -131,7 +138,7 @@ export default {
 
 
     return {
-      messageCardInfo, tapMessageCard, u_id,tapArticleCard
+      messageCardInfo, tapMessageCard, u_id,tapArticleCard,tapAuthorCard
     }
   }
 };
