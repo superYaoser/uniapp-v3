@@ -1,7 +1,7 @@
 {
-    "name" : "v3-uniapp",
-    "appid" : "",
-    "description" : "",
+    "name" : "彗星",
+    "appid" : "__UNI__4011C11",
+    "description" : "多元兴趣社区app",
     "versionName" : "1.0.0",
     "versionCode" : "100",
     "transformPx" : false,
@@ -17,7 +17,9 @@
             "delay" : 0
         },
         /* 模块配置 */
-        "modules" : {},
+        "modules" : {
+            "Push" : {}
+        },
         /* 应用发布信息 */
         "distribute" : {
             /* android打包配置 */
@@ -42,20 +44,25 @@
                 "abiFilters" : [ "armeabi-v7a", "x86" ]
             },
             /* ios打包配置 */
-            "ios" : {},
+            "ios" : {
+                "dSYMs" : false
+            },
             /* SDK配置 */
             "sdkConfigs" : {
                 "push" : {
                     "unipush" : {
-                        "version" : "2",
-                        "offline" : false,
                         "icons" : {
                             "small" : {
-                                "ldpi" : ""
+                                "hdpi" : "unpackage/res/icons/40x40.png",
+                                "ldpi" : "unpackage/res/icons/20x20.png",
+                                "mdpi" : "unpackage/res/icons/20x20.png",
+                                "xhdpi" : "unpackage/res/icons/40x40.png",
+                                "xxhdpi" : "unpackage/res/icons/72x72.png"
                             }
                         }
                     }
-                }
+                },
+                "ad" : {}
             },
             "icons" : {
                 "android" : {
@@ -90,7 +97,13 @@
                 }
             },
             "splashscreen" : {
-                "androidStyle" : "common"
+                "androidStyle" : "default",
+                "android" : {
+                    "hdpi" : "C:/Users/23885/Desktop/7affce01baa1bacdb925037e11cba35.png",
+                    "xxhdpi" : "C:/Users/23885/Desktop/7affce01baa1bacdb925037e11cba35.png",
+                    "xhdpi" : "C:/Users/23885/Desktop/7affce01baa1bacdb925037e11cba35.png"
+                },
+                "useOriginalMsgbox" : true
             }
         }
     },

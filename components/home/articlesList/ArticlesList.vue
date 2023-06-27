@@ -5,7 +5,7 @@
 
           <swiper-item v-for="(item1, index1) in classifyList" :key="index1">
 
-<!--            <Loading v-if="scrollViewLoading"></Loading>-->
+
             <scroll-view class="scrollview" scroll-y='true' :style="`width: 100%;height: 100%;background: #f5f5f5;`"
                          refresher-enabled="true" refresher-background="#f5f5f5" @refresherrefresh="refreshListWithThrottle(item1.categoryID)"
                          :refresher-triggered="refreshOK"
@@ -17,7 +17,8 @@
                 </view>
                 <view v-for="(item2, index2) in item1.articleList" :key="item2.article_id" style="margin-bottom: 10rpx;">
 <!--                  文章卡片-->
-<ArticleCard :article-data="item2" :need-follow-model="needFollowModel"></ArticleCard>
+                              <Loading v-if="!loading" style="height: 350rpx"></Loading>
+<ArticleCard :article-data="item2" :need-follow-model="needFollowModel" v-else></ArticleCard>
 
                   </view>
                 </view>
@@ -167,6 +168,7 @@ export default {
 
 
     //--------------------------下拉--刷新-------------------------------------------------------------------------------------------
+    let loading = ref(true)
     //是否下拉刷新完毕
     let refreshOK = ref(false)
     //下拉刷新列表
@@ -187,7 +189,8 @@ export default {
 
       // 下面是原有的刷新逻辑，不需要修改
       console.log("下拉刷新被触发")
-      indexReFreshPage = [1,1,1]
+      loading.value = false
+      indexReFreshPage[index] = 1
       if (set.static === 2) {
         concernArticleList.value = await getConcernDetailedArticleByJsonData({
           "u_id": login_u_id,
@@ -225,6 +228,7 @@ export default {
         }
         plus.nativeUI.toast(`已刷新`)
       }
+      loading.value = true
     }
     //----------------------------刷新 end-------------------------------------------------------------------------------------------
 
@@ -324,6 +328,7 @@ export default {
     let model_str_num='home'
     model_str_num = props.model_str_num
     let set = getListSetConfig(model_str_num)
+
     onMounted(async () => {
 
       console.log(set)
@@ -383,7 +388,7 @@ export default {
       refreshListWithThrottle,
       refreshOK,
       concernArticleNULL,
-      upRefreshListWithThrottle
+      upRefreshListWithThrottle,loading
     }
   },
 };

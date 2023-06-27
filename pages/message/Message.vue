@@ -19,7 +19,7 @@
                          refresher-enabled="true" refresher-background="#f5f5f5" @refresherrefresh="refreshListWithThrottle()"
                          :refresher-triggered="refreshOK">
               <MessageCard :data="{
-                headImg:'http://114.115.220.47:3000/api/download/images/action.png',
+                headImg:'http://43.143.240.217:3000/api/download/images/action.png',
                 name:'互动消息',
                 message:actionMessageList?actionMessageList[actionMessageList.length - 1].message_content:'没有最新的信息',
                 time:actionMessageList?formatDate(actionMessageList[actionMessageList.length - 1].create_time):'',
@@ -28,7 +28,7 @@
               :id="'action'"
               v-if="leading"></MessageCard>
               <MessageCard @click.stop :data="{
-                headImg:'http://114.115.220.47:3000/api/download/images/action.png',
+                headImg:'http://43.143.240.217:3000/api/download/images/action.png',
                 name:'互动消息',
                 message:actionMessageList?actionMessageList[actionMessageList.length - 1].message_content:'没有最新的信息',
                 time:actionMessageList?formatDate(actionMessageList[actionMessageList.length - 1].create_time):'',
@@ -61,6 +61,7 @@ import {useStore} from 'vuex';
 import {onMounted, ref, watch, computed} from "vue";
 import MessageCard from "@/components/message/MessageCard";
 import {addActionMessage,getNMessageByReceiveUid,updateReadMessageByReceiveId} from '@/static/api/message'
+import {getUserInfoById} from '@/static/api/users'
 import {formatDate, formatTimestamp, PushMessageNotificationBar} from '@/static/utils/globalConifg'
 import {
   onBackPress,onShow
@@ -112,14 +113,20 @@ export default {
     let leading = ref(false)
 
 
-    uni.$on('message_action',function(e){
+    uni.$on('message_action',async (e)=>{
+      let res =await getUserInfoById(e.data.send_user_id)
+      let head = ''
+      if (res.code ===200){
+        head = res.data.u_head
+      }
       let data = e.data
       console.log(data)
       if (e.data.receive_user_id===login_u_id){
-        PushMessageNotificationBar('',data.content)
+        PushMessageNotificationBar(head,data.content)
         plus.nativeUI.toast(`${data.content}`)
-        initializeInteractiveInformation(login_u_id)
+        await initializeInteractiveInformation(login_u_id)
       }
+      head=''
     })
 
     //初始化 互动信息

@@ -1,0 +1,37 @@
+{
+  "id": "4064600",
+  "name": "uniapp多元社区发布页面",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "33987016",
+      "name": "上传图片",
+      "font_class": "shangchuantupian",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "6337466",
+      "name": "字体加粗",
+      "font_class": "zitijiacu",
+      "unicode": "ec83",
+      "unicode_decimal": 60547
+    },
+    {
+      "icon_id": "6337470",
+      "name": "字体下划线",
+      "font_class": "zitixiahuaxian",
+      "unicode": "ec85",
+      "unicode_decimal": 60549
+    },
+    {
+      "icon_id": "23719412",
+      "name": "字体标题",
+      "font_class": "zitibiaoti",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    }
+  ]
+}
